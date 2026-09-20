@@ -84,16 +84,33 @@ de la diapositiva más alta, de modo que el bloque no cambia de tamaño al
 rotar. La rotación se detiene con el cursor encima o con el foco dentro, y
 se respeta la preferencia de movimiento reducido del sistema.
 
-## Supuestos
+## Datos reales y supuestos
 
-Los datos son simulados y se marcaron como tales en el código. En concreto,
-se inventaron para completar la interfaz: los nombres de las instructoras,
-los precios de los planes, la dirección, el correo, las redes y el contenido
-de la promoción vigente. La ocupación de los horarios sí reproduce el
-diagnóstico: 27 reservas sobre 40 cupos, con el horario de 8h00 lleno.
+Son reales, tomados de los materiales del estudio: los cuatro planes con
+sus precios ($60, $85, $100 y $120), las condiciones de los planes, los
+cinco horarios de lunes a viernes, la Promo Flash vigente (30 % de
+descuento en los planes desde tres clases por semana, cupos limitados,
+48 horas) y el teléfono de contacto.
 
-Las fotografías y el logo se extrajeron del prototipo anterior
-(`agilite-pilates-prototipo.html`), donde venían incrustados en base64. El
-logo se recortó sobre fondo transparente. Sólo había tres fotografías
-verticales para el banner, así que las cuatro imágenes de servicios son
-recortes 4:3 de ese mismo material.
+La Promo Flash está conectada con las tarjetas de planes: `AG.data.promo`
+lleva `descuento` y `aplicaDesdeClases`, y cada tarjeta que entra en la
+promoción calcula su precio, muestra el anterior tachado y una etiqueta.
+Al poner `promo.activa` en `false` desaparecen la franja, las etiquetas y
+los descuentos, y vuelven los precios de lista.
+
+Siguen siendo inventados, porque no había material: los nombres de las
+instructoras, la dirección, el correo, las redes sociales y la etiqueta
+«Más elegida» del plan de tres clases por semana. La ocupación de los
+horarios reproduce el diagnóstico: 27 reservas sobre 40 cupos, con el
+horario de 8h00 lleno.
+
+## Fotografías
+
+El logo y las fotografías del banner salen de los archivos originales del
+estudio; el logo se recortó sobre fondo transparente. Las imágenes de
+servicios son recortes 4:3 del mismo material, para que las cuatro
+tarjetas compartan proporción.
+
+Falta una: la fotografía de la pelota y las mancuernas sobre el mat, que
+es la que mejor ilustra «Clases en mat». Mientras tanto esa tarjeta usa un
+recorte del mat enrollado en la sala.

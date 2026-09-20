@@ -336,6 +336,19 @@ ul{margin:0;padding:0;list-style:none;}
 .plan-price .amount{font-family:var(--font-display);font-size:48px;font-weight:500;color:var(--berry-dark);line-height:1;}
 .plan-price .per{font-size:14.5px;color:var(--ink-soft);}
 .plan-unit{font-size:14px;color:var(--ink-soft);}
+.plan-promo{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:6px;}
+.plan-antes{font-size:15px;color:var(--ink-soft);text-decoration:line-through;}
+.plan-desc{
+  display:inline-flex;align-items:center;
+  background:var(--berry);color:#fff;border-radius:var(--r-pill);
+  padding:4px 11px;font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+}
+.plan-terms{
+  margin:32px auto 0;max-width:760px;display:grid;gap:10px;
+  background:var(--mist);border-radius:var(--r-md);padding:20px 24px;
+}
+.plan-terms li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;line-height:1.5;color:var(--ink);}
+.plan-terms li svg{width:18px;height:18px;color:var(--berry-dark);flex:none;margin-top:3px;}
 .plan ul{margin:20px 0 26px;display:grid;gap:11px;}
 .plan li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;line-height:1.5;}
 .plan li svg{width:18px;height:18px;color:var(--sage-text);flex:none;margin-top:3px;}
@@ -608,21 +621,25 @@ AG.data = {
     estudiantesActivas:27
   },
 
-  /* Franja informativa. activa:false oculta la franja por completo. */
+  /* Franja informativa. activa:false oculta la franja por completo.
+     Datos de la Promo Flash vigente; el descuento se aplica a los planes
+     desde tres clases por semana en adelante.                            */
   promo: {
-    id:'promo-agilite-2',
+    id:'promo-flash-30',
     activa:true,
-    etiqueta:'Promo Agilité',
-    texto:'<b>2 meses del Plan 12 por $178</b> — ahorras $20 renovando hasta el 30 de septiembre.',
+    etiqueta:'Promo flash',
+    texto:'<b>30 % de descuento</b> en los planes desde 3 clases por semana. Cupos limitados, vigente por 48 horas.',
     enlaceTexto:'Ver planes',
-    enlaceDestino:'#/inicio?to=planes'
+    enlaceDestino:'#/inicio?to=planes',
+    descuento:0.30,
+    aplicaDesdeClases:12   /* clases al mes a partir de las cuales aplica */
   },
 
   /* Banner principal: tres fotografías verticales del estudio. */
   banner: [
     {
-      img:'assets/banner-estudio.jpg',
-      alt:'Sala del estudio Agilité Pilates con camas reformer y el logo iluminado en la pared',
+      img:'assets/banner-fachada.jpg',
+      alt:'Fachada de Agilité Pilates de noche, con el letrero iluminado y el estudio visible desde la calle',
       titulo:'Tu cupo, <em>confirmado al instante</em>',
       texto:'Mira cuántos lugares quedan en cada horario y reserva tú misma, sin escribir por WhatsApp ni esperar la respuesta.',
       ctaPrincipal:{ texto:'Reservar mi clase', destino:'#/inicio?to=horarios' },
@@ -632,13 +649,13 @@ AG.data = {
       img:'assets/banner-clase.jpg',
       alt:'Estudiantes durante una clase de pilates sobre camas reformer',
       titulo:'Grupos de <em>máximo 8 personas</em>',
-      texto:'Cinco horarios cada día y una instructora certificada por jornada, atenta a corregir tu técnica en cada ejercicio.',
+      texto:'Cinco horarios de lunes a viernes y una instructora certificada por jornada, atenta a corregir tu técnica en cada ejercicio.',
       ctaPrincipal:{ texto:'Ver horarios y cupos', destino:'#/inicio?to=horarios' },
       ctaSecundario:{ texto:'Conocer el estudio', destino:'#/nosotros' }
     },
     {
-      img:'assets/banner-reformer.jpg',
-      alt:'Clase de pilates con trabajo de piernas en reformer',
+      img:'assets/banner-mat.jpg',
+      alt:'Mujer sentada sobre un mat sosteniendo un aro de pilates',
       titulo:'Reformer y mat en el <em>norte de Quito</em>',
       texto:'Empieza con una clase de prueba y elige después el plan que se ajuste a tus días y a tu ritmo.',
       ctaPrincipal:{ texto:'Agendar clase de prueba', destino:'#/inscripcion' },
@@ -647,16 +664,16 @@ AG.data = {
   ],
 
   servicios: [
-    { img:'assets/servicio-reformer.jpg', alt:'Camas reformer del estudio',
+    { img:'assets/servicio-reformer.jpg', alt:'Camas reformer en la sala del estudio',
       titulo:'Clases con reformer',
       beneficio:'Fuerza y control con resistencia graduada, guiada paso a paso en cada sesión.' },
-    { img:'assets/servicio-mat.jpg', alt:'Colchoneta de pilates en la recepción del estudio',
+    { img:'assets/servicio-mat.jpg', alt:'Mat de pilates enrollado en la sala del estudio, junto al espejo',
       titulo:'Clases en mat',
       beneficio:'Movilidad y trabajo de centro sobre colchoneta, ideal para empezar o complementar.' },
-    { img:'assets/servicio-grupos.jpg', alt:'Grupo reducido de estudiantes en clase',
+    { img:'assets/servicio-grupos.jpg', alt:'Grupo reducido de estudiantes durante una clase',
       titulo:'Grupos de máximo 8',
       beneficio:'Ocho lugares por clase para que recibas corrección personalizada de tu postura.' },
-    { img:'assets/servicio-instructoras.jpg', alt:'Instructora acompañando una clase de pilates',
+    { img:'assets/servicio-instructoras.jpg', alt:'Estudiantes trabajando con correas en el reformer durante una clase guiada',
       titulo:'Instructoras certificadas',
       beneficio:'Dos instructoras formadas en el método, una por jornada, siguiendo tu progreso.' }
   ],
@@ -671,19 +688,25 @@ AG.data = {
     { id:'h1900', inicio:'19h00', fin:'20h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, reservados:4 }
   ],
 
+  /* Planes y condiciones tal como los publica el estudio. */
   planes: [
-    { id:'suelta', nombre:'Clase suelta', subtitulo:'Para conocer el estudio',
-      precio:12, unidad:'por clase', destacado:false, cta:'Reservar una clase',
-      incluye:['Una clase de reformer o mat','Reserva en cualquier horario con cupo','Sin compromiso de permanencia'] },
-    { id:'p8', nombre:'Plan 8 clases', subtitulo:'Dos veces por semana',
-      precio:75, unidad:'al mes', destacado:false, cta:'Elegir este plan',
-      incluye:['8 clases al mes','Reserva y cancelación desde la app','Cancela hasta 4 horas antes'] },
-    { id:'p12', nombre:'Plan 12 clases', subtitulo:'Tres veces por semana',
-      precio:99, unidad:'al mes', destacado:true, etiqueta:'Más elegida', cta:'Elegir este plan',
-      incluye:['12 clases al mes','Prioridad en la lista de espera','Cancela hasta 4 horas antes','Seguimiento de tu progreso'] },
-    { id:'p16', nombre:'Plan 16 clases', subtitulo:'Cuatro veces por semana',
-      precio:120, unidad:'al mes', destacado:false, cta:'Elegir este plan',
-      incluye:['16 clases al mes','Prioridad en la lista de espera','Una clase de invitada al mes','Seguimiento de tu progreso'] }
+    { id:'p8',  nombre:'2 clases por semana', subtitulo:'8 clases al mes',
+      precio:60,  clasesMes:8,  unidad:'al mes', cta:'Elegir este plan',
+      incluye:['8 clases al mes','Reserva y cancelación desde la app','Mismo horario durante todo el mes'] },
+    { id:'p12', nombre:'3 clases por semana', subtitulo:'12 clases al mes',
+      precio:85,  clasesMes:12, unidad:'al mes', destacado:true, etiqueta:'Más elegida', cta:'Elegir este plan',
+      incluye:['12 clases al mes','Prioridad en la lista de espera','Mismo horario durante todo el mes','Seguimiento de tu progreso'] },
+    { id:'p16', nombre:'4 clases por semana', subtitulo:'16 clases al mes',
+      precio:100, clasesMes:16, unidad:'al mes', cta:'Elegir este plan',
+      incluye:['16 clases al mes','Prioridad en la lista de espera','Mismo horario durante todo el mes','Seguimiento de tu progreso'] },
+    { id:'p20', nombre:'5 clases por semana', subtitulo:'20 clases al mes',
+      precio:120, clasesMes:20, unidad:'al mes', cta:'Elegir este plan',
+      incluye:['20 clases al mes','Prioridad en la lista de espera','Mismo horario durante todo el mes','Seguimiento de tu progreso'] }
+  ],
+
+  condicionesPlanes:[
+    'El horario debe ser el mismo durante todo el mes.',
+    'Los planes deben tomarse dentro del mes activo y no se congelan.'
   ],
 
   /* Sesiones simuladas para recorrer las tres vistas del sistema. */
@@ -974,7 +997,7 @@ function bloqueHorarios(){
         '<div class="section-head">' +
           '<span class="eyebrow">Horarios de hoy</span>' +
           '<h2>Mira los cupos antes de escribir</h2>' +
-          '<p>Cinco clases al día, ocho lugares cada una. La disponibilidad se actualiza sola: no hace falta preguntar para saber si hay espacio.</p>' +
+          '<p>Cinco clases al día de lunes a viernes, ocho lugares cada una. La disponibilidad se actualiza sola: no hace falta preguntar para saber si hay espacio.</p>' +
         '</div>' +
         '<div class="schedule-list">' + filas + '</div>' +
         '<p class="schedule-note">' + ICONOS.info +
@@ -984,20 +1007,46 @@ function bloqueHorarios(){
     '</section>';
 }
 
+/* Precio con la Promo Flash aplicada, o null si el plan no entra en ella.
+   Así la promoción se ve donde se decide, no sólo en la franja de arriba.  */
+function precioPromo(plan){
+  var promo = AG.data.promo;
+  if (!promo || !promo.activa || !promo.descuento) return null;
+  if (plan.clasesMes < promo.aplicaDesdeClases) return null;
+  return plan.precio * (1 - promo.descuento);
+}
+function moneda(valor){
+  return '$' + (valor % 1 === 0 ? String(valor) : valor.toFixed(2).replace('.', ','));
+}
+
 function bloquePlanes(){
+  var promo = AG.data.promo;
   var tarjetas = AG.data.planes.map(function (p) {
     var incluye = p.incluye.map(function (t) {
       return '<li>' + ICONOS.check + '<span>' + esc(t) + '</span></li>';
     }).join('');
+    var conPromo = precioPromo(p);
+    var precio = conPromo === null
+      ? '<p class="plan-price"><span class="amount">' + moneda(p.precio) + '</span><span class="per">' + esc(p.unidad) + '</span></p>'
+      : '<p class="plan-price"><span class="amount">' + moneda(conPromo) + '</span><span class="per">' + esc(p.unidad) + '</span></p>' +
+        '<p class="plan-promo">' +
+          '<span class="plan-antes">antes ' + moneda(p.precio) + '</span>' +
+          '<span class="plan-desc">' + esc(promo.etiqueta) + ' −' + Math.round(promo.descuento * 100) + ' %</span>' +
+        '</p>';
+
     return '' +
       '<article class="plan' + (p.destacado ? ' featured' : '') + '">' +
         (p.etiqueta ? '<span class="plan-flag">' + esc(p.etiqueta) + '</span>' : '') +
         '<h3>' + esc(p.nombre) + '</h3>' +
         '<p class="plan-sub">' + esc(p.subtitulo) + '</p>' +
-        '<p class="plan-price"><span class="amount">$' + p.precio + '</span><span class="per">' + esc(p.unidad) + '</span></p>' +
+        precio +
         '<ul>' + incluye + '</ul>' +
         '<button class="btn ' + (p.destacado ? 'btn-primary' : 'btn-outline') + ' btn-block" type="button" data-accion="elegir-plan" data-plan="' + p.id + '">' + esc(p.cta) + '</button>' +
       '</article>';
+  }).join('');
+
+  var condiciones = AG.data.condicionesPlanes.map(function (c) {
+    return '<li>' + ICONOS.check + '<span>' + esc(c) + '</span></li>';
   }).join('');
 
   return '' +
@@ -1005,10 +1054,11 @@ function bloquePlanes(){
       '<div class="wrap">' +
         '<div class="section-head">' +
           '<span class="eyebrow">Planes</span>' +
-          '<h2>Elige cuántas veces quieres entrenar</h2>' +
+          '<h2>Escoge tu favorito y entrena con nosotras</h2>' +
           '<p>Todos los planes incluyen reserva y cancelación desde la aplicación, sin llamadas ni mensajes.</p>' +
         '</div>' +
         '<div class="grid-plans">' + tarjetas + '</div>' +
+        '<ul class="plan-terms">' + condiciones + '</ul>' +
       '</div>' +
     '</section>';
 }
