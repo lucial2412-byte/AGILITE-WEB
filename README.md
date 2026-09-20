@@ -106,11 +106,7 @@ horario de 8h00 lleno.
 
 ## Fotografías
 
-El logo y las fotografías del banner salen de los archivos originales del
-estudio; el logo se recortó sobre fondo transparente. Las imágenes de
-servicios son recortes 4:3 del mismo material, para que las cuatro
-tarjetas compartan proporción.
-
-Falta una: la fotografía de la pelota y las mancuernas sobre el mat, que
-es la que mejor ilustra «Clases en mat». Mientras tanto esa tarjeta usa un
-recorte del mat enrollado en la sala.
+El logo y las fotografías salen de los archivos originales del estudio; el
+logo se recortó sobre fondo transparente. Las imágenes de servicios son
+recortes 4:3 del mismo material, para que las cuatro tarjetas compartan
+proporción.
