@@ -565,6 +565,136 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .demobar-group button[aria-pressed="true"]{background:var(--berry);color:#fff;}
 .demobar-group button:focus-visible{outline-color:var(--mist);}
 
+/* ============================================================
+   PANTALLAS CON SESIÓN
+   Versión compacta de la misma identidad: aquí pesa más la
+   claridad de la información que lo decorativo.
+   ============================================================ */
+.app{padding:34px 0 64px;}
+.app-head{margin-bottom:26px;}
+.app-head h1{
+  font-family:var(--font-display);font-weight:400;
+  font-size:clamp(30px,4.6vw,42px);color:var(--berry-dark);
+}
+.app-head .lede{margin-top:12px;max-width:60ch;}
+.app-grid{display:grid;gap:18px;grid-template-columns:1fr;}
+.panel{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:24px;
+}
+.panel-tinted{background:var(--mist);border-color:var(--dusty);}
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+.panel-head h2{font-family:var(--font-sans);font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);}
+.panel-head .muted{font-size:14px;color:var(--ink-soft);}
+/* los SVG dentro de un panel siempre a tamaño de ícono */
+.panel li svg{width:17px;height:17px;flex:none;margin-top:4px;color:var(--sage-text);}
+.panel .alert svg{width:19px;height:19px;margin-top:3px;}
+.dl{display:grid;gap:12px;}
+.dl-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:15.5px;}
+.dl-row dt{color:var(--ink-soft);}
+.dl-row dd{margin:0;color:var(--ink);font-weight:500;text-align:right;}
+
+/* cifra protagonista y fichas de dato */
+.hero-figure{font-family:var(--font-display);font-size:clamp(52px,9vw,68px);line-height:1.04;color:var(--berry-dark);}
+.hero-figure-sub{
+  display:block;margin-top:16px;font-size:13px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-soft);font-family:var(--font-sans);line-height:1.5;
+}
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);}
+.kpi{
+  background:var(--veil);border-radius:var(--r-sm);padding:16px 18px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+/* la etiqueta reserva dos líneas para que los valores queden alineados */
+.kpi-label{display:block;font-size:12.5px;color:var(--ink-soft);line-height:1.4;min-height:2.8em;}
+.kpi-value{
+  display:flex;align-items:flex-end;min-height:32px;margin-top:6px;
+  font-family:var(--font-display);font-size:30px;line-height:1;color:var(--berry-dark);
+}
+
+/* medidor: relleno berry sobre pista de la misma tinta, más clara */
+.meter{margin-top:6px;}
+.meter-track{height:12px;border-radius:var(--r-pill);background:var(--mist);overflow:hidden;}
+.meter-fill{height:100%;border-radius:0 4px 4px 0;background:var(--berry);}
+.meter-legend{display:flex;justify-content:space-between;gap:12px;margin-top:9px;font-size:13.5px;color:var(--ink-soft);}
+
+/* barras de asistencia por semana · una sola serie, una sola tinta */
+.weeks{display:flex;align-items:flex-end;gap:2px;height:150px;margin-top:8px;}
+.week{flex:1 1 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:8px;}
+.week-bar-wrap{position:relative;display:flex;align-items:flex-end;justify-content:center;width:100%;flex:1;}
+.week-bar{
+  width:100%;max-width:24px;background:var(--berry);
+  border-radius:4px 4px 0 0;              /* extremo redondeado, base cuadrada */
+  transition:filter .16s var(--ease);
+}
+.week:hover .week-bar{filter:brightness(1.12);}
+.week-bar.is-zero{height:2px !important;background:var(--dusty);border-radius:2px;}
+.week-val{
+  position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+  font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;
+}
+.week-label{font-size:12px;color:var(--ink-soft);text-align:center;line-height:1.3;}
+.week-label.is-now{color:var(--berry-dark);font-weight:500;}
+.chart-baseline{height:1px;background:var(--line);margin-top:-1px;}
+.chart-note{margin-top:12px;font-size:13.5px;color:var(--ink-soft);}
+
+/* selector de día */
+.daystrip{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 10px;}
+.day{
+  flex:none;min-width:84px;border-radius:var(--r-md);padding:14px 10px;text-align:center;
+  border:1px solid var(--line);background:var(--surface);
+  transition:border-color .18s var(--ease),background-color .18s var(--ease);
+}
+.day:hover{border-color:var(--dusty);}
+.day[aria-pressed="true"]{background:var(--berry-dark);border-color:var(--berry-dark);}
+.day-name{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+.day-num{display:block;margin-top:5px;font-family:var(--font-display);font-size:25px;line-height:1;color:var(--berry-dark);}
+.day[aria-pressed="true"] .day-name{color:var(--mist);}
+.day[aria-pressed="true"] .day-num{color:#fff;}
+.day-dot{display:block;width:6px;height:6px;border-radius:50%;background:var(--sage);margin:6px auto 0;}
+.day[aria-pressed="true"] .day-dot{background:var(--mist);}
+.day-dot.is-empty{background:transparent;}
+
+/* fila de horario dentro de una pantalla con sesión */
+.slotrow{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  border:1px solid var(--line);background:var(--surface);
+  border-radius:var(--r-md);padding:18px 20px;
+}
+.slotrow + .slotrow{margin-top:10px;}
+.slotrow.is-mine{background:var(--mist);border-color:var(--berry-dark);}
+.slotrow.is-full{background:var(--veil);}
+.slotrow-main{flex:1 1 200px;min-width:0;}
+.slotrow-time{font-family:var(--font-display);font-size:24px;color:var(--berry-dark);line-height:1.1;}
+.slotrow-meta{font-size:13.5px;color:var(--ink-soft);margin-top:3px;}
+.slotrow-side{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+
+/* tabla de datos */
+.dtable{width:100%;border-collapse:collapse;font-size:14.5px;}
+.dtable th,.dtable td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);}
+.dtable th{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+.dtable td{color:var(--ink);}
+.dtable tr:last-child td{border-bottom:0;}
+.dtable .num{text-align:right;font-variant-numeric:tabular-nums;}
+.table-wrap{overflow-x:auto;}
+
+/* avisos */
+.alert{display:flex;gap:12px;align-items:flex-start;border-radius:var(--r-sm);padding:14px 18px;font-size:14.5px;line-height:1.6;}
+.alert svg{width:19px;height:19px;flex:none;margin-top:3px;}
+.alert-info{background:var(--veil);border:1px solid var(--line);color:var(--ink);}
+.alert-info svg{color:var(--berry-dark);}
+.alert-ok{background:var(--sage-bg);border:1px solid #CFDDD2;color:var(--sage-text);}
+.alert-ok svg{color:var(--sage-text);}
+
+@media (min-width:760px){
+  .app{padding:44px 0 80px;}
+  .app-grid.cols-2{grid-template-columns:1fr 1fr;}
+  .app-grid.cols-3{grid-template-columns:1.1fr 1fr 1fr;}
+  .app-grid.aside{grid-template-columns:1.6fr 1fr;}
+  .kpis{grid-template-columns:repeat(4,1fr);}
+  .panel{padding:28px;}
+}
+
 /* ---------------- pantallas por construir ---------------- */
 .stub{padding:80px 0;}
 .stub-card{
@@ -828,11 +958,11 @@ AG.data = {
   /* Cinco horarios de 8 cupos, de lunes a viernes. `semana` lleva las
      reservas de cada día; el de 8h00 concentra la mitad de la demanda.  */
   horarios: [
-    { id:'h0600', inicio:'6h00',  fin:'7h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[5,4,5,4,3] },
-    { id:'h0700', inicio:'7h00',  fin:'8h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[6,6,5,6,5] },
-    { id:'h0800', inicio:'8h00',  fin:'9h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[8,8,8,8,7], enEspera:3 },
-    { id:'h1800', inicio:'18h00', fin:'19h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, semana:[4,5,4,5,4] },
-    { id:'h1900', inicio:'19h00', fin:'20h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, semana:[4,4,5,4,4] }
+    { id:'h0600', hora:6, inicio:'6h00',  fin:'7h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[5,4,5,4,3] },
+    { id:'h0700', hora:7, inicio:'7h00',  fin:'8h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[6,6,5,6,5] },
+    { id:'h0800', hora:8, inicio:'8h00',  fin:'9h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[8,8,8,8,7], enEspera:3 },
+    { id:'h1800', hora:18, inicio:'18h00', fin:'19h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, semana:[4,5,4,5,4] },
+    { id:'h1900', hora:19, inicio:'19h00', fin:'20h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, semana:[4,4,5,4,4] }
   ],
 
   instructoras:[
@@ -877,6 +1007,27 @@ AG.data = {
       autora:'Estudiante · plan de 16 clases', ejemplo:true }
   ],
 
+  /* Estado de la estudiante con sesión. Respeta las reglas del estudio:
+     el horario es el mismo todo el mes y se cancela hasta 4 horas antes. */
+  estudiante: {
+    planId:'p12',
+    horarioFijo:'h0800',
+    mes:'septiembre',
+    renovacion:'30 de septiembre',
+    cuotaMes:12,
+    usadas:7,
+    desde:'marzo de 2026',
+    totalHistorico:78,
+    semanas:[3,3,1,0],                  /* asistencia por semana del mes */
+    reservas:{ 0:'h0800', 1:'h0800', 3:'h0800' },   /* día → horario */
+    espera:{},
+    pagos:[
+      { fecha:'1 de septiembre', concepto:'Plan 12 clases · septiembre', monto:85, estado:'Pagado' },
+      { fecha:'1 de agosto',     concepto:'Plan 12 clases · agosto',     monto:85, estado:'Pagado' },
+      { fecha:'1 de julio',      concepto:'Plan 8 clases · julio',       monto:60, estado:'Pagado' }
+    ]
+  },
+
   sesiones: {
     visitante:  null,
     estudiante: { nombre:'María Fernanda C.', iniciales:'MF', rol:'Estudiante' },
@@ -914,7 +1065,8 @@ AG.perfiles = {
   }
 };
 
-AG.estado = { perfil:'visitante', ruta:'#/inicio', rutaDibujada:null, promoCerrada:false, bannerIndice:0 };
+AG.estado = { perfil:'visitante', ruta:'#/inicio', rutaDibujada:null, promoCerrada:false,
+               bannerIndice:0, diaElegido:null };
 
 /* ------------------------------------------------------------- utilidades -- */
 function $(sel, ctx){ return (ctx || document).querySelector(sel); }
@@ -1354,12 +1506,399 @@ function bloqueCierre(){
     '</section>';
 }
 
+/* ==================================================== vista estudiante == */
+/* Reglas del estudio que la pantalla hace cumplir:
+   · el horario contratado es el mismo durante todo el mes;
+   · se cancela hasta 4 horas antes del inicio de la clase;
+   · el plan tiene una cuota de clases al mes y no se congela.
+   Un cambio a otro horario es puntual, sólo para ese día.            */
+
+function horarioPorId(id){
+  return AG.data.horarios.filter(function (h) { return h.id === id; })[0];
+}
+function planEstudiante(){
+  var e = AG.data.estudiante;
+  return AG.data.planes.filter(function (p) { return p.id === e.planId; })[0];
+}
+function libresEn(horario, dia){ return horario.capacidad - horario.semana[dia]; }
+
+/* Días del mes de la semana en curso, de lunes a viernes. En fin de semana
+   se muestra la semana siguiente, porque el estudio abre de lunes a viernes. */
+function fechasSemana(){
+  var hoy = new Date();
+  var d = hoy.getDay();
+  var lunes = new Date(hoy);
+  if (d === 0) { lunes.setDate(hoy.getDate() + 1); }            /* domingo → lunes */
+  else if (d === 6) { lunes.setDate(hoy.getDate() + 2); }       /* sábado → lunes */
+  else { lunes.setDate(hoy.getDate() - (d - 1)); }
+  return AG.data.dias.map(function (_, i) {
+    var f = new Date(lunes);
+    f.setDate(lunes.getDate() + i);
+    return f.getDate();
+  });
+}
+
+/* ¿Se puede cancelar todavía? Hasta 4 horas antes del inicio. */
+function margenCancelacion(dia, horarioId){
+  var h = horarioPorId(horarioId);
+  var hoy = indiceHoy();
+  if (dia < hoy) return { puede:false, motivo:'Esta clase ya pasó.' };
+  if (dia > hoy) return { puede:true };
+  var ahora = new Date();
+  var minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
+  var limite = h.hora * 60 - 240;              /* 4 horas antes */
+  if (minutosAhora <= limite) return { puede:true };
+  if (minutosAhora >= h.hora * 60 + 60) return { puede:false, motivo:'Esta clase ya pasó.' };
+  return { puede:false, motivo:'Ya pasó el plazo: se cancela hasta 4 horas antes.' };
+}
+
+AG.views['#/reservar'] = function (contenedor) {
+  var e = AG.data.estudiante;
+  var plan = planEstudiante();
+  var fijo = horarioPorId(e.horarioFijo);
+  var dia = AG.estado.diaElegido == null ? indiceHoy() : AG.estado.diaElegido;
+  var restantes = Math.max(e.cuotaMes - e.usadas, 0);
+
+  /* tarjeta del horario contratado */
+  var miReserva = e.reservas[dia];
+  var enMiHorario = miReserva === e.horarioFijo;
+  var libresFijo = libresEn(fijo, dia) + (enMiHorario ? 0 : 0);
+  var margen = enMiHorario ? margenCancelacion(dia, e.horarioFijo) : null;
+
+  var tarjetaFijo;
+  if (enMiHorario) {
+    tarjetaFijo =
+      '<div class="slotrow is-mine">' +
+        '<div class="slotrow-main">' +
+          '<p class="slotrow-time">' + esc(fijo.inicio) + ' – ' + esc(fijo.fin) + '</p>' +
+          '<p class="slotrow-meta">Tu horario del mes · ' + esc(fijo.instructora) + '</p>' +
+        '</div>' +
+        '<div class="slotrow-side">' +
+          '<span class="pill pill-free">Tu lugar está confirmado</span>' +
+          (margen.puede
+            ? '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar</button>'
+            : '<span class="slotrow-meta">' + esc(margen.motivo) + '</span>') +
+        '</div>' +
+      '</div>';
+  } else if (miReserva) {
+    var otro = horarioPorId(miReserva);
+    var margenOtro = margenCancelacion(dia, miReserva);
+    tarjetaFijo =
+      '<div class="slotrow is-mine">' +
+        '<div class="slotrow-main">' +
+          '<p class="slotrow-time">' + esc(otro.inicio) + ' – ' + esc(otro.fin) + '</p>' +
+          '<p class="slotrow-meta">Cambio puntual para este día · ' + esc(otro.instructora) + '</p>' +
+        '</div>' +
+        '<div class="slotrow-side">' +
+          '<span class="pill pill-free">Confirmada</span>' +
+          (margenOtro.puede
+            ? '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar</button>'
+            : '<span class="slotrow-meta">' + esc(margenOtro.motivo) + '</span>') +
+        '</div>' +
+      '</div>';
+  } else {
+    var lleno = libresFijo <= 0;
+    var sinCuota = restantes <= 0;
+    tarjetaFijo =
+      '<div class="slotrow' + (lleno ? ' is-full' : '') + '">' +
+        '<div class="slotrow-main">' +
+          '<p class="slotrow-time">' + esc(fijo.inicio) + ' – ' + esc(fijo.fin) + '</p>' +
+          '<p class="slotrow-meta">Tu horario del mes · ' + esc(fijo.instructora) + '</p>' +
+        '</div>' +
+        '<div class="slotrow-side">' +
+          (lleno ? '<span class="pill pill-full">Sin cupo</span>'
+                 : '<span class="pill pill-free">' + libresFijo + ' de ' + fijo.capacidad + ' libres</span>') +
+          (sinCuota
+            ? '<span class="slotrow-meta">Ya usaste tus ' + e.cuotaMes + ' clases del mes.</span>'
+            : (lleno
+                ? (e.espera[dia]
+                    ? '<span class="pill pill-last">En lista de espera</span>'
+                    : '<button class="btn btn-outline btn-sm" type="button" data-accion="est-espera" data-dia="' + dia + '" data-horario="' + fijo.id + '">Lista de espera</button>')
+                : '<button class="btn btn-primary btn-sm" type="button" data-accion="est-reservar" data-dia="' + dia + '" data-horario="' + fijo.id + '">Reservar</button>')) +
+        '</div>' +
+      '</div>';
+  }
+
+  /* otros horarios: cambio puntual sólo para ese día */
+  var otros = AG.data.horarios.filter(function (h) { return h.id !== e.horarioFijo; }).map(function (h) {
+    var libres = libresEn(h, dia);
+    var lleno = libres <= 0;
+    var yaTengo = !!e.reservas[dia];
+    var accion;
+    if (yaTengo) {
+      accion = '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cambiar" data-dia="' + dia + '" data-horario="' + h.id + '"' + (lleno ? ' disabled' : '') + '>' + (lleno ? 'Sin cupo' : 'Cambiar aquí') + '</button>';
+    } else if (restantes <= 0) {
+      accion = '<span class="slotrow-meta">Sin clases disponibles este mes</span>';
+    } else if (lleno) {
+      accion = e.espera[dia] === h.id
+        ? '<span class="pill pill-last">En lista de espera</span>'
+        : '<button class="btn btn-outline btn-sm" type="button" data-accion="est-espera" data-dia="' + dia + '" data-horario="' + h.id + '">Lista de espera</button>';
+    } else {
+      accion = '<button class="btn btn-outline btn-sm" type="button" data-accion="est-reservar" data-dia="' + dia + '" data-horario="' + h.id + '">Reservar aquí</button>';
+    }
+    return '' +
+      '<div class="slotrow' + (lleno ? ' is-full' : '') + '">' +
+        '<div class="slotrow-main">' +
+          '<p class="slotrow-time">' + esc(h.inicio) + ' – ' + esc(h.fin) + '</p>' +
+          '<p class="slotrow-meta">' + esc(h.jornada) + ' · ' + esc(h.instructora) + '</p>' +
+        '</div>' +
+        '<div class="slotrow-side">' +
+          (lleno ? '<span class="pill pill-full">Lleno</span>'
+                 : '<span class="pill pill-free">' + libres + ' libres</span>') +
+          accion +
+        '</div>' +
+      '</div>';
+  }).join('');
+
+  /* tira de días */
+  var fechas = fechasSemana();
+  var dias = AG.data.dias.map(function (d, i) {
+    var reservado = !!e.reservas[i];
+    return '<button class="day" type="button" data-accion="est-dia" data-dia="' + i + '" aria-pressed="' + (i === dia) + '">' +
+             '<span class="day-name">' + esc(d.slice(0,3)) + '</span>' +
+             '<span class="day-num">' + fechas[i] + '</span>' +
+             '<span class="day-dot' + (reservado ? '' : ' is-empty') + '" aria-hidden="true"></span>' +
+             '<span class="sr-only">' + esc(d) + ' ' + fechas[i] + ', ' + (reservado ? 'con clase reservada' : 'sin reserva') + '</span>' +
+           '</button>';
+  }).join('');
+
+  contenedor.innerHTML =
+    '<section class="app"><div class="wrap">' +
+      '<div class="app-head">' +
+        '<span class="eyebrow">Tu horario del mes</span>' +
+        '<h1>Reserva tu clase</h1>' +
+        '<p class="lede">Ocho cupos por clase. Ves la disponibilidad al instante y confirmas sin esperar respuesta.</p>' +
+      '</div>' +
+
+      '<div class="app-grid aside" style="margin-bottom:22px;">' +
+        '<div class="panel panel-tinted">' +
+          '<div class="panel-head"><h2>Tu plan de ' + esc(e.mes) + '</h2></div>' +
+          '<dl class="dl">' +
+            '<div class="dl-row"><dt>Plan</dt><dd>' + esc(plan.nombre) + '</dd></div>' +
+            '<div class="dl-row"><dt>Horario contratado</dt><dd>' + esc(fijo.inicio) + ' – ' + esc(fijo.fin) + '</dd></div>' +
+            '<div class="dl-row"><dt>Clases usadas</dt><dd>' + e.usadas + ' de ' + e.cuotaMes + '</dd></div>' +
+            '<div class="dl-row"><dt>Renovación</dt><dd>' + esc(e.renovacion) + '</dd></div>' +
+          '</dl>' +
+          medidor(e.usadas, e.cuotaMes, 'clases usadas', restantes + ' por usar') +
+        '</div>' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Cómo funciona tu plan</h2></div>' +
+          '<ul style="display:grid;gap:11px;">' +
+            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Tu horario es el mismo durante todo el mes.</span></li>' +
+            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar hasta 4 horas antes de la clase.</span></li>' +
+            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Las clases se toman dentro del mes activo y no se congelan.</span></li>' +
+          '</ul>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="panel">' +
+        '<div class="panel-head">' +
+          '<h2>Elige el día</h2>' +
+          '<span class="muted">Lunes a viernes</span>' +
+        '</div>' +
+        '<div class="daystrip">' + dias + '</div>' +
+        '<div style="margin-top:18px;">' + tarjetaFijo + '</div>' +
+        '<div class="panel-head" style="margin:26px 0 12px;">' +
+          '<h2>Otros horarios de ese día</h2>' +
+          '<span class="muted">Cambio puntual, tu horario del mes no cambia</span>' +
+        '</div>' +
+        otros +
+      '</div>' +
+
+    '</div></section>';
+};
+
+/* Medidor reutilizable: relleno berry sobre pista de la misma tinta. */
+function medidor(valor, total, rotuloIzq, rotuloDer){
+  var pct = total ? Math.min(Math.round(valor / total * 100), 100) : 0;
+  return '' +
+    '<div class="meter">' +
+      '<div class="meter-track" role="img" aria-label="' + valor + ' de ' + total + ' ' + esc(rotuloIzq) + '">' +
+        '<div class="meter-fill" style="width:' + pct + '%"></div>' +
+      '</div>' +
+      '<p class="meter-legend"><span>' + valor + ' de ' + total + ' ' + esc(rotuloIzq) + '</span><span>' + esc(rotuloDer) + '</span></p>' +
+    '</div>';
+}
+
+/* ------------------------------------------------- mi progreso --------- */
+/* Una sola serie (clases por semana), una sola tinta, barras de 24 px con
+   el extremo redondeado y separación de 2 px. Sin leyenda: el título dice
+   qué se está mirando. Los valores van en el extremo de la barra actual y
+   de la más alta, y todas quedan en la tabla accesible y en el tooltip.  */
+AG.views['#/progreso'] = function (contenedor) {
+  var e = AG.data.estudiante;
+  var plan = planEstudiante();
+  var fijo = horarioPorId(e.horarioFijo);
+  var restantes = Math.max(e.cuotaMes - e.usadas, 0);
+  var maximo = Math.max.apply(null, e.semanas.concat([1]));
+  var semanaActual = e.semanas.reduce(function (acc, v, i) { return v > 0 ? i : acc; }, 0);
+  var asistencia = Math.round(e.usadas / e.cuotaMes * 100);
+
+  var barras = e.semanas.map(function (v, i) {
+    var alto = Math.round(v / maximo * 100);
+    var destacar = (i === semanaActual) || (v === maximo);
+    return '' +
+      '<div class="week" title="Semana ' + (i + 1) + ': ' + v + (v === 1 ? ' clase' : ' clases') + '">' +
+        '<div class="week-bar-wrap">' +
+          (destacar ? '<span class="week-val">' + v + '</span>' : '') +
+          '<div class="week-bar' + (v === 0 ? ' is-zero' : '') + '" style="height:' + alto + '%"></div>' +
+        '</div>' +
+        '<span class="week-label' + (i === semanaActual ? ' is-now' : '') + '">Sem ' + (i + 1) + '</span>' +
+      '</div>';
+  }).join('');
+
+  var tabla = '<table class="sr-only"><caption>Clases por semana de ' + esc(e.mes) + '</caption>' +
+    '<thead><tr><th>Semana</th><th>Clases</th></tr></thead><tbody>' +
+    e.semanas.map(function (v, i) { return '<tr><td>Semana ' + (i + 1) + '</td><td>' + v + '</td></tr>'; }).join('') +
+    '</tbody></table>';
+
+  contenedor.innerHTML =
+    '<section class="app"><div class="wrap">' +
+      '<div class="app-head">' +
+        '<span class="eyebrow">Tu constancia</span>' +
+        '<h1>Mi progreso</h1>' +
+        '<p class="lede">Cómo va tu mes y cuánto has acumulado desde que empezaste a entrenar con nosotras.</p>' +
+      '</div>' +
+
+      '<div class="app-grid aside">' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Clases de ' + esc(e.mes) + '</h2>' +
+            '<span class="muted">' + esc(plan.nombre) + '</span></div>' +
+          '<p class="hero-figure">' + e.usadas +
+            '<span class="hero-figure-sub">clases tomadas este mes</span></p>' +
+          '<div style="margin-top:18px;">' + medidor(e.usadas, e.cuotaMes, 'clases usadas', restantes + ' por usar') + '</div>' +
+          '<div class="kpis" style="margin-top:22px;">' +
+            '<div class="kpi"><span class="kpi-label">Por usar este mes</span><span class="kpi-value">' + restantes + '</span></div>' +
+            '<div class="kpi"><span class="kpi-label">Cumplimiento del plan</span><span class="kpi-value">' + asistencia + '%</span></div>' +
+            '<div class="kpi"><span class="kpi-label">Clases desde ' + esc(e.desde) + '</span><span class="kpi-value">' + e.totalHistorico + '</span></div>' +
+            '<div class="kpi"><span class="kpi-label">Tu horario</span><span class="kpi-value" style="font-size:22px;">' + esc(fijo.inicio) + '</span></div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Clases por semana</h2>' +
+            '<span class="muted">' + esc(e.mes) + '</span></div>' +
+          '<div class="weeks">' + barras + '</div>' +
+          '<div class="chart-baseline"></div>' +
+          '<p class="chart-note">La cuarta semana todavía no ha terminado.</p>' +
+          tabla +
+        '</div>' +
+      '</div>' +
+
+      '<div class="panel" style="margin-top:18px;">' +
+        '<div class="panel-head"><h2>Lo que viene</h2></div>' +
+        '<p class="alert alert-info">' + ICONOS.info +
+          '<span>Te quedan <b>' + restantes + ' clases</b> de tu plan y el mes cierra el ' + esc(e.renovacion) +
+          '. Las clases no se congelan, así que conviene repartirlas en las semanas que faltan.</span></p>' +
+        '<div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">' +
+          '<a class="btn btn-primary btn-sm" href="#/reservar">Reservar una clase</a>' +
+          '<a class="btn btn-outline btn-sm" href="#/mi-plan">Ver mi plan</a>' +
+        '</div>' +
+      '</div>' +
+
+    '</div></section>';
+};
+
+/* ---------------------------------------------------- mi plan ---------- */
+AG.views['#/mi-plan'] = function (contenedor) {
+  var e = AG.data.estudiante;
+  var plan = planEstudiante();
+  var fijo = horarioPorId(e.horarioFijo);
+  var restantes = Math.max(e.cuotaMes - e.usadas, 0);
+  var promo = AG.data.promo;
+
+  var pagos = e.pagos.map(function (g) {
+    return '<tr><td>' + esc(g.fecha) + '</td><td>' + esc(g.concepto) + '</td>' +
+           '<td class="num">' + moneda(g.monto) + '</td>' +
+           '<td><span class="pill pill-free">' + esc(g.estado) + '</span></td></tr>';
+  }).join('');
+
+  var otros = AG.data.planes.filter(function (p) { return p.id !== e.planId; }).map(function (p) {
+    var conPromo = precioPromo(p);
+    return '' +
+      '<div class="slotrow">' +
+        '<div class="slotrow-main">' +
+          '<p class="slotrow-time" style="font-size:19px;">' + esc(p.nombre) + '</p>' +
+          '<p class="slotrow-meta">' + esc(p.subtitulo) + '</p>' +
+        '</div>' +
+        '<div class="slotrow-side">' +
+          (conPromo === null
+            ? '<span class="slotrow-meta">' + moneda(p.precio) + ' ' + esc(p.unidad) + '</span>'
+            : '<span class="slotrow-meta"><b style="color:var(--berry-dark)">' + moneda(conPromo) + '</b> ' + esc(p.unidad) +
+              ' <span class="plan-antes">' + moneda(p.precio) + '</span></span>') +
+          '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cambiar-plan" data-plan="' + p.id + '">Cambiar a este</button>' +
+        '</div>' +
+      '</div>';
+  }).join('');
+
+  contenedor.innerHTML =
+    '<section class="app"><div class="wrap">' +
+      '<div class="app-head">' +
+        '<span class="eyebrow">Tu suscripción</span>' +
+        '<h1>Mi plan</h1>' +
+        '<p class="lede">Lo que tienes contratado este mes, tus pagos y las condiciones del estudio.</p>' +
+      '</div>' +
+
+      '<div class="app-grid aside">' +
+        '<div class="panel panel-tinted">' +
+          '<div class="panel-head"><h2>' + esc(plan.nombre) + '</h2>' +
+            '<span class="muted">' + esc(e.mes) + '</span></div>' +
+          '<p class="hero-figure">' + moneda(plan.precio) +
+            '<span class="hero-figure-sub">' + esc(plan.unidad) + '</span></p>' +
+          '<dl class="dl" style="margin-top:20px;">' +
+            '<div class="dl-row"><dt>Clases del plan</dt><dd>' + e.cuotaMes + ' al mes</dd></div>' +
+            '<div class="dl-row"><dt>Horario contratado</dt><dd>' + esc(fijo.inicio) + ' – ' + esc(fijo.fin) + '</dd></div>' +
+            '<div class="dl-row"><dt>Instructora</dt><dd>' + esc(fijo.instructora) + '</dd></div>' +
+            '<div class="dl-row"><dt>Renovación</dt><dd>' + esc(e.renovacion) + '</dd></div>' +
+            '<div class="dl-row"><dt>Estudiante desde</dt><dd>' + esc(e.desde) + '</dd></div>' +
+          '</dl>' +
+          '<div style="margin-top:18px;">' + medidor(e.usadas, e.cuotaMes, 'clases usadas', restantes + ' por usar') + '</div>' +
+          '<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">' +
+            '<button class="btn btn-primary btn-sm" type="button" data-accion="est-renovar">Renovar plan</button>' +
+            '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cambiar-horario">Cambiar mi horario</button>' +
+          '</div>' +
+        '</div>' +
+
+        '<div>' +
+          '<div class="panel">' +
+            '<div class="panel-head"><h2>Condiciones</h2></div>' +
+            '<ul style="display:grid;gap:11px;">' +
+              AG.data.condicionesPlanes.map(function (c) {
+                return '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>' + esc(c) + '</span></li>';
+              }).join('') +
+              '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar una clase hasta 4 horas antes.</span></li>' +
+            '</ul>' +
+          '</div>' +
+          (promo.activa ? '<div class="panel" style="margin-top:18px;">' +
+            '<p class="alert alert-ok">' + ICONOS.check +
+            '<span><b>' + esc(promo.etiqueta) + ':</b> 30 % de descuento al renovar en los planes desde 3 clases por semana. Vigente por 48 horas.</span></p>' +
+          '</div>' : '') +
+        '</div>' +
+      '</div>' +
+
+      '<div class="panel" style="margin-top:18px;">' +
+        '<div class="panel-head"><h2>Historial de pagos</h2></div>' +
+        '<div class="table-wrap"><table class="dtable">' +
+          '<thead><tr><th>Fecha</th><th>Concepto</th><th class="num">Monto</th><th>Estado</th></tr></thead>' +
+          '<tbody>' + pagos + '</tbody>' +
+        '</table></div>' +
+      '</div>' +
+
+      '<div class="panel" style="margin-top:18px;">' +
+        '<div class="panel-head"><h2>Cambiar de plan</h2>' +
+          '<span class="muted">Aplica desde el próximo mes</span></div>' +
+        otros +
+      '</div>' +
+
+    '</div></section>';
+};
+
 /* --------------------------------- pantallas por construir -------------- */
 var PENDIENTES = {
   '#/contacto':'Contacto', '#/inscripcion':'Inscripción', '#/nosotros':'Quiénes somos',
   '#/ubicacion':'Ubicación', '#/terminos':'Términos y condiciones de las promociones',
   '#/privacidad':'Política de privacidad', '#/trabaja-con-nosotros':'Trabaja con nosotros',
-  '#/reservar':'Reservar', '#/progreso':'Mi progreso', '#/mi-plan':'Mi plan', '#/cuenta':'Mi cuenta',
+  '#/cuenta':'Mi cuenta',
   '#/panel':'Panel', '#/estudiantes':'Estudiantes', '#/admin-horarios':'Horarios',
   '#/comunicacion':'Comunicación', '#/reportes':'Reportes'
 };
@@ -1477,6 +2016,7 @@ function cambiarPerfil(clave){
   if (!AG.perfiles[clave]) return;
   AG.estado.perfil = clave;
   AG.estado.rutaDibujada = null;   /* cambia el perfil: se redibuja la vista */
+  AG.estado.diaElegido = null;
   guardar('ag-perfil', clave);
   pintarSelectorVista();
   var destino = AG.perfiles[clave].inicio;
@@ -1493,6 +2033,13 @@ function alternarMenuMovil(){
   var abierto = $('#mobileNav').classList.toggle('is-open');
   $('#burger').setAttribute('aria-expanded', String(abierto));
   $('#burger').setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+}
+
+/* Vuelve a dibujar la vista actual tras cambiar los datos. */
+function redibujar(){
+  var ruta = partesRuta(AG.estado.ruta).ruta;
+  var vista = AG.views[ruta];
+  if (vista) vista($('#contenido'));
 }
 
 /* ============================================================ acciones == */
@@ -1525,6 +2072,79 @@ var ACCIONES = {
     if (!h) return;
     avisar('Te avisaremos apenas se libere un cupo de ' + h.inicio + ' a ' + h.fin + '.\n\n(Prototipo: la lista de espera se construirá sobre esta base.)');
   },
+  /* ---- acciones de la estudiante: cambian los datos y redibujan ---- */
+  'est-dia': function (boton) {
+    AG.estado.diaElegido = parseInt(boton.dataset.dia, 10);
+    redibujar();
+  },
+  'est-reservar': function (boton) {
+    var e = AG.data.estudiante;
+    var dia = parseInt(boton.dataset.dia, 10);
+    var h = horarioPorId(boton.dataset.horario);
+    if (!h || e.reservas[dia]) return;
+    if (e.cuotaMes - e.usadas <= 0) { avisar('Ya usaste las ' + e.cuotaMes + ' clases de tu plan este mes.'); return; }
+    if (libresEn(h, dia) <= 0) return;
+    e.reservas[dia] = h.id;
+    delete e.espera[dia];
+    h.semana[dia] += 1;
+    e.usadas += 1;
+    redibujar();
+    avisar('Reserva confirmada: ' + AG.data.dias[dia] + ' de ' + h.inicio + ' a ' + h.fin + '.' +
+           (h.id === e.horarioFijo ? '' : '\n\nEs un cambio puntual: tu horario del mes sigue siendo el de las ' + horarioPorId(e.horarioFijo).inicio + '.'));
+  },
+  'est-cancelar': function (boton) {
+    var e = AG.data.estudiante;
+    var dia = parseInt(boton.dataset.dia, 10);
+    var id = e.reservas[dia];
+    if (!id) return;
+    var margen = margenCancelacion(dia, id);
+    if (!margen.puede) { avisar(margen.motivo); return; }
+    var h = horarioPorId(id);
+    delete e.reservas[dia];
+    h.semana[dia] = Math.max(h.semana[dia] - 1, 0);
+    e.usadas = Math.max(e.usadas - 1, 0);
+    redibujar();
+    avisar('Cancelaste la clase del ' + AG.data.dias[dia].toLowerCase() + '. La clase vuelve a tu plan.');
+  },
+  'est-cambiar': function (boton) {
+    var e = AG.data.estudiante;
+    var dia = parseInt(boton.dataset.dia, 10);
+    var nuevo = horarioPorId(boton.dataset.horario);
+    var actual = e.reservas[dia] ? horarioPorId(e.reservas[dia]) : null;
+    if (!nuevo || !actual || libresEn(nuevo, dia) <= 0) return;
+    var margen = margenCancelacion(dia, actual.id);
+    if (!margen.puede) { avisar(margen.motivo); return; }
+    actual.semana[dia] = Math.max(actual.semana[dia] - 1, 0);
+    nuevo.semana[dia] += 1;
+    e.reservas[dia] = nuevo.id;
+    redibujar();
+    avisar('Cambiaste la clase del ' + AG.data.dias[dia].toLowerCase() + ' a las ' + nuevo.inicio + '.' +
+           '\n\nEs sólo para ese día: tu horario del mes sigue siendo el de las ' + horarioPorId(e.horarioFijo).inicio + '.');
+  },
+  'est-espera': function (boton) {
+    var e = AG.data.estudiante;
+    var dia = parseInt(boton.dataset.dia, 10);
+    var h = horarioPorId(boton.dataset.horario);
+    if (!h) return;
+    e.espera[dia] = h.id;
+    redibujar();
+    avisar('Estás en la lista de espera de ' + AG.data.dias[dia].toLowerCase() + ', ' + h.inicio + ' a ' + h.fin + '.\n\nTe avisamos apenas se libere un cupo.');
+  },
+  'est-cambiar-horario': function () {
+    avisar('Para cambiar tu horario del mes escribe al estudio: el cambio aplica desde el próximo mes, porque el horario contratado es el mismo durante todo el mes.\n\n(Prototipo: la solicitud se conectará con la pantalla de administración.)');
+  },
+  'est-renovar': function () {
+    var promo = AG.data.promo;
+    avisar('Renovación del ' + planEstudiante().nombre + '.' +
+      (promo.activa ? '\n\nCon la ' + promo.etiqueta + ' pagas ' + moneda(precioPromo(planEstudiante())) + ' en vez de ' + moneda(planEstudiante().precio) + '.' : '') +
+      '\n\n(Prototipo: el pago se construirá sobre esta base.)');
+  },
+  'est-cambiar-plan': function (boton) {
+    var p = AG.data.planes.filter(function (x) { return x.id === boton.dataset.plan; })[0];
+    if (!p) return;
+    avisar('Solicitaste el cambio al plan de ' + p.nombre.toLowerCase() + '. Aplica desde el próximo mes.\n\n(Prototipo: la solicitud se conectará con administración.)');
+  },
+
   'elegir-plan': function (boton) {
     var p = AG.data.planes.filter(function (x) { return x.id === boton.dataset.plan; })[0];
     if (!p) return;
@@ -1535,6 +2155,16 @@ var ACCIONES = {
     location.hash = '#/inscripcion';
   }
 };
+
+/* Se exponen los ayudantes del prototipo para poder inspeccionar y probar
+   el estado desde la consola del navegador.                             */
+AG.horarioPorId = horarioPorId;
+AG.fechasSemana = fechasSemana;
+AG.planEstudiante = planEstudiante;
+AG.libresEn = libresEn;
+AG.margenCancelacion = margenCancelacion;
+AG.redibujar = redibujar;
+AG.precioPromo = precioPromo;
 
 /* ============================================================== arranque == */
 function iniciar(){

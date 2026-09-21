@@ -31,8 +31,24 @@ las pantallas:
 - Testimonios de estudiantes.
 - Footer en tres columnas más la línea de derechos reservados.
 
-Las demás pantallas ya están declaradas y son navegables: muestran un
-marcador sobre la misma estructura.
+### Vista de estudiante (construida)
+
+- **Reservar** · su plan del mes, el horario contratado, la tira de días con
+  las fechas reales de la semana y los cinco horarios con cupos. Reservar,
+  cancelar, cambiar de horario puntualmente y entrar a la lista de espera
+  cambian los datos de verdad y se redibuja la pantalla.
+- **Mi progreso** · clases del mes, medidor del plan, fichas de dato y las
+  clases por semana.
+- **Mi plan** · lo contratado, condiciones, historial de pagos y cambio de
+  plan con el precio de la promoción aplicado.
+
+Las reglas del estudio se hacen cumplir: el horario contratado es el mismo
+todo el mes (un cambio de horario es puntual, sólo para ese día, y no altera
+el del mes), se cancela hasta 4 horas antes del inicio, y la cuota de clases
+del plan no se puede exceder.
+
+Las pantallas de administración y las públicas ya están declaradas y son
+navegables: muestran un marcador sobre la misma estructura.
 
 ## Las tres vistas
 
@@ -78,6 +94,16 @@ la maqueta, y el código es propio: no se copió el de la plantilla.
 
 Las bandas alternan blanco, berry oscuro, rosa velado y rosa neblina para
 que dos secciones contiguas nunca compartan fondo.
+
+## Gráficos
+
+«Mi progreso» lleva una sola serie de datos (clases por semana) en una sola
+tinta de la marca, validada con el script de la guía de visualización:
+barras de 24 px como máximo, extremo superior redondeado y base cuadrada,
+separación de 2 px, sin caja de leyenda —el título dice qué se mira—, con
+los valores etiquetados de forma selectiva y una tabla accesible para el
+resto. El medidor del plan usa el relleno berry sobre una pista de la misma
+tinta, más clara.
 
 ## Decisiones de diseño
 
