@@ -36,9 +36,11 @@ marcador sobre la misma estructura.
 
 ## Las tres vistas
 
-El botón **«Vista: …»**, abajo a la derecha, alterna entre los tres perfiles
-para recorrer el sistema completo. Es una ayuda del prototipo, no parte del
-producto.
+La **franja de demostración**, arriba de todo, alterna entre los tres
+perfiles para recorrer el sistema completo. Es andamiaje del prototipo, no
+parte del producto: en el sitio publicado no existe, porque cada persona
+entra con su sesión y ve sólo su menú. Se elimina quitando el bloque
+`.demobar` del marcado y `pintarSelectorVista()`.
 
 | Perfil | Menú |
 |---|---|

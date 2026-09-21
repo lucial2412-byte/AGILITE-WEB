@@ -538,29 +538,32 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   font-size:13.5px;color:var(--on-dark-soft);
 }
 
-/* ---------------- selector de vista del prototipo ---------------- */
-.viewswitch{
-  position:fixed;right:14px;bottom:14px;z-index:120;
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
-  box-shadow:var(--sh-lg);padding:10px;width:min(262px,calc(100vw - 28px));
+/* ---------------- franja de vista de demostración ----------------
+   Andamiaje del prototipo: permite recorrer los tres perfiles sin tener
+   usuarios reales. No forma parte del producto; en el sitio publicado cada
+   persona entra con su sesión. Contraste sobre la franja (#2E1A20):
+   rótulo 10.17 : 1 · píldora inactiva 8.84 : 1 · activa 6.87 : 1.       */
+.demobar{background:var(--ink);}
+.demobar-in{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  flex-wrap:wrap;padding-top:10px;padding-bottom:10px;
 }
-.viewswitch[data-collapsed="true"]{padding:0;width:auto;border-radius:var(--r-pill);}
-.viewswitch[data-collapsed="true"] .viewswitch-body{display:none;}
-.viewswitch-toggle{display:flex;align-items:center;gap:9px;padding:12px 18px;min-height:48px;width:100%;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--berry-dark);}
-.viewswitch-toggle svg{width:16px;height:16px;flex:none;}
-.viewswitch[data-collapsed="false"] .viewswitch-toggle{padding:4px 6px 10px;border-bottom:1px solid var(--line);margin-bottom:8px;}
-.viewswitch-hint{font-size:12px;color:var(--ink-soft);line-height:1.45;padding:2px 6px 8px;}
-.viewswitch-body{display:grid;gap:4px;}
-.viewswitch-body button{
-  display:flex;align-items:center;gap:11px;width:100%;text-align:left;
-  min-height:48px;padding:9px 12px;border-radius:var(--r-sm);font-size:14.5px;color:var(--ink);
-  transition:background-color .18s var(--ease);
+.demobar-label{
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mist);flex:none;
 }
-.viewswitch-body button:hover{background:var(--veil);}
-.viewswitch-body button[aria-pressed="true"]{background:var(--mist);color:var(--berry-dark);font-weight:500;}
-.vs-ico{width:30px;height:30px;border-radius:50%;background:var(--mist);color:var(--berry-dark);display:grid;place-items:center;flex:none;}
-.viewswitch-body button[aria-pressed="true"] .vs-ico{background:var(--berry-dark);color:#fff;}
-.vs-ico svg{width:15px;height:15px;}
+.demobar-group{
+  display:flex;gap:4px;background:rgba(255,255,255,.09);
+  border-radius:var(--r-pill);padding:4px;
+}
+.demobar-group button{
+  border-radius:var(--r-pill);padding:8px 18px;min-height:40px;
+  font-size:12.5px;letter-spacing:.02em;color:var(--on-dark-soft);
+  transition:background-color .18s var(--ease),color .18s var(--ease);
+}
+.demobar-group button:hover{background:rgba(255,255,255,.1);color:#fff;}
+.demobar-group button[aria-pressed="true"]{background:var(--berry);color:#fff;}
+.demobar-group button:focus-visible{outline-color:var(--mist);}
 
 /* ---------------- pantallas por construir ---------------- */
 .stub{padding:80px 0;}
@@ -614,6 +617,8 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   .brand{margin-right:0;}
 }
 @media (max-width:559px){
+  .demobar-label{display:none;}
+  .demobar-group button{padding:8px 14px;font-size:12px;}
   .hero-controls{left:var(--pad-x);right:auto;bottom:16px;}
   .hero-body{padding-bottom:78px;}          /* deja libre la fila de controles */
   .hero-logo img{height:44px;}
@@ -632,11 +637,19 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .hide-sm{display:none !important;}
 @media (min-width:1040px){.hide-sm{display:inline-flex !important;}}
 
-@media print{.header,.viewswitch,.hero-controls,.infoband-close{display:none !important;}}
+@media print{.header,.demobar,.hero-controls,.infoband-close{display:none !important;}}
 </style>
 </head>
 <body>
 <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<!-- Franja de demostración · andamiaje del prototipo, no del producto -->
+<div class="demobar">
+  <div class="wrap demobar-in">
+    <span class="demobar-label">Vista de demostración</span>
+    <div class="demobar-group" id="demoGroup" role="group" aria-label="Cambiar de perfil para recorrer el prototipo"></div>
+  </div>
+</div>
 
 <!-- Header · único lugar del sitio con el teléfono y el Instagram -->
 <header class="header">
@@ -709,15 +722,6 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
     </div>
   </div>
 </footer>
-
-<!-- Alternador de vistas · solo para recorrer el prototipo -->
-<div class="viewswitch" id="viewswitch" data-collapsed="true">
-  <button class="viewswitch-toggle" type="button" id="vsToggle" aria-expanded="false" aria-controls="vsBody">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z"/><circle cx="12" cy="12" r="3"/></svg>
-    <span id="vsLabel">Vista: visitante</span>
-  </button>
-  <div class="viewswitch-body" id="vsBody"></div>
-</div>
 
 <script>
 /* ==========================================================================
@@ -1005,15 +1009,11 @@ function pintarInfoBanda(){
 }
 
 function pintarSelectorVista(){
-  var botones = Object.keys(AG.perfiles).map(function (clave) {
-    var p = AG.perfiles[clave];
-    var ico = clave === 'admin' ? ICONOS.panel : (clave === 'estudiante' ? ICONOS.persona : ICONOS.info);
-    return '<button type="button" data-perfil="' + clave + '" aria-pressed="' + (AG.estado.perfil === clave) + '">' +
-             '<span class="vs-ico" aria-hidden="true">' + ico + '</span><span>' + esc(p.etiqueta) + '</span>' +
-           '</button>';
+  $('#demoGroup').innerHTML = Object.keys(AG.perfiles).map(function (clave) {
+    var activo = AG.estado.perfil === clave;
+    return '<button type="button" data-perfil="' + clave + '" aria-pressed="' + activo + '">' +
+             esc(AG.perfiles[clave].etiqueta) + '</button>';
   }).join('');
-  $('#vsBody').innerHTML = '<p class="viewswitch-hint">Prototipo: cambia de perfil para recorrer el sistema completo.</p>' + botones;
-  $('#vsLabel').textContent = 'Vista: ' + AG.perfiles[AG.estado.perfil].etiqueta.toLowerCase();
 }
 
 /* =============================================================== vistas == */
@@ -1569,13 +1569,6 @@ function iniciar(){
     var pestana = ev.target.closest('[data-tab]');
     if (pestana) { activarPestana(pestana.dataset.tab); return; }
 
-    if (ev.target.closest('#vsToggle')) {
-      var caja = $('#viewswitch');
-      var colapsado = caja.dataset.collapsed === 'true';
-      caja.dataset.collapsed = String(!colapsado);
-      $('#vsToggle').setAttribute('aria-expanded', String(colapsado));
-      return;
-    }
     if (ev.target.closest('#burger')) { alternarMenuMovil(); return; }
     if (ev.target.closest('.mobile-nav a')) { cerrarMenuMovil(); return; }
   });
