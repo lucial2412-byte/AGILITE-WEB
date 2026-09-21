@@ -20,7 +20,13 @@ las pantallas:
   acceso a la cuenta.
 - Franja de promoción vigente, con enlace a la sección y botón para cerrarla.
 - Banner principal de composición partida, con rotación cada 7 segundos.
-- Servicios, horarios con disponibilidad y planes.
+- Servicios en cuadrícula de cuatro tarjetas.
+- Banda de cifras del estudio.
+- Horarios con dos pestañas: la disponibilidad de hoy y un cuadro de toda
+  la semana (cinco franjas por cinco días) con el cupo de cada clase.
+- Instructoras, una por jornada.
+- Planes con la Promo Flash aplicada y sus condiciones.
+- Testimonios de estudiantes.
 - Footer en tres columnas más la línea de derechos reservados.
 
 Las demás pantallas ya están declaradas y son navegables: muestran un
@@ -77,6 +83,10 @@ fondos claros no alcanza contraste suficiente. El verde salvia aparece
 únicamente en el estado «disponible» de los cupos, en un tono algo más
 oscuro cuando hace de texto sobre las tarjetas.
 
+**Cuadro semanal usable en el celular.** Al desplazarlo horizontalmente la
+columna de horas queda fija, de modo que nunca se pierde la referencia de
+qué franja se está mirando.
+
 **Fotografías sin deformar.** En el banner la imagen se muestra completa
 (`object-fit: contain`) sobre una ampliación desenfocada de sí misma; las
 tarjetas de servicios comparten proporción 4:3. El banner reserva la altura
@@ -99,8 +109,11 @@ Al poner `promo.activa` en `false` desaparecen la franja, las etiquetas y
 los descuentos, y vuelven los precios de lista.
 
 Siguen siendo inventados, porque no había material: los nombres de las
-instructoras, la dirección, el correo, las redes sociales y la etiqueta
-«Más elegida» del plan de tres clases por semana. La ocupación de los
+instructoras, la dirección, el correo y la etiqueta «Más elegida» del plan
+de tres clases por semana. Los **testimonios son de ejemplo** y cada
+tarjeta se muestra marcada como tal; sirven de borrador del tono hasta que
+el estudio entregue los reales. Vaciar `AG.data.testimonios` oculta la
+sección completa. La ocupación de los
 horarios reproduce el diagnóstico: 27 reservas sobre 40 cupos, con el
 horario de 8h00 lleno.
 

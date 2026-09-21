@@ -196,11 +196,156 @@ ul{margin:0;padding:0;list-style:none;}
 .promo-close svg{width:17px;height:17px;}
 
 /* ---------------- secciones ---------------- */
-.section{padding:72px 0;}
-.section-alt{background:var(--surface);}
+.section{
+  position:relative;padding:72px 0;
+  background:radial-gradient(900px 420px at 12% -12%, rgba(192,138,150,.14), transparent 62%), var(--veil);
+}
+.section-alt{
+  background:radial-gradient(900px 420px at 88% -12%, rgba(228,196,204,.34), transparent 62%), var(--surface);
+}
 .section-head{max-width:640px;margin:0 auto 44px;text-align:center;}
 .section-head h2{font-size:clamp(30px,4.4vw,44px);}
 .section-head p{margin-top:16px;color:var(--ink-soft);}
+
+/* ---------------- ornamento de encabezado ---------------- */
+.ornament{display:block;width:120px;margin:18px auto 0;color:var(--dusty);}
+.ornament svg{width:100%;height:auto;display:block;}
+.section-head p{margin-top:18px;}
+
+/* ---------------- cifras del estudio ---------------- */
+.figures{background:var(--mist);padding:46px 0;}
+.figures-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 18px;text-align:center;}
+.figure{position:relative;}
+.figure + .figure::before{
+  content:"";position:absolute;left:0;top:14%;height:72%;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(110,31,51,.22),transparent);
+}
+.figures-grid .figure:nth-child(odd)::before{display:none;}
+.figure-num{
+  display:block;font-family:var(--font-display);font-size:clamp(40px,7vw,54px);
+  font-weight:500;line-height:1;color:var(--berry-dark);
+}
+.figure-label{
+  display:block;margin-top:8px;font-size:13.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-soft);line-height:1.4;
+}
+
+/* ---------------- pestañas de disponibilidad ---------------- */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:28px;}
+.tab{
+  min-height:48px;padding:11px 24px;border-radius:var(--r-pill);
+  border:1.5px solid var(--dusty);background:var(--surface);color:var(--berry-dark);
+  font-size:15.5px;font-weight:500;
+  transition:background-color .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease);
+}
+.tab:hover{background:var(--mist);}
+.tab.is-on{background:var(--berry-dark);border-color:var(--berry-dark);color:#fff;}
+.tab-panel.is-hidden{display:none;}
+.tab-note,.schedule-note{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:18px 22px;border-radius:var(--r-md);
+  background:var(--mist);color:var(--ink);font-size:15.5px;
+}
+.tab-note{margin-bottom:18px;}
+.tab-note svg,.schedule-note svg{width:21px;height:21px;color:var(--berry-dark);flex:none;margin-top:2px;}
+
+/* ---------------- cuadro semanal ---------------- */
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;}
+.timetable{width:100%;min-width:620px;border-collapse:separate;border-spacing:8px;}
+.timetable th{font-weight:500;text-align:center;padding:0;}
+.timetable thead th{vertical-align:bottom;padding-bottom:4px;}
+.th-dia{display:block;font-size:14.5px;color:var(--berry-dark);}
+.th-hoy{
+  display:block;margin:5px auto 0;min-height:19px;width:fit-content;
+  padding:2px 9px;border-radius:var(--r-pill);
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;line-height:15px;
+}
+.timetable thead .is-today .th-hoy{background:var(--berry-dark);color:#fff;}
+.timetable thead .is-today .th-dia{font-weight:600;}
+.timetable tbody th{
+  text-align:left;padding:0 14px 0 0;white-space:nowrap;vertical-align:middle;
+  /* la hora queda fija mientras se desplazan los días */
+  position:sticky;left:0;z-index:2;background:var(--veil);
+}
+.timetable .corner{
+  position:sticky;left:0;z-index:3;background:var(--veil);
+}
+.timetable tbody th::after{
+  content:"";position:absolute;top:0;right:0;width:14px;height:100%;
+  background:linear-gradient(90deg,var(--veil),rgba(247,237,239,0));
+}
+.scroll-hint{
+  display:flex;align-items:center;gap:9px;justify-content:center;
+  margin:0 0 12px;font-size:14px;color:var(--ink-soft);
+}
+.scroll-hint svg{width:16px;height:16px;flex:none;color:var(--dusty);}
+@media (min-width:860px){ .scroll-hint{display:none;} }
+.row-time{display:block;font-family:var(--font-display);font-size:21px;color:var(--berry-dark);line-height:1.2;}
+.row-meta{display:block;font-size:13px;color:var(--ink-soft);}
+.timetable td{padding:0;}
+.cell-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  width:100%;min-height:62px;padding:8px 6px;border-radius:var(--r-sm);
+  border:1.5px solid var(--line);background:var(--surface);
+  transition:transform .16s var(--ease),box-shadow .16s var(--ease),background-color .16s var(--ease);
+}
+.cell-btn:hover{transform:translateY(-2px);box-shadow:var(--sh-sm);}
+.cell.is-free .cell-btn{border-color:#CFDDD2;background:var(--sage-bg);}
+.cell.is-free .cell-num{color:var(--sage-text);}
+.cell.is-full .cell-btn{border-color:var(--dusty);background:var(--veil);}
+.cell.is-full .cell-num{color:var(--berry-dark);}
+.cell.is-today .cell-btn{box-shadow:inset 0 0 0 2px var(--dusty);}
+.cell-num{font-family:var(--font-display);font-size:25px;font-weight:500;line-height:1;}
+.cell-tag{font-size:11.5px;letter-spacing:.04em;color:var(--ink-soft);}
+.timetable-key{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:18px;font-size:14.5px;color:var(--ink-soft);}
+.timetable-key span{display:inline-flex;align-items:center;gap:9px;}
+.key-dot{width:12px;height:12px;border-radius:4px;flex:none;}
+.key-dot.free{background:var(--sage);}
+.key-dot.full{background:var(--dusty);}
+
+/* ---------------- instructoras ---------------- */
+.grid-teachers{display:grid;gap:22px;grid-template-columns:1fr;}
+.teacher{
+  display:flex;gap:20px;align-items:flex-start;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:26px 24px;box-shadow:var(--sh-sm);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.teacher:hover{transform:translateY(-4px);box-shadow:var(--sh-md);}
+.teacher-mono{
+  flex:none;width:76px;height:76px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--mist);color:var(--berry-dark);
+  font-family:var(--font-display);font-size:30px;font-weight:500;letter-spacing:.03em;
+  border:1px solid var(--dusty);
+}
+.teacher-shift{display:block;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--berry);font-weight:600;margin-bottom:6px;}
+.teacher-body h3{font-size:25px;margin-bottom:10px;}
+.teacher-meta{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--ink-soft);margin-bottom:5px;}
+.teacher-meta svg{width:17px;height:17px;color:var(--sage-text);flex:none;margin-top:3px;}
+.teacher-note{margin-top:10px;font-size:15px;color:var(--ink-soft);line-height:1.55;}
+
+/* ---------------- testimonios ---------------- */
+.grid-quotes{display:grid;gap:22px;grid-template-columns:1fr;}
+.quote{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--mist);border-radius:var(--r-lg);padding:30px 26px 26px;
+  box-shadow:var(--sh-sm);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.quote:hover{transform:translateY(-4px);box-shadow:var(--sh-md);}
+.quote-mark{display:block;width:32px;height:32px;color:var(--dusty);margin-bottom:12px;}
+.quote-mark svg{width:100%;height:100%;}
+.quote blockquote{margin:0;font-size:16.5px;line-height:1.62;color:var(--ink);}
+.quote footer{margin-top:auto;padding-top:20px;}
+.quote-author{display:block;font-weight:500;color:var(--berry-dark);font-size:15.5px;}
+.quote-detail{display:block;font-size:14px;color:var(--ink-soft);}
+.quote-sample{
+  position:absolute;top:16px;right:16px;
+  background:var(--surface);color:var(--ink-soft);border:1px solid var(--dusty);
+  border-radius:var(--r-pill);padding:3px 11px;
+  font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+}
 
 /* ---------------- banner principal ---------------- */
 .hero{position:relative;background:var(--veil);}
@@ -420,6 +565,8 @@ ul{margin:0;padding:0;list-style:none;}
    ============================================================ */
 @media (min-width:600px){
   .grid-services{grid-template-columns:repeat(2,1fr);}
+  .grid-teachers{grid-template-columns:repeat(2,1fr);}
+  .grid-quotes{grid-template-columns:repeat(2,1fr);}
   .grid-plans{grid-template-columns:repeat(2,1fr);}
   .slot{grid-template-columns:auto 1fr auto;gap:24px;}
   .slot-action{justify-self:end;}
@@ -447,12 +594,21 @@ ul{margin:0;padding:0;list-style:none;}
   .header-phone{display:inline-flex;}
   .grid-services{grid-template-columns:repeat(4,1fr);}
   .grid-plans{grid-template-columns:repeat(4,1fr);}
+  .grid-quotes{grid-template-columns:repeat(3,1fr);}
+  .figures-grid{grid-template-columns:repeat(4,1fr);gap:18px;}
+  .figures{padding:56px 0;}
+  .figures-grid .figure:nth-child(odd)::before{display:block;}
+  .figures-grid .figure:first-child::before{display:none;}
   .header .wrap{gap:24px;}
   .brand{margin-right:0;}
   .nav{margin:0 auto;}
 }
 /* en móvil la franja superior se reduce a los íconos */
 @media (max-width:599px){
+  .row-time{font-size:18px;}
+  .row-meta{font-size:12px;}
+  .timetable{min-width:560px;}
+  .timetable tbody th{padding-right:10px;}
   .topbar .label{display:none;}
   .topbar .wrap{justify-content:space-between;}
   .promo .wrap{align-items:flex-start;}
@@ -679,14 +835,49 @@ AG.data = {
       beneficio:'Dos instructoras formadas en el método, una por jornada, siguiendo tu progreso.' }
   ],
 
-  /* Cinco horarios de 8 cupos. La ocupación refleja el diagnóstico:
-     el horario de 8h00 concentra la mitad de la demanda y suele estar lleno. */
+  dias:['Lunes','Martes','Miércoles','Jueves','Viernes'],
+
+  /* Cinco horarios de 8 cupos, de lunes a viernes. La ocupación refleja el
+     diagnóstico: el horario de 8h00 concentra la mitad de la demanda y
+     suele estar lleno. `semana` lleva las reservas de cada día y de ahí se
+     deriva la disponibilidad de hoy.                                      */
   horarios: [
-    { id:'h0600', inicio:'6h00', fin:'7h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, reservados:5 },
-    { id:'h0700', inicio:'7h00', fin:'8h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, reservados:6 },
-    { id:'h0800', inicio:'8h00', fin:'9h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, reservados:8, enEspera:3 },
-    { id:'h1800', inicio:'18h00', fin:'19h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, reservados:4 },
-    { id:'h1900', inicio:'19h00', fin:'20h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, reservados:4 }
+    { id:'h0600', inicio:'6h00',  fin:'7h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[5,4,5,4,3] },
+    { id:'h0700', inicio:'7h00',  fin:'8h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[6,6,5,6,5] },
+    { id:'h0800', inicio:'8h00',  fin:'9h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[8,8,8,8,7], enEspera:3 },
+    { id:'h1800', inicio:'18h00', fin:'19h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, semana:[4,5,4,5,4] },
+    { id:'h1900', inicio:'19h00', fin:'20h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, semana:[4,4,5,4,4] }
+  ],
+
+  /* Cifras del estudio, todas reales. */
+  cifras:[
+    { valor:'27', etiqueta:'estudiantes activas' },
+    { valor:'5',  etiqueta:'clases cada día' },
+    { valor:'8',  etiqueta:'personas por grupo' },
+    { valor:'2',  etiqueta:'instructoras certificadas' }
+  ],
+
+  /* Una instructora por jornada. Sin fotografías individuales, las tarjetas
+     usan un monograma en lugar de un retrato de archivo.                  */
+  instructoras:[
+    { nombre:'Andrea Villacís', iniciales:'AV', jornada:'Jornada de la mañana',
+      franja:'6h00 a 9h00', formacion:'Certificada en reformer y mat',
+      nota:'Acompaña los tres horarios de la mañana y lleva el seguimiento de cada estudiante.' },
+    { nombre:'Camila Rueda', iniciales:'CR', jornada:'Jornada de la noche',
+      franja:'18h00 a 20h00', formacion:'Certificada en reformer y mat',
+      nota:'Acompaña los dos horarios de la noche, con foco en movilidad y postura.' }
+  ],
+
+  /* CONTENIDO DE EJEMPLO. Cada tarjeta se muestra marcada como tal hasta
+     que el estudio entregue testimonios reales; sirven como borrador del
+     tono. Vaciar el arreglo oculta la sección.                            */
+  testimonios:[
+    { texto:'Antes escribía por WhatsApp y esperaba hasta el día siguiente para saber si había cupo. Ahora entro, veo la disponibilidad y reservo en un minuto.',
+      autora:'Estudiante', detalle:'Plan de 12 clases', ejemplo:true },
+    { texto:'El grupo pequeño hace toda la diferencia: la instructora alcanza a corregirte la postura en cada ejercicio.',
+      autora:'Estudiante', detalle:'Plan de 8 clases', ejemplo:true },
+    { texto:'Me avisaron en cuanto se liberó un cupo de las 8h00, que es el horario que siempre está lleno.',
+      autora:'Estudiante', detalle:'Plan de 16 clases', ejemplo:true }
   ],
 
   /* Planes y condiciones tal como los publica el estudio. */
@@ -781,6 +972,8 @@ var ICONOS = {
   der:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5 16 12l-6.5 7"/></svg>',
   persona:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.6 20a7.4 7.4 0 0 1 14.8 0"/></svg>',
   panel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7.5" height="8.5" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.6"/><rect x="13.5" y="11" width="7.5" height="10" rx="1.6"/><rect x="3" y="14.5" width="7.5" height="6.5" rx="1.6"/></svg>',
+  ornamento:'<svg viewBox="0 0 120 12" fill="none" aria-hidden="true"><path d="M2 6h38" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M80 6h38" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M60 1.5c2.6 2 4 3.5 4 4.5s-1.4 2.5-4 4.5c-2.6-2-4-3.5-4-4.5s1.4-2.5 4-4.5z" fill="currentColor" opacity=".85"/><circle cx="47" cy="6" r="1.6" fill="currentColor" opacity=".55"/><circle cx="73" cy="6" r="1.6" fill="currentColor" opacity=".55"/></svg>',
+  comillas:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.5 5.5C6.3 6.9 4 10 4 13.4 4 16.5 5.9 18.5 8.4 18.5c2.2 0 3.8-1.6 3.8-3.7 0-2-1.4-3.5-3.3-3.5-.4 0-.8 0-1.1.2.3-1.6 1.6-3.2 3.4-4.2l-1.7-2zm10 0C16.3 6.9 14 10 14 13.4c0 3.1 1.9 5.1 4.4 5.1 2.2 0 3.8-1.6 3.8-3.7 0-2-1.4-3.5-3.3-3.5-.4 0-.8 0-1.1.2.3-1.6 1.6-3.2 3.4-4.2l-1.7-2z"/></svg>',
   construccion:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20.5h18M5.5 20.5v-9l6.5-4.5 6.5 4.5v9"/><path d="M9.7 20.5v-5h4.6v5"/></svg>'
 };
 
@@ -891,7 +1084,14 @@ AG.views = {};
 
 /* -------------------------------------------------- home público --------- */
 AG.views['#/inicio'] = function (contenedor) {
-  contenedor.innerHTML = bloqueBanner() + bloqueServicios() + bloqueHorarios() + bloquePlanes();
+  contenedor.innerHTML =
+    bloqueBanner() +
+    bloqueServicios() +
+    bloqueCifras() +
+    bloqueHorarios() +
+    bloqueInstructoras() +
+    bloquePlanes() +
+    bloqueTestimonios();
   iniciarBanner();
 };
 
@@ -933,8 +1133,31 @@ function bloqueBanner(){
     '</section>';
 }
 
+/* Día de la semana en curso. El estudio abre de lunes a viernes, así que
+   el fin de semana se muestra el lunes siguiente.                        */
+function indiceHoy(){
+  var d = new Date().getDay();        /* 0 domingo … 6 sábado */
+  return (d === 0 || d === 6) ? 0 : d - 1;
+}
+function esFinDeSemana(){
+  var d = new Date().getDay();
+  return d === 0 || d === 6;
+}
+function reservadosHoy(h){ return h.semana[indiceHoy()]; }
+
 function cuposLibresTotales(){
-  return AG.data.horarios.reduce(function (t, h) { return t + (h.capacidad - h.reservados); }, 0);
+  return AG.data.horarios.reduce(function (t, h) { return t + (h.capacidad - reservadosHoy(h)); }, 0);
+}
+
+/* Encabezado de sección con ornamento, igual en todas las secciones. */
+function encabezado(eyebrow, titulo, texto){
+  return '' +
+    '<div class="section-head">' +
+      '<span class="eyebrow">' + esc(eyebrow) + '</span>' +
+      '<h2>' + titulo + '</h2>' +
+      '<span class="ornament" aria-hidden="true">' + ICONOS.ornamento + '</span>' +
+      (texto ? '<p>' + texto + '</p>' : '') +
+    '</div>';
 }
 
 function bloqueServicios(){
@@ -952,55 +1175,117 @@ function bloqueServicios(){
   return '' +
     '<section class="section section-alt" id="servicios">' +
       '<div class="wrap">' +
-        '<div class="section-head">' +
-          '<span class="eyebrow">Lo que ofrecemos</span>' +
-          '<h2>Un método, dos formatos y grupos pequeños</h2>' +
-          '<p>Clases diseñadas para que avances a tu ritmo, con la técnica cuidada de principio a fin.</p>' +
-        '</div>' +
+        encabezado('Lo que ofrecemos', 'Un método, dos formatos y grupos pequeños',
+          'Clases diseñadas para que avances a tu ritmo, con la técnica cuidada de principio a fin.') +
         '<div class="grid-services">' + tarjetas + '</div>' +
       '</div>' +
     '</section>';
 }
 
-function bloqueHorarios(){
-  var filas = AG.data.horarios.map(function (h) {
-    var libres = h.capacidad - h.reservados;
-    var lleno  = libres <= 0;
-    var asientos = '';
-    for (var i = 0; i < h.capacidad; i++) {
-      asientos += '<span class="seat' + (i < h.reservados ? ' taken' : '') + '"></span>';
-    }
-    var estado = lleno
-      ? '<p class="slot-status full"><span class="dot" aria-hidden="true"></span>Lleno' +
-        (h.enEspera ? ' · ' + h.enEspera + ' en lista de espera' : '') + '</p>'
-      : '<p class="slot-status free"><span class="dot" aria-hidden="true"></span>' +
-        libres + (libres === 1 ? ' cupo disponible' : ' cupos disponibles') + '</p>';
-    var accion = lleno
-      ? '<button class="btn btn-outline btn-sm slot-action" type="button" data-accion="lista-espera" data-horario="' + h.id + '">Avisarme si se libera</button>'
-      : '<button class="btn btn-primary btn-sm slot-action" type="button" data-accion="reservar" data-horario="' + h.id + '">Reservar</button>';
+function tarjetaHorario(h, reservados){
+  var libres = h.capacidad - reservados;
+  var lleno  = libres <= 0;
+  var asientos = '';
+  for (var i = 0; i < h.capacidad; i++) {
+    asientos += '<span class="seat' + (i < reservados ? ' taken' : '') + '"></span>';
+  }
+  var estado = lleno
+    ? '<p class="slot-status full"><span class="dot" aria-hidden="true"></span>Lleno' +
+      (h.enEspera ? ' · ' + h.enEspera + ' en lista de espera' : '') + '</p>'
+    : '<p class="slot-status free"><span class="dot" aria-hidden="true"></span>' +
+      libres + (libres === 1 ? ' cupo disponible' : ' cupos disponibles') + '</p>';
+  var accion = lleno
+    ? '<button class="btn btn-outline btn-sm slot-action" type="button" data-accion="lista-espera" data-horario="' + h.id + '">Avisarme si se libera</button>'
+    : '<button class="btn btn-primary btn-sm slot-action" type="button" data-accion="reservar" data-horario="' + h.id + '">Reservar</button>';
 
-    return '' +
-      '<article class="slot ' + (lleno ? 'is-full' : 'is-free') + '">' +
-        '<div>' +
-          '<p class="slot-time">' + esc(h.inicio) + ' – ' + esc(h.fin) + '</p>' +
-          '<p class="slot-meta">' + esc(h.jornada) + ' · ' + esc(h.instructora) + '</p>' +
-        '</div>' +
-        '<div>' + estado +
-          '<div class="seats" role="img" aria-label="' + h.reservados + ' de ' + h.capacidad + ' lugares ocupados">' + asientos + '</div>' +
-        '</div>' +
-        accion +
-      '</article>';
+  return '' +
+    '<article class="slot ' + (lleno ? 'is-full' : 'is-free') + '">' +
+      '<div>' +
+        '<p class="slot-time">' + esc(h.inicio) + ' – ' + esc(h.fin) + '</p>' +
+        '<p class="slot-meta">' + esc(h.jornada) + ' · ' + esc(h.instructora) + '</p>' +
+      '</div>' +
+      '<div>' + estado +
+        '<div class="seats" role="img" aria-label="' + reservados + ' de ' + h.capacidad + ' lugares ocupados">' + asientos + '</div>' +
+      '</div>' +
+      accion +
+    '</article>';
+}
+
+/* Cuadro semanal: cinco franjas por cinco días, con el cupo de cada clase.
+   Resuelve de un vistazo la pregunta que más tiempo costaba responder.   */
+function tablaSemana(){
+  var dias = AG.data.dias, hoy = indiceHoy();
+  var encabezados = dias.map(function (d, i) {
+    var marca = (i === hoy && !esFinDeSemana());
+    return '<th scope="col"' + (i === hoy ? ' class="is-today"' : '') + '>' +
+             '<span class="th-dia">' + esc(d) + '</span>' +
+             '<span class="th-hoy"' + (marca ? '' : ' aria-hidden="true"') + '>' +
+               (marca ? 'hoy' : '') + '</span>' +
+           '</th>';
   }).join('');
+
+  var filas = AG.data.horarios.map(function (h) {
+    var celdas = AG.data.dias.map(function (_, i) {
+      var libres = h.capacidad - h.semana[i];
+      var lleno = libres <= 0;
+      var clase = 'cell ' + (lleno ? 'is-full' : 'is-free') + (i === hoy ? ' is-today' : '');
+      var etiqueta = lleno ? 'Lleno' : (libres === 1 ? 'libre' : 'libres');
+      return '<td class="' + clase + '">' +
+               '<button type="button" class="cell-btn" ' +
+                 'data-accion="' + (lleno ? 'lista-espera' : 'reservar') + '" data-horario="' + h.id + '" ' +
+                 'aria-label="' + esc(h.inicio) + ' a ' + esc(h.fin) + ', ' + esc(AG.data.dias[i]) + ': ' +
+                   (lleno ? 'lleno, avisarme si se libera' : libres + ' cupos disponibles, reservar') + '">' +
+                 '<span class="cell-num">' + (lleno ? '—' : libres) + '</span>' +
+                 '<span class="cell-tag">' + etiqueta + '</span>' +
+               '</button>' +
+             '</td>';
+    }).join('');
+    return '<tr>' +
+             '<th scope="row"><span class="row-time">' + esc(h.inicio) + ' – ' + esc(h.fin) + '</span>' +
+               '<span class="row-meta">' + esc(h.instructora) + '</span></th>' +
+             celdas +
+           '</tr>';
+  }).join('');
+
+  return '' +
+    '<p class="scroll-hint">' + ICONOS.der + '<span>Desliza el cuadro para ver los cinco días.</span></p>' +
+    '<div class="table-scroll">' +
+      '<table class="timetable">' +
+        '<caption class="sr-only">Cupos disponibles por horario y día de la semana</caption>' +
+        '<thead><tr><td class="corner"></td>' + encabezados + '</tr></thead>' +
+        '<tbody>' + filas + '</tbody>' +
+      '</table>' +
+    '</div>' +
+    '<p class="timetable-key">' +
+      '<span><i class="key-dot free"></i>Con cupo</span>' +
+      '<span><i class="key-dot full"></i>Lleno · lista de espera</span>' +
+    '</p>';
+}
+
+function bloqueHorarios(){
+  var hoy = indiceHoy();
+  var tarjetas = AG.data.horarios.map(function (h) {
+    return tarjetaHorario(h, h.semana[hoy]);
+  }).join('');
+
+  var rotuloHoy = esFinDeSemana() ? 'Lunes' : 'Hoy, ' + AG.data.dias[hoy].toLowerCase();
 
   return '' +
     '<section class="section" id="horarios">' +
       '<div class="wrap">' +
-        '<div class="section-head">' +
-          '<span class="eyebrow">Horarios de hoy</span>' +
-          '<h2>Mira los cupos antes de escribir</h2>' +
-          '<p>Cinco clases al día de lunes a viernes, ocho lugares cada una. La disponibilidad se actualiza sola: no hace falta preguntar para saber si hay espacio.</p>' +
+        encabezado('Horarios y cupos', 'Mira los cupos antes de escribir',
+          'Cinco clases al día de lunes a viernes, ocho lugares cada una. La disponibilidad se actualiza sola: no hace falta preguntar para saber si hay espacio.') +
+        '<div class="tabs" role="tablist" aria-label="Ver disponibilidad">' +
+          '<button class="tab is-on" type="button" role="tab" id="tab-hoy" aria-selected="true" aria-controls="panel-hoy" data-tab="hoy">' + esc(rotuloHoy) + '</button>' +
+          '<button class="tab" type="button" role="tab" id="tab-semana" aria-selected="false" aria-controls="panel-semana" data-tab="semana">Toda la semana</button>' +
         '</div>' +
-        '<div class="schedule-list">' + filas + '</div>' +
+        '<div class="tab-panel" id="panel-hoy" role="tabpanel" aria-labelledby="tab-hoy">' +
+          (esFinDeSemana() ? '<p class="tab-note">' + ICONOS.info + '<span>El estudio abre de lunes a viernes. Esta es la disponibilidad del próximo lunes.</span></p>' : '') +
+          '<div class="schedule-list">' + tarjetas + '</div>' +
+        '</div>' +
+        '<div class="tab-panel is-hidden" id="panel-semana" role="tabpanel" aria-labelledby="tab-semana">' +
+          tablaSemana() +
+        '</div>' +
         '<p class="schedule-note">' + ICONOS.info +
           '<span>El horario de <b>8h00 a 9h00</b> es el más solicitado y suele llenarse temprano. Si está lleno, únete a la lista de espera y te avisamos apenas se libere un cupo.</span>' +
         '</p>' +
@@ -1051,15 +1336,81 @@ function bloquePlanes(){
   }).join('');
 
   return '' +
-    '<section class="section section-alt" id="planes">' +
+    '<section class="section" id="planes">' +
       '<div class="wrap">' +
-        '<div class="section-head">' +
-          '<span class="eyebrow">Planes</span>' +
-          '<h2>Escoge tu favorito y entrena con nosotras</h2>' +
-          '<p>Todos los planes incluyen reserva y cancelación desde la aplicación, sin llamadas ni mensajes.</p>' +
-        '</div>' +
+        encabezado('Planes', 'Escoge tu favorito y entrena con nosotras',
+          'Todos los planes incluyen reserva y cancelación desde la aplicación, sin llamadas ni mensajes.') +
         '<div class="grid-plans">' + tarjetas + '</div>' +
         '<ul class="plan-terms">' + condiciones + '</ul>' +
+      '</div>' +
+    '</section>';
+}
+
+/* ------------------------------------------ cifras del estudio --------- */
+function bloqueCifras(){
+  var items = AG.data.cifras.map(function (c) {
+    return '<div class="figure">' +
+             '<span class="figure-num">' + esc(c.valor) + '</span>' +
+             '<span class="figure-label">' + esc(c.etiqueta) + '</span>' +
+           '</div>';
+  }).join('');
+  return '' +
+    '<section class="figures" aria-label="El estudio en cifras">' +
+      '<div class="wrap"><div class="figures-grid">' + items + '</div></div>' +
+    '</section>';
+}
+
+/* ------------------------------------------------ instructoras --------- */
+function bloqueInstructoras(){
+  var tarjetas = AG.data.instructoras.map(function (i) {
+    return '' +
+      '<article class="teacher">' +
+        '<span class="teacher-mono" aria-hidden="true">' + esc(i.iniciales) + '</span>' +
+        '<div class="teacher-body">' +
+          '<span class="teacher-shift">' + esc(i.jornada) + '</span>' +
+          '<h3>' + esc(i.nombre) + '</h3>' +
+          '<p class="teacher-meta">' + ICONOS.reloj + '<span>' + esc(i.franja) + '</span></p>' +
+          '<p class="teacher-meta">' + ICONOS.check + '<span>' + esc(i.formacion) + '</span></p>' +
+          '<p class="teacher-note">' + esc(i.nota) + '</p>' +
+        '</div>' +
+      '</article>';
+  }).join('');
+
+  return '' +
+    '<section class="section section-alt" id="instructoras">' +
+      '<div class="wrap">' +
+        encabezado('Quién te acompaña', 'Una instructora por jornada',
+          'Siempre la misma cara en tu horario: conoce tu progreso y sabe hasta dónde llevarte en cada clase.') +
+        '<div class="grid-teachers">' + tarjetas + '</div>' +
+      '</div>' +
+    '</section>';
+}
+
+/* -------------------------------------------------- testimonios -------- */
+/* La sección no se dibuja si el arreglo está vacío. Las tarjetas marcadas
+   con ejemplo:true se muestran señaladas como contenido de muestra.      */
+function bloqueTestimonios(){
+  var lista = AG.data.testimonios || [];
+  if (!lista.length) return '';
+  var tarjetas = lista.map(function (t) {
+    return '' +
+      '<article class="quote">' +
+        '<span class="quote-mark" aria-hidden="true">' + ICONOS.comillas + '</span>' +
+        '<blockquote>' + esc(t.texto) + '</blockquote>' +
+        '<footer>' +
+          '<span class="quote-author">' + esc(t.autora) + '</span>' +
+          '<span class="quote-detail">' + esc(t.detalle) + '</span>' +
+        '</footer>' +
+        (t.ejemplo ? '<span class="quote-sample">Ejemplo</span>' : '') +
+      '</article>';
+  }).join('');
+
+  return '' +
+    '<section class="section section-alt" id="testimonios">' +
+      '<div class="wrap">' +
+        encabezado('Lo que dicen', 'Historias de quienes ya entrenan aquí',
+          'Lo que cuentan las estudiantes sobre entrenar en grupos pequeños y reservar sin esperar respuesta.') +
+        '<div class="grid-quotes">' + tarjetas + '</div>' +
       '</div>' +
     '</section>';
 }
@@ -1208,6 +1559,19 @@ function alternarMenuMovil(){
   $('#burger').setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
 }
 
+/* Pestañas de disponibilidad: hoy o toda la semana. */
+function activarPestana(nombre){
+  ['hoy','semana'].forEach(function (n) {
+    var boton = document.getElementById('tab-' + n);
+    var panel = document.getElementById('panel-' + n);
+    if (!boton || !panel) return;
+    var activo = n === nombre;
+    boton.classList.toggle('is-on', activo);
+    boton.setAttribute('aria-selected', String(activo));
+    panel.classList.toggle('is-hidden', !activo);
+  });
+}
+
 /* ============================================================ acciones == */
 /* En el prototipo las acciones sólo confirman el flujo previsto; cada una
    se conectará con su pantalla cuando esa pantalla exista.                */
@@ -1294,6 +1658,9 @@ function iniciar(){
       $('#vsToggle').setAttribute('aria-expanded', String(colapsado));
       return;
     }
+    var pestana = ev.target.closest('[data-tab]');
+    if (pestana) { activarPestana(pestana.dataset.tab); return; }
+
     if (ev.target.closest('#burger')) { alternarMenuMovil(); return; }
     if (ev.target.closest('.mobile-nav a')) { cerrarMenuMovil(); return; }
   });
