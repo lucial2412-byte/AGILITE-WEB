@@ -14,12 +14,14 @@ README.md
 El **home público** completo, con la estructura general que comparten todas
 las pantallas:
 
-- Franja superior en berry oscuro con el teléfono y el Instagram del estudio
-  (en móvil se reduce a los íconos).
-- Header con el logo, el menú del perfil activo, el número de contacto y el
-  acceso a la cuenta.
-- Franja de promoción vigente, con enlace a la sección y botón para cerrarla.
-- Banner principal de composición partida, con rotación cada 7 segundos.
+- Header con el logo, el menú del perfil activo y el acceso a la cuenta.
+  **El teléfono y el Instagram viven sólo aquí**, una vez en todo el sitio:
+  en móvil son dos íconos y en escritorio el teléfono se expande y muestra
+  el número. Una prueba comprueba en los tres perfiles que cada uno aparece
+  exactamente una vez y que está dentro del header.
+- Banda informativa estática con la promoción vigente, sobre fotografía con
+  degradado, con enlace a la sección y botón para cerrarla. No rota.
+- Banner principal a todo el ancho, con rotación cada 7 segundos.
 - Servicios en cuadrícula de cuatro tarjetas.
 - Banda de cifras del estudio.
 - Horarios con dos pestañas: la disponibilidad de hoy y un cuadro de toda
@@ -63,6 +65,18 @@ AG.views['#/reservar'] = function (contenedor) {
 Registrar la función reemplaza automáticamente el marcador. El enrutador
 devuelve al inicio del perfil activo cualquier ruta que no le corresponda.
 
+## Dirección visual
+
+La composición sigue la maqueta de referencia entregada por el estudio:
+secciones a todo el ancho, fotografía con degradado oscuro encima,
+titulares en Jost mayúscula con una palabra en Cormorant itálica de acento,
+bandas oscuras con cifras en serif, píldoras en mayúscula espaciada y
+tarjetas de esquina muy redondeada. La paleta es la de la marca, no la de
+la maqueta, y el código es propio: no se copió el de la plantilla.
+
+Las bandas alternan blanco, berry oscuro, rosa velado y rosa neblina para
+que dos secciones contiguas nunca compartan fondo.
+
 ## Decisiones de diseño
 
 **Responde al diagnóstico.** La disponibilidad de los cinco horarios se ve
@@ -75,9 +89,12 @@ la página para que nadie se entere tarde.
 celular: el diseño base es de una columna y crece hacia tablet y escritorio.
 
 **Legibilidad.** Cuerpo de texto de 17 px, botones de 52 px de alto y áreas
-de toque de 44 px como mínimo. Todas las combinaciones de texto sobre fondo
-que aparecen en pantalla se verificaron con el ratio de contraste WCAG: el
-valor más bajo en uso es 4,79 : 1 y la mayoría supera 7 : 1. El dusty rose
+de toque de 44 px como mínimo. El contraste se verificó de dos maneras: las
+combinaciones que se pueden calcular del CSS, con el ratio WCAG; y los
+textos que van sobre fotografía —banner, tarjetas de servicio y banda
+informativa— midiendo el píxel más claro del fondo real en escritorio y
+móvil, en las tres diapositivas. El peor caso en uso es 5,12 : 1 para texto
+grande y 5,62 : 1 para texto normal. El dusty rose
 sólo se usa en bordes y elementos decorativos, porque como texto sobre
 fondos claros no alcanza contraste suficiente. El verde salvia aparece
 únicamente en el estado «disponible» de los cupos, en un tono algo más
@@ -87,8 +104,9 @@ oscuro cuando hace de texto sobre las tarjetas.
 columna de horas queda fija, de modo que nunca se pierde la referencia de
 qué franja se está mirando.
 
-**Fotografías sin deformar.** En el banner la imagen se muestra completa
-(`object-fit: contain`) sobre una ampliación desenfocada de sí misma; las
+**Fotografías.** El banner es a todo el ancho, así que las verticales
+originales se recortaron a 16:9 encuadrando el motivo (la fachada, por
+ejemplo, quedó centrada en el interior iluminado y no en el letrero). Las
 tarjetas de servicios comparten proporción 4:3. El banner reserva la altura
 de la diapositiva más alta, de modo que el bloque no cambia de tamaño al
 rotar. La rotación se detiene con el cursor encima o con el foco dentro, y
