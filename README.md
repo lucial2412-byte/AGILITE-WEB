@@ -61,8 +61,22 @@ del plan no se puede exceder.
 - **Reportes** · ocupación media por horario, mapa de cupos por día e
   ingresos por plan, todo calculado del padrón.
 
-Las pantallas públicas ya están declaradas y son navegables: muestran un
-marcador sobre la misma estructura.
+### Pantallas públicas (construidas)
+
+- **Inscripción** · tres pasos: plan (con el precio de la promoción
+  aplicado), horario del mes (los llenos quedan deshabilitados y ofrecen
+  lista de espera) y datos, con resumen y confirmación. Al entrar a la
+  cuenta pasa a la vista de estudiante.
+- **Contacto** · formulario cuyo mensaje entra en la bandeja de
+  administración, más las respuestas rápidas que enlazan a cupos, planes e
+  inscripción.
+- **Quiénes somos** · misión, cifras del estudio e instructoras.
+- **Ubicación** · dirección, enlace al mapa y horarios de atención.
+- **Términos de las promociones** · redactados a partir de los datos
+  reales de la promoción vigente.
+- **Política de privacidad** y **Trabaja con nosotros**.
+
+Sólo queda un marcador: «Mi cuenta».
 
 ## Las tres vistas
 
@@ -86,7 +100,7 @@ tres; sólo cambian el menú y el bloque de cuenta.
 1. Los datos simulados viven en `AG.data` (estudio, promoción, banner,
    servicios, horarios, planes y sesiones).
 2. Las rutas de cada perfil están en `AG.perfiles`.
-3. Cada pantalla es una función registrada en `AG.views`:
+3. Cada pantalla es una función registrada en `AG.views` (16 construidas):
 
 ```js
 AG.views['#/reservar'] = function (contenedor) {
@@ -161,6 +175,15 @@ tarjetas de servicios comparten proporción 4:3. El banner reserva la altura
 de la diapositiva más alta, de modo que el bloque no cambia de tamaño al
 rotar. La rotación se detiene con el cursor encima o con el foco dentro, y
 se respeta la preferencia de movimiento reducido del sistema.
+
+## Textos legales
+
+Los términos de las promociones y la política de privacidad son un
+**borrador** redactado a partir de la información real del estudio, y cada
+página lo declara en pantalla con un aviso visible. El estudio debe
+revisarlos antes de publicarlos. Los datos que citan los términos
+—el 30 %, las 48 horas y el plan mínimo que entra en la promoción— se leen
+de `AG.data.promo`, así que se actualizan solos si cambia la promoción.
 
 ## Datos reales y supuestos
 
