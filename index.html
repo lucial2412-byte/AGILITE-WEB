@@ -854,6 +854,14 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   .form-grid{grid-template-columns:1fr 1fr;}
 }
 
+/* aviso para navegadores sin JavaScript */
+.noscript-aviso{background:var(--mist);padding:44px 0;}
+.noscript-aviso h2{font-family:var(--font-display);font-weight:400;font-size:28px;color:var(--berry-dark);margin-bottom:14px;}
+.noscript-aviso p{margin-bottom:12px;line-height:1.75;max-width:62ch;}
+.noscript-aviso ul{margin:0 0 14px;display:grid;gap:9px;max-width:62ch;}
+.noscript-aviso li{display:flex;gap:11px;align-items:flex-start;line-height:1.65;}
+.noscript-aviso li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--berry-dark);margin-top:10px;}
+
 /* ---------------- pantallas por construir ---------------- */
 .stub{padding:80px 0;}
 .stub-card{
@@ -976,6 +984,25 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 
 <!-- Banda informativa estática · se oculta si no hay promoción vigente -->
 <div id="infoSlot"></div>
+
+<noscript>
+  <div class="noscript-aviso">
+    <div class="wrap">
+      <h2>El navegador no está ejecutando JavaScript</h2>
+      <p>Esta aplicación dibuja sus pantallas con JavaScript, así que sin él sólo
+         se ve el pie de página. Suele pasar por una de estas razones:</p>
+      <ul>
+        <li>El archivo se abrió desde dentro de un .zip o desde la vista previa
+            de un correo o de WhatsApp, en lugar de abrirlo en el navegador.</li>
+        <li>El navegador o un antivirus bloquean los scripts de archivos
+            descargados.</li>
+        <li>JavaScript está desactivado en la configuración del navegador.</li>
+      </ul>
+      <p>La solución más simple es abrirlo desde un enlace en internet en vez de
+         como archivo local.</p>
+    </div>
+  </div>
+</noscript>
 
 <main id="contenido"></main>
 
