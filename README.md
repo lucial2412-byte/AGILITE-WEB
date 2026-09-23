@@ -47,8 +47,22 @@ todo el mes (un cambio de horario es puntual, sólo para ese día, y no altera
 el del mes), se cancela hasta 4 horas antes del inicio, y la cuota de clases
 del plan no se puede exceder.
 
-Las pantallas de administración y las públicas ya están declaradas y son
-navegables: muestran un marcador sobre la misma estructura.
+### Vista de administración (construida)
+
+- **Panel** · lo que hay que confirmar hoy: avisos accionables, ocupación
+  de cada clase, listas de espera, solicitudes de cambio e interesadas sin
+  responder. Avisar a una lista de espera la vacía y queda registrado.
+- **Estudiantes** · el padrón de 27, con búsqueda por nombre y filtros por
+  horario y estado de pago.
+- **Horarios** · capacidad, instructora, inscritas y la ocupación de la
+  semana de cada clase.
+- **Comunicación** · un aviso a todas de una vez, plantillas para responder
+  a las interesadas y el historial de lo enviado.
+- **Reportes** · ocupación media por horario, mapa de cupos por día e
+  ingresos por plan, todo calculado del padrón.
+
+Las pantallas públicas ya están declaradas y son navegables: muestran un
+marcador sobre la misma estructura.
 
 ## Las tres vistas
 
@@ -97,13 +111,21 @@ que dos secciones contiguas nunca compartan fondo.
 
 ## Gráficos
 
-«Mi progreso» lleva una sola serie de datos (clases por semana) en una sola
+Cada gráfico lleva una sola serie de datos y una sola tinta.
+
+«Mi progreso» plotea las clases por semana en una sola
 tinta de la marca, validada con el script de la guía de visualización:
 barras de 24 px como máximo, extremo superior redondeado y base cuadrada,
 separación de 2 px, sin caja de leyenda —el título dice qué se mira—, con
 los valores etiquetados de forma selectiva y una tabla accesible para el
 resto. El medidor del plan usa el relleno berry sobre una pista de la misma
 tinta, más clara.
+
+«Reportes» añade barras horizontales con el valor en la punta y un mapa de
+calor de cupos por día que usa una rampa secuencial de una sola tinta
+—rosa velado, neblina, dusty, berry, berry oscuro—, monótona de claro a
+oscuro y con cada paso verificado contra el texto que lleva encima (de
+5,70 a 11,01 : 1). El mapa trae leyenda de intensidad y tabla accesible.
 
 ## Decisiones de diseño
 

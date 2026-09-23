@@ -90,7 +90,10 @@ h1,h2,h3,h4{margin:0;line-height:1.15;}
 p{margin:0;}
 ul{margin:0;padding:0;list-style:none;}
 :focus-visible{outline:3px solid var(--berry);outline-offset:3px;border-radius:6px;}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;
+}
 .skip-link{position:absolute;left:12px;top:-60px;z-index:200;background:var(--berry-dark);color:#fff;padding:12px 20px;border-radius:0 0 var(--r-sm) var(--r-sm);transition:top .2s var(--ease);}
 .skip-link:focus{top:0;color:#fff;}
 
@@ -129,7 +132,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   min-height:52px;padding:16px 32px;border-radius:var(--r-pill);
   border:1.5px solid transparent;
   font-size:12.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
-  text-align:center;white-space:nowrap;
+  text-align:center;white-space:nowrap;max-width:100%;
   transition:background-color .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease),transform .12s var(--ease);
 }
 .btn:active{transform:translateY(1px);}
@@ -156,7 +159,10 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   position:sticky;top:0;z-index:60;background:var(--surface);
   border-bottom:1px solid var(--line);
 }
-.header-in{display:flex;align-items:center;gap:16px;min-height:80px;}
+.header-in{
+  display:flex;align-items:center;gap:14px;min-height:80px;flex-wrap:wrap;
+  padding-top:10px;padding-bottom:10px;
+}
 .brand{display:flex;align-items:center;gap:14px;flex:none;margin-right:auto;}
 .brand img{height:46px;width:auto;}
 .brand-place{
@@ -192,8 +198,8 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .phone-link:hover{background:var(--veil);border-color:var(--dusty);color:var(--berry-dark);}
 .phone-link svg{width:19px;height:19px;flex:none;}
 .phone-link .phone-num{display:none;}
-@media (min-width:1040px){
-  /* en escritorio el mismo enlace se expande y muestra el número */
+@media (min-width:1280px){
+  /* desde aquí el mismo enlace se expande y muestra el número */
   .phone-link{display:inline-flex;align-items:center;gap:9px;width:auto;height:auto;
     min-height:46px;padding:10px 18px;border-radius:var(--r-pill);}
   .phone-link svg{width:17px;height:17px;}
@@ -578,6 +584,10 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 }
 .app-head .lede{margin-top:12px;max-width:60ch;}
 .app-grid{display:grid;gap:18px;grid-template-columns:1fr;}
+/* sin esto, un <select> con opciones largas fuerza el ancho del elemento
+   de la cuadrícula y el panel se sale del contenedor */
+.app-grid > *{min-width:0;}
+.panel{min-width:0;}
 .panel{
   background:var(--surface);border:1px solid var(--line);
   border-radius:var(--r-lg);padding:24px;
@@ -672,7 +682,10 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 /* tabla de datos */
 .dtable{width:100%;border-collapse:collapse;font-size:14.5px;}
 .dtable th,.dtable td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);}
-.dtable th{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+.dtable th{
+  font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:600;white-space:nowrap;
+}
 .dtable td{color:var(--ink);}
 .dtable tr:last-child td{border-bottom:0;}
 .dtable .num{text-align:right;font-variant-numeric:tabular-nums;}
@@ -685,6 +698,52 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .alert-info svg{color:var(--berry-dark);}
 .alert-ok{background:var(--sage-bg);border:1px solid #CFDDD2;color:var(--sage-text);}
 .alert-ok svg{color:var(--sage-text);}
+
+/* campos de formulario y filtros */
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.field{display:inline-flex;flex-direction:column;gap:6px;min-width:0;max-width:100%;}
+.field.block{display:flex;width:100%;margin-bottom:14px;}
+.field-label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);}
+.field input,.field select,.field textarea{
+  font:inherit;font-size:15.5px;color:var(--ink);max-width:100%;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:12px 14px;min-height:48px;width:100%;
+  transition:border-color .18s var(--ease);
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink-soft);}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--berry);outline:none;box-shadow:0 0 0 3px rgba(166,43,71,.16);}
+.field textarea{min-height:110px;resize:vertical;line-height:1.6;}
+.filters .field{flex:1 1 180px;}
+
+/* mapa de calor: una sola tinta, de clara a oscura (rampa secuencial) */
+/* el mapa es una cuadrícula de dos columnas: rótulo de hora y fila de
+   celdas. Las iniciales de día ocupan la última fila y quedan alineadas
+   por la misma cuadrícula, sin márgenes que desborden.                  */
+.hx-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;}
+.hx-rowlabel{font-size:13.5px;color:var(--ink);white-space:nowrap;}
+.hx-row{display:flex;gap:2px;min-width:0;}
+.hx-cell{
+  flex:1;display:grid;place-items:center;height:44px;border-radius:4px;
+  font-size:14px;font-variant-numeric:tabular-nums;
+}
+.hx-0{background:var(--veil);color:var(--ink-soft);}
+.hx-1{background:var(--mist);color:var(--ink);}
+.hx-2{background:var(--dusty);color:var(--ink);}
+.hx-3{background:var(--berry);color:#fff;}
+.hx-4{background:var(--berry-dark);color:#fff;}
+.hx-cell.is-today{box-shadow:inset 0 0 0 2px var(--ink);}
+.hx-labels{display:flex;gap:2px;min-width:0;}
+.hx-labels span{flex:1;text-align:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);}
+.hx-key{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:13px;color:var(--ink-soft);flex-wrap:wrap;}
+.hx-key i{display:inline-block;width:22px;height:12px;border-radius:3px;}
+
+/* barras horizontales · una serie, una tinta, valor en la punta */
+.hbars{display:grid;gap:10px;margin-top:6px;}
+.hbar{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:12px;}
+.hbar-label{font-size:14px;color:var(--ink);}
+.hbar-track{height:100%;display:flex;align-items:center;}
+.hbar-fill{height:18px;background:var(--berry);border-radius:0 4px 4px 0;min-width:2px;}
+.hbar-val{font-size:14px;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;}
 
 @media (min-width:760px){
   .app{padding:44px 0 80px;}
@@ -737,7 +796,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   .hero-body{padding:64px var(--pad-x) 56px;}
   .scroll-hint{display:none;}
 }
-@media (min-width:1040px){
+@media (min-width:1160px){
   .nav{display:block;margin:0 auto;}
   .burger{display:none;}
   .mobile-nav{display:none !important;}
@@ -756,16 +815,23 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   .closing{flex-direction:column;align-items:flex-start;}
   .closing .btn{width:100%;}
 }
-@media (max-width:399px){
+@media (max-width:520px){
+  /* un rótulo largo no debe arrastrar el ancho mínimo de su contenedor */
+  .btn{white-space:normal;}
+}
+@media (max-width:420px){
   .account-text{display:none;}
   .account{padding:5px;}
+  .header-in{gap:10px;}
+  .icon-link,.phone-link,.burger{width:42px;height:42px;}
+  .btn-sm{padding:11px 16px;font-size:11px;letter-spacing:.1em;}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
 }
 /* utilidad: se oculta en pantallas pequeñas */
 .hide-sm{display:none !important;}
-@media (min-width:1040px){.hide-sm{display:inline-flex !important;}}
+@media (min-width:1160px){.hide-sm{display:inline-flex !important;}}
 
 @media print{.header,.demobar,.hero-controls,.infoband-close{display:none !important;}}
 </style>
@@ -1028,6 +1094,60 @@ AG.data = {
     ]
   },
 
+  /* Padrón simulado de las 27 estudiantes activas. Cada fila es
+     [nombre, plan, horario contratado, clases usadas, estado de pago].
+     El reparto por horario reproduce el diagnóstico: el de 8h00 concentra
+     la mitad de la demanda y está lleno.                                */
+  padron: [
+    ['María Fernanda Cevallos','p12','h0800',7,'al día'],
+    ['Andrea Salazar','p12','h0800',9,'al día'],
+    ['Paula Jaramillo','p16','h0800',11,'al día'],
+    ['Gabriela Ponce','p8','h0800',5,'pendiente'],
+    ['Verónica Andrade','p12','h0800',8,'al día'],
+    ['Silvia Moreno','p8','h0800',4,'al día'],
+    ['Lucía Benítez','p20','h0800',14,'al día'],
+    ['Carolina Vega','p12','h0800',6,'vencido'],
+    ['Daniela Ortiz','p12','h0700',7,'al día'],
+    ['Mónica Chávez','p8','h0700',5,'al día'],
+    ['Isabel Terán','p16','h0700',10,'al día'],
+    ['Rocío Paredes','p8','h0700',3,'pendiente'],
+    ['Patricia Lasso','p12','h0700',8,'al día'],
+    ['Alejandra Mora','p12','h0700',6,'al día'],
+    ['Cristina Aguirre','p12','h0600',9,'al día'],
+    ['Sofía Endara','p8','h0600',4,'al día'],
+    ['Valeria Núñez','p16','h0600',12,'al día'],
+    ['Natalia Cabrera','p8','h0600',5,'vencido'],
+    ['Elena Guerrero','p12','h0600',7,'al día'],
+    ['Priscila Yépez','p12','h1800',8,'al día'],
+    ['Johanna Suárez','p8','h1800',4,'al día'],
+    ['Tatiana Ribadeneira','p16','h1800',9,'pendiente'],
+    ['Karla Espinoza','p12','h1800',6,'al día'],
+    ['Belén Arteaga','p12','h1900',7,'al día'],
+    ['Michelle Trujillo','p20','h1900',15,'al día'],
+    ['Diana Maldonado','p8','h1900',5,'al día'],
+    ['Emilia Zurita','p12','h1900',8,'al día']
+  ],
+
+  /* Pendientes de la administración. */
+  solicitudes: [
+    { estudiante:'Carolina Vega', tipo:'Cambio de horario', detalle:'De 8h00 a 18h00 desde octubre', fecha:'21 de septiembre' },
+    { estudiante:'Rocío Paredes', tipo:'Cambio de plan',    detalle:'De 8 a 12 clases desde octubre', fecha:'22 de septiembre' }
+  ],
+  interesados: [
+    { nombre:'Andrea L.',  canal:'WhatsApp',  mensaje:'¿Tienen cupo en la mañana?',        fecha:'hoy, 8h42',   estado:'sin responder' },
+    { nombre:'Sofía M.',   canal:'Instagram', mensaje:'¿Cuánto cuesta el plan de 3 días?', fecha:'hoy, 7h15',   estado:'sin responder' },
+    { nombre:'Marcela P.', canal:'WhatsApp',  mensaje:'Quiero una clase de prueba',        fecha:'ayer, 19h30', estado:'respondido' }
+  ],
+  avisos: [
+    { titulo:'Promo flash · 30 % de descuento', destinatarias:'Todas las estudiantes', fecha:'20 de septiembre', alcance:27 },
+    { titulo:'Se liberó un cupo de 8h00',       destinatarias:'Lista de espera de 8h00', fecha:'19 de septiembre', alcance:3 }
+  ],
+  plantillas: [
+    { titulo:'Respuesta a interesadas', texto:'¡Hola! Tenemos cinco horarios de lunes a viernes, con grupos de máximo 8 personas. Puedes ver los cupos en tiempo real y reservar en nuestra web. ¿Te agendo una clase de prueba?' },
+    { titulo:'Aviso de cupo liberado',  texto:'¡Buenas noticias! Se liberó un cupo en el horario que esperabas. Tienes 2 horas para confirmarlo desde tu cuenta.' },
+    { titulo:'Recordatorio de pago',    texto:'Hola, te recordamos que tu plan vence pronto. Puedes renovarlo desde tu cuenta y mantener tu horario del mes.' }
+  ],
+
   sesiones: {
     visitante:  null,
     estudiante: { nombre:'María Fernanda C.', iniciales:'MF', rol:'Estudiante' },
@@ -1066,7 +1186,8 @@ AG.perfiles = {
 };
 
 AG.estado = { perfil:'visitante', ruta:'#/inicio', rutaDibujada:null, promoCerrada:false,
-               bannerIndice:0, diaElegido:null };
+               bannerIndice:0, diaElegido:null,
+               filtroEstudiantes:{ texto:'', horario:'', pago:'' } };
 
 /* ------------------------------------------------------------- utilidades -- */
 function $(sel, ctx){ return (ctx || document).querySelector(sel); }
@@ -1747,10 +1868,10 @@ AG.views['#/progreso'] = function (contenedor) {
       '</div>';
   }).join('');
 
-  var tabla = '<table class="sr-only"><caption>Clases por semana de ' + esc(e.mes) + '</caption>' +
+  var tabla = '<div class="sr-only"><table><caption>Clases por semana de ' + esc(e.mes) + '</caption>' +
     '<thead><tr><th>Semana</th><th>Clases</th></tr></thead><tbody>' +
     e.semanas.map(function (v, i) { return '<tr><td>Semana ' + (i + 1) + '</td><td>' + v + '</td></tr>'; }).join('') +
-    '</tbody></table>';
+    '</tbody></table></div>';
 
   contenedor.innerHTML =
     '<section class="app"><div class="wrap">' +
@@ -1893,14 +2014,459 @@ AG.views['#/mi-plan'] = function (contenedor) {
     '</div></section>';
 };
 
+/* ================================================ vista administración == */
+/* El padrón llega como filas compactas; aquí se expande a objetos. */
+function padronExpandido(){
+  return AG.data.padron.map(function (f, i) {
+    var partes = f[0].split(' ');
+    return {
+      id:'e' + i,
+      nombre:f[0],
+      iniciales:(partes[0][0] + (partes[1] ? partes[1][0] : '')).toUpperCase(),
+      planId:f[1], horarioFijo:f[2], usadas:f[3], pago:f[4]
+    };
+  });
+}
+function planPorId(id){
+  return AG.data.planes.filter(function (p) { return p.id === id; })[0];
+}
+function fechaLarga(){
+  var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var d = new Date();
+  return AG.data.dias[indiceHoy()].toLowerCase() + ' ' + d.getDate() + ' de ' + meses[d.getMonth()];
+}
+function ocupacionHoy(){
+  var hoy = indiceHoy();
+  var ocupados = AG.data.horarios.reduce(function (t, h) { return t + h.semana[hoy]; }, 0);
+  var total = AG.data.horarios.reduce(function (t, h) { return t + h.capacidad; }, 0);
+  return { ocupados:ocupados, total:total, pct:Math.round(ocupados / total * 100) };
+}
+function enEsperaTotal(){
+  return AG.data.horarios.reduce(function (t, h) { return t + (h.enEspera || 0); }, 0);
+}
+
+/* ------------------------------------------------------------ panel ---- */
+AG.views['#/panel'] = function (contenedor) {
+  var hoy = indiceHoy();
+  var oc = ocupacionHoy();
+  var padron = padronExpandido();
+  var pendientes = padron.filter(function (e) { return e.pago !== 'al día'; });
+  var sinResponder = AG.data.interesados.filter(function (i) { return i.estado === 'sin responder'; });
+
+  /* Aviso accionable: un horario lleno con gente esperando y un cupo libre */
+  var avisos = [];
+  AG.data.horarios.forEach(function (h) {
+    var libres = h.capacidad - h.semana[hoy];
+    if (h.enEspera && libres > 0) {
+      avisos.push('<p class="alert alert-ok">' + ICONOS.check +
+        '<span>Se liberó <b>' + libres + (libres === 1 ? ' cupo' : ' cupos') + '</b> en ' + esc(h.inicio) +
+        ' y hay ' + h.enEspera + ' estudiantes esperando. ' +
+        '<button class="btn btn-plain" type="button" data-accion="adm-avisar" data-horario="' + h.id + '">Avisar a la lista de espera</button></span></p>');
+    }
+  });
+  if (pendientes.length) {
+    avisos.push('<p class="alert alert-info">' + ICONOS.info +
+      '<span><b>' + pendientes.length + ' estudiantes</b> con el pago pendiente o vencido. ' +
+      '<a class="btn btn-plain" href="#/estudiantes">Ver quiénes</a></span></p>');
+  }
+  if (sinResponder.length) {
+    avisos.push('<p class="alert alert-info">' + ICONOS.info +
+      '<span><b>' + sinResponder.length + ' interesadas</b> sin responder. ' +
+      '<a class="btn btn-plain" href="#/comunicacion">Responder con una plantilla</a></span></p>');
+  }
+
+  var filas = AG.data.horarios.map(function (h) {
+    var ocupados = h.semana[hoy];
+    var libres = h.capacidad - ocupados;
+    var pct = Math.round(ocupados / h.capacidad * 100);
+    var estado = libres <= 0 ? ['pill-full','Lleno'] : (libres <= 2 ? ['pill-last','Casi lleno'] : ['pill-free','Disponible']);
+    return '' +
+      '<tr>' +
+        '<td><b>' + esc(h.inicio) + ' – ' + esc(h.fin) + '</b><br><span class="row-meta">' + esc(h.instructora) + '</span></td>' +
+        '<td style="min-width:150px;">' +
+          '<div class="meter-track" style="height:8px;"><div class="meter-fill" style="width:' + pct + '%"></div></div>' +
+          '<span class="row-meta">' + ocupados + ' de ' + h.capacidad + '</span>' +
+        '</td>' +
+        '<td><span class="pill ' + estado[0] + '">' + estado[1] + '</span></td>' +
+        '<td class="num">' + (h.enEspera || '—') + '</td>' +
+        '<td>' + (h.enEspera && libres > 0
+          ? '<button class="btn btn-outline btn-sm" type="button" data-accion="adm-avisar" data-horario="' + h.id + '">Avisar</button>'
+          : '<span class="row-meta">—</span>') + '</td>' +
+      '</tr>';
+  }).join('');
+
+  var solicitudes = AG.data.solicitudes.length
+    ? AG.data.solicitudes.map(function (s2, i) {
+        return '<div class="slotrow">' +
+          '<div class="slotrow-main">' +
+            '<p style="font-weight:500;">' + esc(s2.estudiante) + '</p>' +
+            '<p class="slotrow-meta">' + esc(s2.tipo) + ' · ' + esc(s2.detalle) + ' · ' + esc(s2.fecha) + '</p>' +
+          '</div>' +
+          '<div class="slotrow-side">' +
+            '<button class="btn btn-primary btn-sm" type="button" data-accion="adm-solicitud" data-i="' + i + '" data-ok="1">Aprobar</button>' +
+            '<button class="btn btn-outline btn-sm" type="button" data-accion="adm-solicitud" data-i="' + i + '" data-ok="0">Rechazar</button>' +
+          '</div></div>';
+      }).join('')
+    : '<p class="row-meta">No hay solicitudes pendientes.</p>';
+
+  contenedor.innerHTML =
+    '<section class="app"><div class="wrap">' +
+      '<div class="app-head">' +
+        '<span class="eyebrow">' + esc(fechaLarga()) + '</span>' +
+        '<h1>Panel del día</h1>' +
+        '<p class="lede">Todo lo que necesitas confirmar hoy, en una sola pantalla.</p>' +
+      '</div>' +
+
+      (avisos.length ? '<div style="display:grid;gap:10px;margin-bottom:20px;">' + avisos.join('') + '</div>' : '') +
+
+      '<div class="kpis" style="margin-bottom:20px;">' +
+        '<div class="kpi"><span class="kpi-label">Ocupación de hoy</span><span class="kpi-value">' + oc.pct + '%</span></div>' +
+        '<div class="kpi"><span class="kpi-label">Cupos ocupados</span><span class="kpi-value">' + oc.ocupados + '<span style="font-size:16px;color:var(--ink-soft);">&nbsp;/ ' + oc.total + '</span></span></div>' +
+        '<div class="kpi"><span class="kpi-label">En lista de espera</span><span class="kpi-value">' + enEsperaTotal() + '</span></div>' +
+        '<div class="kpi"><span class="kpi-label">Pagos por cobrar</span><span class="kpi-value">' + pendientes.length + '</span></div>' +
+      '</div>' +
+
+      '<div class="panel">' +
+        '<div class="panel-head"><h2>Clases de hoy</h2><span class="muted">' + esc(fechaLarga()) + '</span></div>' +
+        '<div class="table-wrap"><table class="dtable">' +
+          '<thead><tr><th>Horario</th><th>Ocupación</th><th>Estado</th><th class="num">En espera</th><th>Acción</th></tr></thead>' +
+          '<tbody>' + filas + '</tbody>' +
+        '</table></div>' +
+      '</div>' +
+
+      '<div class="app-grid cols-2" style="margin-top:18px;">' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Solicitudes</h2><span class="muted">' + AG.data.solicitudes.length + ' pendientes</span></div>' +
+          solicitudes +
+        '</div>' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Interesadas</h2>' +
+            '<a class="btn btn-plain" href="#/comunicacion">Ver todas</a></div>' +
+          AG.data.interesados.map(function (i) {
+            return '<div class="slotrow"><div class="slotrow-main">' +
+              '<p style="font-weight:500;">' + esc(i.nombre) + '</p>' +
+              '<p class="slotrow-meta">' + esc(i.canal) + ' · ' + esc(i.fecha) + '</p>' +
+              '<p class="slotrow-meta" style="white-space:normal;">«' + esc(i.mensaje) + '»</p>' +
+            '</div><div class="slotrow-side">' +
+              '<span class="pill ' + (i.estado === 'sin responder' ? 'pill-last' : 'pill-free') + '">' + esc(i.estado) + '</span>' +
+            '</div></div>';
+          }).join('') +
+        '</div>' +
+      '</div>' +
+
+    '</div></section>';
+};
+
+/* ------------------------------------------------------ estudiantes ---- */
+AG.views['#/estudiantes'] = function (contenedor) {
+  var filtro = AG.estado.filtroEstudiantes || { texto:'', horario:'', pago:'' };
+  var padron = padronExpandido();
+
+  var visibles = padron.filter(function (e) {
+    if (filtro.horario && e.horarioFijo !== filtro.horario) return false;
+    if (filtro.pago && e.pago !== filtro.pago) return false;
+    if (filtro.texto && e.nombre.toLowerCase().indexOf(filtro.texto.toLowerCase()) === -1) return false;
+    return true;
+  });
+
+  var opcionesHorario = '<option value="">Todos los horarios</option>' +
+    AG.data.horarios.map(function (h) {
+      return '<option value="' + h.id + '"' + (filtro.horario === h.id ? ' selected' : '') + '>' + esc(h.inicio) + ' – ' + esc(h.fin) + '</option>';
+    }).join('');
+  var opcionesPago = ['','al día','pendiente','vencido'].map(function (v) {
+    return '<option value="' + v + '"' + (filtro.pago === v ? ' selected' : '') + '>' + (v === '' ? 'Todos los pagos' : esc(v)) + '</option>';
+  }).join('');
+
+  var filas = visibles.map(function (e) {
+    var plan = planPorId(e.planId);
+    var h = horarioPorId(e.horarioFijo);
+    var clase = e.pago === 'al día' ? 'pill-free' : (e.pago === 'pendiente' ? 'pill-last' : 'pill-full');
+    return '<tr>' +
+      '<td><span class="avatar" style="display:inline-grid;vertical-align:middle;margin-right:10px;">' + esc(e.iniciales) + '</span>' + esc(e.nombre) + '</td>' +
+      '<td>' + esc(plan.nombre) + '</td>' +
+      '<td>' + esc(h.inicio) + ' – ' + esc(h.fin) + '</td>' +
+      '<td class="num">' + e.usadas + ' / ' + plan.clasesMes + '</td>' +
+      '<td><span class="pill ' + clase + '">' + esc(e.pago) + '</span></td>' +
+      '<td><button class="btn btn-plain" type="button" data-accion="adm-ficha" data-nombre="' + esc(e.nombre) + '">Ver ficha</button></td>' +
+    '</tr>';
+  }).join('');
+
+  contenedor.innerHTML =
+    '<section class="app"><div class="wrap">' +
+      '<div class="app-head">' +
+        '<span class="eyebrow">Padrón</span>' +
+        '<h1>Estudiantes</h1>' +
+        '<p class="lede">' + AG.data.padron.length + ' estudiantes activas. Busca por nombre o filtra por horario y estado de pago.</p>' +
+      '</div>' +
+
+      '<div class="panel">' +
+        '<div class="filters">' +
+          '<label class="field"><span class="sr-only">Buscar por nombre</span>' +
+            '<input type="search" placeholder="Buscar por nombre…" value="' + esc(filtro.texto) + '" data-filtro="texto">' +
+          '</label>' +
+          '<label class="field"><span class="sr-only">Filtrar por horario</span>' +
+            '<select data-filtro="horario">' + opcionesHorario + '</select></label>' +
+          '<label class="field"><span class="sr-only">Filtrar por estado de pago</span>' +
+            '<select data-filtro="pago">' + opcionesPago + '</select></label>' +
+          (filtro.texto || filtro.horario || filtro.pago
+            ? '<button class="btn btn-outline btn-sm" type="button" data-accion="adm-limpiar">Limpiar</button>' : '') +
+        '</div>' +
+        '<p class="row-meta" style="margin:14px 0 6px;">' + visibles.length + ' de ' + padron.length + ' estudiantes</p>' +
+        (visibles.length
+          ? '<div class="table-wrap"><table class="dtable">' +
+              '<thead><tr><th>Estudiante</th><th>Plan</th><th>Horario</th><th class="num">Clases</th><th>Pago</th><th></th></tr></thead>' +
+              '<tbody>' + filas + '</tbody></table></div>'
+          : '<p class="alert alert-info">' + ICONOS.info + '<span>Ninguna estudiante coincide con el filtro.</span></p>') +
+      '</div>' +
+
+    '</div></section>';
+};
+
+/* -------------------------------------------------- horarios (admin) -- */
+AG.views['#/admin-horarios'] = function (contenedor) {
+  var hoy = indiceHoy();
+  var padron = padronExpandido();
+
+  var tarjetas = AG.data.horarios.map(function (h) {
+    var inscritas = padron.filter(function (e) { return e.horarioFijo === h.id; }).length;
+    var celdas = AG.data.dias.map(function (d, i) {
+      var ocupados = h.semana[i];
+      var pct = ocupados / h.capacidad;
+      /* rampa secuencial de una sola tinta, de claro a oscuro */
+      var paso = pct >= 1 ? 4 : (pct >= .75 ? 3 : (pct >= .5 ? 2 : (pct > 0 ? 1 : 0)));
+      return '<div class="hx-cell hx-' + paso + (i === hoy ? ' is-today' : '') + '" ' +
+               'title="' + esc(d) + ': ' + ocupados + ' de ' + h.capacidad + '">' +
+               '<span class="hx-num">' + ocupados + '</span>' +
+               '<span class="sr-only">' + esc(d) + ': ' + ocupados + ' de ' + h.capacidad + ' ocupados</span>' +
+             '</div>';
+    }).join('');
+    return '' +
+      '<div class="panel">' +
+        '<div class="panel-head">' +
+          '<h2>' + esc(h.inicio) + ' – ' + esc(h.fin) + '</h2>' +
+          '<span class="muted">' + esc(h.jornada) + ' · ' + esc(h.instructora) + '</span>' +
+        '</div>' +
+        '<div class="dl">' +
+          '<div class="dl-row"><dt>Capacidad</dt><dd>' + h.capacidad + ' personas</dd></div>' +
+          '<div class="dl-row"><dt>Inscritas al mes</dt><dd>' + inscritas + '</dd></div>' +
+          '<div class="dl-row"><dt>En lista de espera</dt><dd>' + (h.enEspera || 0) + '</dd></div>' +
+        '</div>' +
+        '<p class="row-meta" style="margin:16px 0 6px;">Ocupación de la semana</p>' +
+        '<div class="hx-row">' + celdas + '</div>' +
+        '<div class="hx-labels">' + AG.data.dias.map(function (d) { return '<span>' + esc(d.slice(0,2)) + '</span>'; }).join('') + '</div>' +
+        '<div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">' +
+          '<button class="btn btn-outline btn-sm" type="button" data-accion="adm-editar-horario" data-horario="' + h.id + '">Editar</button>' +
+          (h.enEspera ? '<button class="btn btn-outline btn-sm" type="button" data-accion="adm-ver-espera" data-horario="' + h.id + '">Lista de espera (' + h.enEspera + ')</button>' : '') +
+        '</div>' +
+      '</div>';
+  }).join('');
+
+  contenedor.innerHTML =
+    '<section class="app"><div class="wrap">' +
+      '<div class="app-head">' +
+        '<span class="eyebrow">Configuración</span>' +
+        '<h1>Horarios</h1>' +
+        '<p class="lede">Cinco clases al día de lunes a viernes, ocho lugares cada una, una instructora por jornada.</p>' +
+      '</div>' +
+      '<div class="app-grid cols-2">' + tarjetas + '</div>' +
+      '<p class="note" style="margin-top:18px;">' + ICONOS.info +
+        '<span>El tono de cada casilla indica cuán llena está la clase, de más clara a más oscura. La columna marcada es hoy.</span></p>' +
+    '</div></section>';
+};
+
+/* ------------------------------------------------------ comunicación -- */
+AG.views['#/comunicacion'] = function (contenedor) {
+  var padron = padronExpandido();
+  var destinos = [
+    { id:'todas',  rotulo:'Todas las estudiantes', n:padron.length },
+    { id:'espera', rotulo:'Listas de espera',      n:enEsperaTotal() },
+    { id:'deuda',  rotulo:'Con pago pendiente',    n:padron.filter(function (e) { return e.pago !== 'al día'; }).length }
+  ].concat(AG.data.horarios.map(function (h) {
+    return { id:h.id, rotulo:'Horario de ' + h.inicio, n:padron.filter(function (e) { return e.horarioFijo === h.id; }).length };
+  }));
+
+  contenedor.innerHTML =
+    '<section class="app"><div class="wrap">' +
+      '<div class="app-head">' +
+        '<span class="eyebrow">Avisos y respuestas</span>' +
+        '<h1>Comunicación</h1>' +
+        '<p class="lede">Un aviso llega a todas a la vez, y las plantillas responden a las interesadas sin escribir de cero cada vez.</p>' +
+      '</div>' +
+
+      '<div class="app-grid aside">' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Nuevo aviso</h2></div>' +
+          '<label class="field block"><span class="field-label">Para</span>' +
+            '<select id="avisoDestino">' + destinos.map(function (d) {
+              return '<option value="' + d.id + '">' + esc(d.rotulo) + ' (' + d.n + ')</option>';
+            }).join('') + '</select></label>' +
+          '<label class="field block"><span class="field-label">Mensaje</span>' +
+            '<textarea id="avisoTexto" rows="4" placeholder="Escribe el aviso…"></textarea></label>' +
+          '<div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">' +
+            '<button class="btn btn-primary btn-sm" type="button" data-accion="adm-enviar-aviso">Enviar aviso</button>' +
+          '</div>' +
+          '<p class="note" style="margin-top:16px;">' + ICONOS.info +
+            '<span>Un tercio de las estudiantes se enteró tarde de una promoción. El aviso les llega a todas al mismo tiempo.</span></p>' +
+        '</div>' +
+
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Plantillas</h2><span class="muted">Un toque para copiar</span></div>' +
+          AG.data.plantillas.map(function (t, i) {
+            return '<div class="slotrow" style="align-items:flex-start;">' +
+              '<div class="slotrow-main">' +
+                '<p style="font-weight:500;">' + esc(t.titulo) + '</p>' +
+                '<p class="slotrow-meta" style="white-space:normal;">' + esc(t.texto) + '</p>' +
+              '</div>' +
+              '<div class="slotrow-side">' +
+                '<button class="btn btn-outline btn-sm" type="button" data-accion="adm-plantilla" data-i="' + i + '">Usar</button>' +
+              '</div></div>';
+          }).join('') +
+        '</div>' +
+      '</div>' +
+
+      '<div class="app-grid cols-2" style="margin-top:18px;">' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Interesadas</h2><span class="muted">' +
+            AG.data.interesados.filter(function (i) { return i.estado === 'sin responder'; }).length + ' sin responder</span></div>' +
+          AG.data.interesados.map(function (i, idx) {
+            return '<div class="slotrow"><div class="slotrow-main">' +
+              '<p style="font-weight:500;">' + esc(i.nombre) + '</p>' +
+              '<p class="slotrow-meta">' + esc(i.canal) + ' · ' + esc(i.fecha) + '</p>' +
+              '<p class="slotrow-meta" style="white-space:normal;">«' + esc(i.mensaje) + '»</p>' +
+            '</div><div class="slotrow-side">' +
+              (i.estado === 'sin responder'
+                ? '<button class="btn btn-primary btn-sm" type="button" data-accion="adm-responder" data-i="' + idx + '">Responder</button>'
+                : '<span class="pill pill-free">respondido</span>') +
+            '</div></div>';
+          }).join('') +
+        '</div>' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Avisos enviados</h2></div>' +
+          '<div class="table-wrap"><table class="dtable">' +
+            '<thead><tr><th>Aviso</th><th>Para</th><th class="num">Alcance</th><th>Fecha</th></tr></thead><tbody>' +
+            AG.data.avisos.map(function (a) {
+              return '<tr><td>' + esc(a.titulo) + '</td><td>' + esc(a.destinatarias) + '</td>' +
+                     '<td class="num">' + a.alcance + '</td><td>' + esc(a.fecha) + '</td></tr>';
+            }).join('') + '</tbody></table></div>' +
+        '</div>' +
+      '</div>' +
+
+    '</div></section>';
+};
+
+/* --------------------------------------------------------- reportes --- */
+/* Cada gráfico lleva una sola serie y una sola tinta de la marca. El mapa
+   de calor usa la rampa secuencial veil → mist → dusty → berry → berry
+   oscuro, monótona de claro a oscuro, y cada paso cumple contraste con su
+   texto. Sin leyenda de series: el título dice qué se mira.            */
+AG.views['#/reportes'] = function (contenedor) {
+  var hoy = indiceHoy();
+  var padron = padronExpandido();
+  var capacidadSemana = AG.data.horarios.length * 8 * AG.data.dias.length;
+  var ocupadosSemana = AG.data.horarios.reduce(function (t, h) {
+    return t + h.semana.reduce(function (a, b) { return a + b; }, 0);
+  }, 0);
+  var ocupacionMedia = Math.round(ocupadosSemana / capacidadSemana * 100);
+
+  var ingresos = AG.data.planes.map(function (pl) {
+    var n = padron.filter(function (e) { return e.planId === pl.id; }).length;
+    return { plan:pl, n:n, total:n * pl.precio };
+  });
+  var ingresoTotal = ingresos.reduce(function (t, r) { return t + r.total; }, 0);
+
+  /* barras horizontales: ocupación media por horario, una sola serie */
+  var porHorario = AG.data.horarios.map(function (h) {
+    var suma = h.semana.reduce(function (a, b) { return a + b; }, 0);
+    return { h:h, pct:Math.round(suma / (h.capacidad * AG.data.dias.length) * 100) };
+  });
+  var maxPct = Math.max.apply(null, porHorario.map(function (r) { return r.pct; }));
+  var barras = porHorario.map(function (r) {
+    return '<div class="hbar">' +
+      '<span class="hbar-label">' + esc(r.h.inicio) + ' – ' + esc(r.h.fin) + '</span>' +
+      '<span class="hbar-track"><span class="hbar-fill" style="width:' + Math.round(r.pct / maxPct * 100) + '%"></span></span>' +
+      '<span class="hbar-val">' + r.pct + '%</span>' +
+    '</div>';
+  }).join('');
+
+  /* mapa de calor: horarios × días */
+  var mapa = AG.data.horarios.map(function (h) {
+    var celdas = AG.data.dias.map(function (d, i) {
+      var ocupados = h.semana[i];
+      var pct = ocupados / h.capacidad;
+      var paso = pct >= 1 ? 4 : (pct >= .75 ? 3 : (pct >= .5 ? 2 : (pct > 0 ? 1 : 0)));
+      return '<div class="hx-cell hx-' + paso + (i === hoy ? ' is-today' : '') + '" title="' + esc(d) + ' ' + esc(h.inicio) + ': ' + ocupados + ' de ' + h.capacidad + '">' +
+               '<span aria-hidden="true">' + ocupados + '</span>' +
+               '<span class="sr-only">' + esc(d) + ', ' + esc(h.inicio) + ': ' + ocupados + ' de ' + h.capacidad + '</span>' +
+             '</div>';
+    }).join('');
+    return '<span class="hx-rowlabel">' + esc(h.inicio) + '</span>' +
+           '<div class="hx-row">' + celdas + '</div>';
+  }).join('');
+
+  /* La tabla accesible va dentro de un div .sr-only: la clase sobre la
+     propia <table> no la encoge y ensancha el área desplazable.        */
+  var tablaMapa = '<div class="sr-only"><table><caption>Cupos ocupados por horario y día</caption><thead><tr><th>Horario</th>' +
+    AG.data.dias.map(function (d) { return '<th>' + esc(d) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+    AG.data.horarios.map(function (h) {
+      return '<tr><td>' + esc(h.inicio) + '</td>' + h.semana.map(function (v) { return '<td>' + v + '</td>'; }).join('') + '</tr>';
+    }).join('') + '</tbody></table></div>';
+
+  contenedor.innerHTML =
+    '<section class="app"><div class="wrap">' +
+      '<div class="app-head">' +
+        '<span class="eyebrow">Semana en curso</span>' +
+        '<h1>Reportes</h1>' +
+        '<p class="lede">Cómo se está llenando el estudio y de dónde vienen los ingresos del mes.</p>' +
+      '</div>' +
+
+      '<div class="kpis" style="margin-bottom:20px;">' +
+        '<div class="kpi"><span class="kpi-label">Ocupación media de la semana</span><span class="kpi-value">' + ocupacionMedia + '%</span></div>' +
+        '<div class="kpi"><span class="kpi-label">Cupos ocupados de la semana</span><span class="kpi-value">' + ocupadosSemana + '<span style="font-size:16px;color:var(--ink-soft);">&nbsp;/ ' + capacidadSemana + '</span></span></div>' +
+        '<div class="kpi"><span class="kpi-label">Estudiantes activas</span><span class="kpi-value">' + padron.length + '</span></div>' +
+        '<div class="kpi"><span class="kpi-label">Ingresos del mes</span><span class="kpi-value">' + moneda(ingresoTotal) + '</span></div>' +
+      '</div>' +
+
+      '<div class="app-grid cols-2">' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Ocupación media por horario</h2><span class="muted">lunes a viernes</span></div>' +
+          '<div class="hbars">' + barras + '</div>' +
+          '<p class="chart-note">El horario de 8h00 concentra la demanda, tal como salió en el diagnóstico.</p>' +
+        '</div>' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Cupos ocupados por día</h2><span class="muted">de 8 por clase</span></div>' +
+          '<div class="hx-grid">' + mapa +
+            '<span></span><div class="hx-labels">' +
+              AG.data.dias.map(function (d) { return '<span>' + esc(d.slice(0,2)) + '</span>'; }).join('') +
+            '</div>' +
+          '</div>' + tablaMapa +
+          '<p class="hx-key">Menos lleno' +
+            '<i class="hx-0"></i><i class="hx-1"></i><i class="hx-2"></i><i class="hx-3"></i><i class="hx-4"></i>' +
+            'Más lleno</p>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="panel" style="margin-top:18px;">' +
+        '<div class="panel-head"><h2>Ingresos por plan</h2><span class="muted">' + esc(AG.data.estudiante.mes) + '</span></div>' +
+        '<div class="table-wrap"><table class="dtable">' +
+          '<thead><tr><th>Plan</th><th class="num">Estudiantes</th><th class="num">Precio</th><th class="num">Total</th></tr></thead>' +
+          '<tbody>' + ingresos.map(function (r) {
+            return '<tr><td>' + esc(r.plan.nombre) + '</td><td class="num">' + r.n + '</td>' +
+                   '<td class="num">' + moneda(r.plan.precio) + '</td><td class="num">' + moneda(r.total) + '</td></tr>';
+          }).join('') +
+          '<tr><td><b>Total</b></td><td class="num"><b>' + padron.length + '</b></td><td class="num"></td>' +
+          '<td class="num"><b>' + moneda(ingresoTotal) + '</b></td></tr>' +
+          '</tbody></table></div>' +
+      '</div>' +
+
+    '</div></section>';
+};
+
 /* --------------------------------- pantallas por construir -------------- */
 var PENDIENTES = {
   '#/contacto':'Contacto', '#/inscripcion':'Inscripción', '#/nosotros':'Quiénes somos',
   '#/ubicacion':'Ubicación', '#/terminos':'Términos y condiciones de las promociones',
   '#/privacidad':'Política de privacidad', '#/trabaja-con-nosotros':'Trabaja con nosotros',
   '#/cuenta':'Mi cuenta',
-  '#/panel':'Panel', '#/estudiantes':'Estudiantes', '#/admin-horarios':'Horarios',
-  '#/comunicacion':'Comunicación', '#/reportes':'Reportes'
 };
 Object.keys(PENDIENTES).forEach(function (ruta) {
   AG.views[ruta] = function (contenedor) {
@@ -2145,6 +2711,74 @@ var ACCIONES = {
     avisar('Solicitaste el cambio al plan de ' + p.nombre.toLowerCase() + '. Aplica desde el próximo mes.\n\n(Prototipo: la solicitud se conectará con administración.)');
   },
 
+  /* ---- acciones de administración ---- */
+  'adm-avisar': function (boton) {
+    var h = horarioPorId(boton.dataset.horario);
+    if (!h || !h.enEspera) return;
+    var n = h.enEspera;
+    AG.data.avisos.unshift({
+      titulo:'Se liberó un cupo de ' + h.inicio,
+      destinatarias:'Lista de espera de ' + h.inicio,
+      fecha:'hoy', alcance:n
+    });
+    h.enEspera = 0;
+    redibujar();
+    avisar('Aviso enviado a ' + n + (n === 1 ? ' estudiante' : ' estudiantes') + ' de la lista de espera de ' + h.inicio + '.\n\n(Prototipo: el envío real se conectará después.)');
+  },
+  'adm-solicitud': function (boton) {
+    var i = parseInt(boton.dataset.i, 10);
+    var sol = AG.data.solicitudes[i];
+    if (!sol) return;
+    var aprobada = boton.dataset.ok === '1';
+    AG.data.solicitudes.splice(i, 1);
+    redibujar();
+    avisar((aprobada ? 'Aprobaste' : 'Rechazaste') + ' la solicitud de ' + sol.estudiante + ': ' + sol.detalle + '.');
+  },
+  'adm-ficha': function (boton) {
+    avisar('Ficha de ' + boton.dataset.nombre + '.\n\n(Prototipo: la ficha completa se construirá sobre esta base.)');
+  },
+  'adm-limpiar': function () {
+    AG.estado.filtroEstudiantes = { texto:'', horario:'', pago:'' };
+    redibujar();
+  },
+  'adm-editar-horario': function (boton) {
+    var h = horarioPorId(boton.dataset.horario);
+    avisar('Editar el horario de ' + h.inicio + ' a ' + h.fin + ': capacidad, instructora y días activos.\n\n(Prototipo: la edición se construirá sobre esta base.)');
+  },
+  'adm-ver-espera': function (boton) {
+    var h = horarioPorId(boton.dataset.horario);
+    avisar(h.enEspera + ' estudiantes esperando un cupo de ' + h.inicio + ' a ' + h.fin + '.\n\n(Prototipo: el detalle de la lista se construirá sobre esta base.)');
+  },
+  'adm-enviar-aviso': function () {
+    var destino = $('#avisoDestino');
+    var texto = $('#avisoTexto');
+    if (!texto || !texto.value.trim()) { avisar('Escribe el mensaje del aviso antes de enviarlo.'); return; }
+    var rotulo = destino.options[destino.selectedIndex].text;
+    AG.data.avisos.unshift({
+      titulo:texto.value.trim().slice(0, 48) + (texto.value.trim().length > 48 ? '…' : ''),
+      destinatarias:rotulo.replace(/\s*\(\d+\)$/, ''),
+      fecha:'hoy',
+      alcance:parseInt((rotulo.match(/\((\d+)\)$/) || [0,0])[1], 10)
+    });
+    redibujar();
+    avisar('Aviso enviado a: ' + rotulo + '.\n\n(Prototipo: el envío real se conectará después.)');
+  },
+  'adm-plantilla': function (boton) {
+    var t = AG.data.plantillas[parseInt(boton.dataset.i, 10)];
+    if (!t) return;
+    var caja = $('#avisoTexto');
+    if (caja) { caja.value = t.texto; caja.focus(); }
+    avisar('Plantilla «' + t.titulo + '» cargada en el mensaje.');
+  },
+  'adm-responder': function (boton) {
+    var i = parseInt(boton.dataset.i, 10);
+    var quien = AG.data.interesados[i];
+    if (!quien) return;
+    quien.estado = 'respondido';
+    redibujar();
+    avisar('Respondiste a ' + quien.nombre + ' por ' + quien.canal + '.\n\n(Prototipo: el envío real se conectará después.)');
+  },
+
   'elegir-plan': function (boton) {
     var p = AG.data.planes.filter(function (x) { return x.id === boton.dataset.plan; })[0];
     if (!p) return;
@@ -2159,6 +2793,7 @@ var ACCIONES = {
 /* Se exponen los ayudantes del prototipo para poder inspeccionar y probar
    el estado desde la consola del navegador.                             */
 AG.horarioPorId = horarioPorId;
+AG.padronExpandido = padronExpandido;
 AG.fechasSemana = fechasSemana;
 AG.planEstudiante = planEstudiante;
 AG.libresEn = libresEn;
@@ -2201,6 +2836,23 @@ function iniciar(){
 
     if (ev.target.closest('#burger')) { alternarMenuMovil(); return; }
     if (ev.target.closest('.mobile-nav a')) { cerrarMenuMovil(); return; }
+  });
+
+  /* Filtros del padrón de estudiantes. */
+  document.addEventListener('input', function (ev) {
+    var campo = ev.target.closest('[data-filtro]');
+    if (!campo) return;
+    AG.estado.filtroEstudiantes[campo.dataset.filtro] = campo.value;
+    var pos = campo.selectionStart;
+    redibujar();
+    var nuevo = document.querySelector('[data-filtro="' + campo.dataset.filtro + '"]');
+    if (nuevo && nuevo.tagName === 'INPUT') { nuevo.focus(); try { nuevo.setSelectionRange(pos, pos); } catch (e) {} }
+  });
+  document.addEventListener('change', function (ev) {
+    var campo = ev.target.closest('select[data-filtro]');
+    if (!campo) return;
+    AG.estado.filtroEstudiantes[campo.dataset.filtro] = campo.value;
+    redibujar();
   });
 
   window.addEventListener('hashchange', navegar);
