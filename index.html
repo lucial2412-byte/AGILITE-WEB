@@ -1372,7 +1372,7 @@ function pintarInfoBanda(){
   if (!visible) { slot.innerHTML = ''; return; }
   slot.innerHTML =
     '<div class="infoband" role="region" aria-label="Promoción vigente">' +
-      '<div class="infoband-photo" style="background-image:url(' + promo.imagen + ')"></div>' +
+      '<div class="infoband-photo" style="background-image:url(\'' + promo.imagen + '\')"></div>' +
       '<div class="infoband-veil"><div class="wrap infoband-in">' +
         '<span class="infoband-tag">' + esc(promo.etiqueta) + '</span>' +
         '<p class="infoband-text">' + promo.texto + '</p>' +
@@ -1419,7 +1419,7 @@ function bloqueBanner(){
       '<div class="hero-slide' + (activo ? ' is-active' : '') + '" data-slide="' + i + '"' +
            ' role="group" aria-roledescription="diapositiva" aria-label="' + (i + 1) + ' de ' + total + '"' +
            ' aria-hidden="' + (!activo) + '">' +
-        '<div class="hero-photo" style="background-image:url(' + s.img + ');background-position:' + s.pos + '" role="img" aria-label="' + esc(s.alt) + '"></div>' +
+        '<div class="hero-photo" style="background-image:url(\'' + s.img + '\');background-position:' + s.pos + '" role="img" aria-label="' + esc(s.alt) + '"></div>' +
         '<div class="hero-veil"></div>' +
         '<div class="wrap hero-body">' +
           '<span class="hero-logo"><img src="assets/logo-agilite.png" alt="Agilité Pilates"></span>' +
@@ -1473,7 +1473,7 @@ function bloqueServicios(){
   var tarjetas = AG.data.servicios.map(function (s) {
     return '' +
       '<article class="photocard">' +
-        '<div class="photocard-photo" style="background-image:url(' + s.img + ');background-position:' + s.pos + '" role="img" aria-label="' + esc(s.titulo) + '"></div>' +
+        '<div class="photocard-photo" style="background-image:url(\'' + s.img + '\');background-position:' + s.pos + '" role="img" aria-label="' + esc(s.titulo) + '"></div>' +
         '<div class="photocard-veil"></div>' +
         '<div class="photocard-body">' +
           '<span class="photocard-eyebrow">' + esc(s.eyebrow) + '</span>' +
@@ -1499,7 +1499,7 @@ function bloqueMision(){
   return '' +
     '<section class="band band-mist" id="nosotras">' +
       '<div class="wrap mision">' +
-        '<div class="mision-photo" style="background-image:url(' + m.imagen + ')" role="img" aria-label="Sala del estudio con camas reformer"></div>' +
+        '<div class="mision-photo" style="background-image:url(\'' + m.imagen + '\')" role="img" aria-label="Sala del estudio con camas reformer"></div>' +
         '<div>' +
           '<span class="eyebrow">' + esc(m.eyebrow) + '</span>' +
           '<h2>' + esc(m.italica) + '</h2>' +
@@ -2643,7 +2643,7 @@ AG.views['#/nosotros'] = function (contenedor) {
       'Un estudio de pilates en el norte de Quito, con grupos pequeños y acompañamiento cercano.') +
 
     '<section class="band band-surface"><div class="wrap mision">' +
-      '<div class="mision-photo" style="background-image:url(' + m.imagen + ')" role="img" aria-label="Sala del estudio con camas reformer"></div>' +
+      '<div class="mision-photo" style="background-image:url(\'' + m.imagen + '\')" role="img" aria-label="Sala del estudio con camas reformer"></div>' +
       '<div>' +
         '<span class="eyebrow">' + esc(m.eyebrow) + '</span>' +
         '<h2 style="font-family:var(--font-display);font-style:italic;font-weight:400;font-size:clamp(26px,3.6vw,34px);color:var(--berry-dark);margin-bottom:6px;">' + esc(m.italica) + '</h2>' +

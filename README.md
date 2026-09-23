@@ -4,9 +4,26 @@ Prototipo funcional en HTML, CSS y JavaScript. Se abre con doble clic en
 `index.html`, sin instalar ni compilar nada.
 
 ```
-index.html      toda la aplicación (estructura, estilos y lógica)
-assets/         logo y fotografías
+index.html                      la aplicación (estructura, estilos y lógica)
+assets/                         logo y fotografías
+agilite-pilates-completo.html   la misma app en un solo archivo, para compartir
+construir-archivo-unico.py      regenera ese archivo
 README.md
+```
+
+## Para compartirlo con alguien
+
+`agilite-pilates-completo.html` es la aplicación entera en **un archivo**, con
+las imágenes incrustadas. Se puede enviar por correo o WhatsApp y se abre con
+doble clic, sin necesidad de la carpeta `assets` ni de internet.
+
+Úsalo siempre que vayas a compartir. `index.html` + `assets/` es la versión
+de trabajo: si abres ese sin la carpeta al lado, las fotografías no cargan.
+
+Después de cambiar `index.html`, regenera el archivo único:
+
+```bash
+python3 construir-archivo-unico.py
 ```
 
 ## Qué está construido
