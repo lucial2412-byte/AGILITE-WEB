@@ -35,16 +35,16 @@ las pantallas:
   **El teléfono y el Instagram viven sólo aquí**, una vez en todo el sitio:
   en móvil son dos íconos y en escritorio el teléfono se expande y muestra
   el número. Una prueba comprueba en los tres perfiles que cada uno aparece
-  exactamente una vez y que está dentro del header.
+  exactamente una vez y que está dentro del header. Al lado va el ícono de
+  WhatsApp, que abre el chat del estudio con el mensaje ya escrito.
 - Banda informativa estática con la promoción vigente, sobre fotografía con
   degradado, con enlace a la sección y botón para cerrarla. No rota.
 - Banner principal a todo el ancho, con rotación cada 7 segundos.
 - Servicios en cuadrícula de cuatro tarjetas.
-- Banda de cifras del estudio.
+- Planes con la Promo Flash aplicada y sus condiciones.
 - Horarios con dos pestañas: la disponibilidad de hoy y un cuadro de toda
   la semana (cinco franjas por cinco días) con el cupo de cada clase.
 - Instructoras, una por jornada.
-- Planes con la Promo Flash aplicada y sus condiciones.
 - Testimonios de estudiantes.
 - Footer en tres columnas más la línea de derechos reservados.
 
@@ -61,8 +61,11 @@ las pantallas:
 
 Las reglas del estudio se hacen cumplir: el horario contratado es el mismo
 todo el mes (un cambio de horario es puntual, sólo para ese día, y no altera
-el del mes), se cancela hasta 4 horas antes del inicio, y la cuota de clases
-del plan no se puede exceder.
+el del mes), se cancela hasta 24 horas antes del inicio, y la cuota de
+clases del plan no se puede exceder. El plazo se evalúa contra el reloj
+real; `cancelacion.js` lo prueba con el reloj fijado en un miércoles a las
+10h15, a las 5h00, un martes a las 23h30 y un sábado, porque si la suite
+corre en fin de semana la rama de día laborable no se ejercitaría nunca.
 
 ### Vista de administración (construida)
 
@@ -137,8 +140,23 @@ bandas oscuras con cifras en serif, píldoras en mayúscula espaciada y
 tarjetas de esquina muy redondeada. La paleta es la de la marca, no la de
 la maqueta, y el código es propio: no se copió el de la plantilla.
 
-Las bandas alternan blanco, berry oscuro, rosa velado y rosa neblina para
+Las bandas alternan blanco, rosa vivo, rosa velado y rosa neblina para
 que dos secciones contiguas nunca compartan fondo.
+
+**La paleta se corrió hacia el rosa** a pedido del estudio, que pedía menos
+vino y más el rosa de la marca. El límite lo pone el contraste, no el
+gusto:
+
+| Tinta | Antes | Ahora | Por qué ahí |
+| --- | --- | --- | --- |
+| berry oscuro (texto y componentes) | `#6E1F33` | `#8E2F4E` | sobre el rosa neblina del pie da 4,90 : 1, el mínimo para texto pequeño; un paso más de rosa ya no alcanza |
+| berry (bandas grandes y botones) | `#A62B47` | `#B84068` | con blanco encima da 5,29 : 1 |
+
+Sobre el rosa vivo de las bandas grandes el rosa neblina sólo alcanza para
+texto grande (3,29 : 1), así que los rótulos pequeños de esas bandas pasaron
+a blanco. El pie dejó de ser vino: va en rosa neblina con el texto en vino
+tinta (10,17 : 1) y los rótulos en berry oscuro (4,90 : 1), porque el blanco
+sobre ese rosa no alcanza (1,61 : 1).
 
 ## Gráficos
 
@@ -156,7 +174,7 @@ tinta, más clara.
 calor de cupos por día que usa una rampa secuencial de una sola tinta
 —rosa velado, neblina, dusty, berry, berry oscuro—, monótona de claro a
 oscuro y con cada paso verificado contra el texto que lleva encima (de
-5,70 a 11,01 : 1). El mapa trae leyenda de intensidad y tabla accesible.
+5,29 a 10,17 : 1). El mapa trae leyenda de intensidad y tabla accesible.
 
 ## Decisiones de diseño
 
@@ -174,8 +192,8 @@ de toque de 44 px como mínimo. El contraste se verificó de dos maneras: las
 combinaciones que se pueden calcular del CSS, con el ratio WCAG; y los
 textos que van sobre fotografía —banner, tarjetas de servicio y banda
 informativa— midiendo el píxel más claro del fondo real en escritorio y
-móvil, en las tres diapositivas. El peor caso en uso es 5,12 : 1 para texto
-grande y 5,62 : 1 para texto normal. El dusty rose
+móvil, en las tres diapositivas. El peor caso en uso es 5,14 : 1 para texto
+grande y 5,07 : 1 para texto normal. El dusty rose
 sólo se usa en bordes y elementos decorativos, porque como texto sobre
 fondos claros no alcanza contraste suficiente. El verde salvia aparece
 únicamente en el estado «disponible» de los cupos, en un tono algo más

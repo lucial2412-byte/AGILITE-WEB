@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#6E1F33">
+<meta name="theme-color" content="#8E2F4E">
 <meta name="description" content="Agilité Pilates · Estudio de pilates en el norte de Quito. Revisa cupos disponibles en tiempo real, reserva tu clase y consulta nuestros planes.">
 <title>Agilité Pilates · Estudio de pilates en Quito</title>
 <link rel="icon" href="assets/logo-agilite.png">
@@ -21,25 +21,30 @@
    en mayúscula espaciada y tarjetas de esquina muy redondeada.
    La paleta es la de la marca, no la de la maqueta.
 
-   Contraste WCAG de cada par texto/fondo en uso:
-     blanco    sobre berry-dark  11.01 : 1  (AAA)
-     mist      sobre berry-dark   6.85 : 1  (AA)
-     on-dark-s sobre berry-dark   7.79 : 1  (AAA)
-     blanco    sobre berry         6.87 : 1  (AA)
-     ink       sobre veil         14.26 : 1  (AAA)
-     ink       sobre mist         10.17 : 1  (AAA)
-     ink-soft  sobre veil          6.71 : 1  (AA)
-     ink-soft  sobre mist          4.79 : 1  (AA)
-     berry-dk  sobre veil          9.61 : 1  (AAA)
-     berry     sobre veil          5.99 : 1  (AA)
-     sage-text sobre sage-bg       6.60 : 1  (AA)
+   Contraste WCAG de cada par texto/fondo en uso, con la paleta
+   corrida hacia el rosa que pidió el estudio:
+     blanco    sobre berry-dark   7.87 : 1  (AAA)
+     mist      sobre berry-dark   4.90 : 1  (AA)
+     on-dark-s sobre berry-dark   5.57 : 1  (AA)
+     blanco    sobre berry        5.29 : 1  (AA)
+     ink       sobre veil        14.26 : 1  (AAA)
+     ink       sobre mist        10.17 : 1  (AAA)
+     ink-soft  sobre veil         6.71 : 1  (AA)
+     ink-soft  sobre mist         4.79 : 1  (AA)
+     berry-dk  sobre veil         6.87 : 1  (AAA)
+     berry     sobre veil         4.61 : 1  (AA)
+     sage-text sobre sage-bg      6.86 : 1  (AA)
    Dusty rose queda en bordes y adornos: como texto sobre fondo
    claro no alcanza contraste (2.87 : 1).
    ============================================================ */
 :root{
-  /* paleta de marca */
-  --berry-dark:#6E1F33;
-  --berry:#A62B47;
+  /* paleta de marca. El estudio pidió menos vino y más rosa, así que los
+     dos tonos oscuros se corrieron hacia el rosa de la marca. El límite
+     lo pone el contraste: con el vino nuevo (#8E2F4E) el blanco encima
+     da 7.87 : 1 y el tono sobre el rosa neblina del pie 4.90 : 1, que es
+     lo mínimo para texto pequeño; un paso más de rosa ya no alcanza. */
+  --berry-dark:#8E2F4E;
+  --berry:#B84068;
   --dusty:#C08A96;
   --mist:#E4C4CC;
   --veil:#F7EDEF;
@@ -47,8 +52,8 @@
   --sage:#5E7A63;
 
   /* variantes accesibles derivadas */
-  --berry-deep:#5A1729;
-  --berry-hover:#8E2440;
+  --berry-deep:#742540;
+  --berry-hover:#A03459;
   --ink-soft:#6B4A53;
   --sage-text:#3F5544;
   --sage-bg:#E7EEE8;
@@ -104,7 +109,7 @@ ul{margin:0;padding:0;list-style:none;}
   display:block;font-size:10.5px;font-weight:600;letter-spacing:.24em;
   text-transform:uppercase;color:var(--berry);margin-bottom:14px;
 }
-.eyebrow.on-dark{color:var(--mist);}
+.eyebrow.on-dark{color:#fff;}
 .band-mist .eyebrow{color:var(--berry-dark);}   /* berry sobre neblina no llega a 4.5:1 */
 .display{                       /* Jost mayúscula, el titular grande */
   font-family:var(--font-sans);font-weight:400;
@@ -136,7 +141,9 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   transition:background-color .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease),transform .12s var(--ease);
 }
 .btn:active{transform:translateY(1px);}
-.btn-primary{background:var(--berry);color:#fff;box-shadow:0 6px 18px rgba(166,43,71,.24);}
+.btn-ico{display:inline-flex;}
+.btn-ico svg{width:18px;height:18px;}
+.btn-primary{background:var(--berry);color:#fff;box-shadow:0 6px 18px rgba(184,64,104,.24);}
 .btn-primary:hover{background:var(--berry-hover);color:#fff;}
 .btn-dark{background:var(--berry-dark);color:#fff;}
 .btn-dark:hover{background:var(--berry-deep);color:#fff;}
@@ -160,11 +167,11 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   border-bottom:1px solid var(--line);
 }
 .header-in{
-  display:flex;align-items:center;gap:14px;min-height:80px;flex-wrap:wrap;
+  display:flex;align-items:center;gap:14px;min-height:88px;flex-wrap:wrap;
   padding-top:10px;padding-bottom:10px;
 }
 .brand{display:flex;align-items:center;gap:14px;flex:none;margin-right:auto;}
-.brand img{height:46px;width:auto;}
+.brand img{height:56px;width:auto;}
 .brand-place{
   display:none;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--berry);border-left:1px solid var(--line);padding-left:14px;
@@ -234,7 +241,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .infoband-photo{position:absolute;inset:0;background-size:cover;background-position:center 40%;opacity:.5;}
 .infoband-veil{
   position:relative;
-  background:linear-gradient(100deg,rgba(46,26,32,.94) 0%,rgba(110,31,51,.86) 54%,rgba(166,43,71,.62) 100%);
+  background:linear-gradient(100deg,rgba(46,26,32,.94) 0%,rgba(142,47,78,.86) 54%,rgba(184,64,104,.72) 100%);
 }
 .infoband-in{
   display:flex;align-items:center;gap:14px;flex-wrap:wrap;
@@ -271,18 +278,18 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   position:absolute;inset:0;
   background:
     linear-gradient(100deg,rgba(46,26,32,.88) 0%,rgba(46,26,32,.56) 56%,rgba(46,26,32,.30) 100%),
-    linear-gradient(to top,rgba(46,26,32,.74) 0%,rgba(46,26,32,.46) 52%,rgba(110,31,51,.34) 100%);
+    linear-gradient(to top,rgba(46,26,32,.74) 0%,rgba(46,26,32,.46) 52%,rgba(142,47,78,.34) 100%);
 }
 @media (min-width:768px){
   .hero-veil{
     background:
       linear-gradient(100deg,rgba(46,26,32,.80) 0%,rgba(46,26,32,.40) 58%,rgba(46,26,32,.12) 100%),
-      linear-gradient(to top,rgba(46,26,32,.56) 0%,rgba(46,26,32,.24) 52%,rgba(110,31,51,.20) 100%);
+      linear-gradient(to top,rgba(46,26,32,.56) 0%,rgba(46,26,32,.24) 52%,rgba(142,47,78,.20) 100%);
   }
 }
 .hero-body{position:relative;padding:52px var(--pad-x) 44px;}
-.hero-logo{display:inline-block;background:var(--mist);padding:11px 16px;border-radius:var(--r-sm);margin-bottom:24px;}
-.hero-logo img{height:54px;width:auto;}
+.hero-logo{display:inline-block;background:var(--mist);padding:13px 19px;border-radius:var(--r-sm);margin-bottom:24px;}
+.hero-logo img{height:68px;width:auto;}
 @media (min-width:768px){ .hero-logo-movil{display:none;} }
 .hero-body h1{
   margin:0 0 20px;max-width:18ch;color:#fff;
@@ -325,21 +332,25 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .hero-dots button::after{content:"";position:absolute;top:50%;left:50%;width:calc(100% + 10px);height:44px;transform:translate(-50%,-50%);}
 
 /* ---------------- banda oscura de cifras ---------------- */
-.figures{background:var(--berry-dark);}
+/* Las bandas grandes van en el rosa vivo (#B84068), que es el paso más
+   rosado que admite texto blanco: 5.29 : 1. El rosa neblina encima de
+   este fondo sólo alcanza para texto grande (3.29 : 1), así que los
+   rótulos pequeños de estas bandas van en blanco.                  */
+.figures{background:var(--berry);}
 .figures-grid{display:grid;grid-template-columns:repeat(2,1fr);}
 .figure{padding:26px var(--pad-x);border-top:1px solid rgba(235,211,217,.18);}
 .figure:nth-child(-n+2){border-top:0;}
 .figure + .figure{border-left:1px solid rgba(235,211,217,.18);}
 .figure:nth-child(odd){border-left:0;}
 .figure-num{display:block;font-family:var(--font-display);font-size:36px;line-height:1;color:var(--mist);}
-.figure-label{display:block;margin-top:9px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--on-dark-soft);line-height:1.5;}
+.figure-label{display:block;margin-top:9px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;line-height:1.5;}
 
 /* ---------------- secciones ---------------- */
 .band{padding:56px 0;}
 .band-veil{background:var(--veil);}
 .band-surface{background:var(--surface);}
 .band-mist{background:var(--mist);}
-.band-dark{background:var(--berry-dark);}
+.band-dark{background:var(--berry);}
 .band-head{margin-bottom:30px;}
 .band-head.centered{text-align:center;max-width:620px;margin-left:auto;margin-right:auto;}
 .band-head .lede{margin-top:16px;}
@@ -355,11 +366,11 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .photocard:hover .photocard-photo{transform:scale(1.05);}
 .photocard-veil{
   position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(46,26,32,.92) 0%,rgba(46,26,32,.34) 58%,rgba(110,31,51,.24) 100%);
+  background:linear-gradient(to top,rgba(46,26,32,.92) 0%,rgba(46,26,32,.34) 58%,rgba(142,47,78,.24) 100%);
   transition:background .35s var(--ease);
 }
 .photocard:hover .photocard-veil{
-  background:linear-gradient(to top,rgba(110,31,51,.94) 0%,rgba(110,31,51,.54) 58%,rgba(166,43,71,.36) 100%);
+  background:linear-gradient(to top,rgba(142,47,78,.94) 0%,rgba(142,47,78,.54) 58%,rgba(184,64,104,.36) 100%);
 }
 .photocard-body{position:absolute;left:24px;right:24px;bottom:22px;}
 .photocard-eyebrow{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);margin-bottom:8px;}
@@ -526,10 +537,10 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   margin:0 0 16px;font-family:var(--font-display);font-style:italic;font-weight:400;
   font-size:21px;line-height:1.5;color:#fff;text-wrap:pretty;
 }
-.quote-who{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--on-dark-soft);}
+.quote-who{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fff;}
 .quote-sample{
   display:inline-block;margin-left:10px;padding:3px 10px;border-radius:var(--r-pill);
-  border:1px solid rgba(235,211,217,.5);color:var(--on-dark-soft);
+  border:1px solid rgba(255,255,255,.62);color:#fff;
   font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
 }
 
@@ -542,26 +553,30 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 /* ---------------- footer ---------------- */
 /* El teléfono y el Instagram viven solo en el header, así que aquí
    la columna de contacto lleva correo y dirección.                 */
-.footer{background:var(--berry-dark);color:var(--on-dark);padding:52px 0 0;}
+/* Pie en el rosa de la marca, no en vino, a pedido del estudio. Sobre el
+   rosa neblina el blanco no alcanza (1.61 : 1), así que el texto va en
+   vino tinta y los rótulos en vino oscuro: medido sobre #E4C4CC,
+   texto 10.17 : 1 · rótulos 4.90 : 1 · iconos 3.29 : 1.               */
+.footer{background:var(--mist);color:var(--ink);padding:52px 0 0;}
 .footer-grid{display:grid;gap:34px;grid-template-columns:1fr;}
-.footer h4{color:#fff;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;}
-.footer a{color:var(--on-dark-soft);display:inline-flex;align-items:center;gap:10px;min-height:40px;}
-.footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px;}
-.footer p{color:var(--on-dark-soft);font-size:14.5px;}
-.footer-brand img{height:50px;width:auto;margin-bottom:16px;filter:brightness(0) invert(1);}
+.footer h4{color:var(--berry-dark);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;}
+.footer a{color:var(--ink);display:inline-flex;align-items:center;gap:10px;min-height:40px;}
+.footer a:hover{color:var(--berry-dark);text-decoration:underline;text-underline-offset:3px;}
+.footer p{color:var(--ink);font-size:14.5px;}
+.footer-brand img{height:64px;width:auto;margin-bottom:16px;}
 .footer-list{display:grid;gap:2px;}
-.footer-list svg{width:16px;height:16px;flex:none;color:var(--mist);}
+.footer-list svg{width:16px;height:16px;flex:none;color:var(--berry);}
 .footer-bottom{
-  margin-top:40px;border-top:1px solid rgba(235,211,217,.26);
+  margin-top:40px;border-top:1px solid rgba(142,47,78,.28);
   padding:20px 0 24px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;
-  font-size:13.5px;color:var(--on-dark-soft);
+  font-size:13.5px;color:var(--ink);
 }
 
 /* ---------------- franja de vista de demostración ----------------
    Andamiaje del prototipo: permite recorrer los tres perfiles sin tener
    usuarios reales. No forma parte del producto; en el sitio publicado cada
    persona entra con su sesión. Contraste sobre la franja (#2E1A20):
-   rótulo 10.17 : 1 · píldora inactiva 8.84 : 1 · activa 6.87 : 1.       */
+   rótulo 10.17 : 1 · píldora inactiva 8.84 : 1 · activa 5.29 : 1.       */
 .demobar{background:var(--ink);}
 .demobar-in{
   display:flex;align-items:center;justify-content:center;gap:16px;
@@ -724,7 +739,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   transition:border-color .18s var(--ease);
 }
 .field input::placeholder,.field textarea::placeholder{color:var(--ink-soft);}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--berry);outline:none;box-shadow:0 0 0 3px rgba(166,43,71,.16);}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--berry);outline:none;box-shadow:0 0 0 3px rgba(184,64,104,.16);}
 .field textarea{min-height:110px;resize:vertical;line-height:1.6;}
 .filters .field{flex:1 1 180px;}
 
@@ -771,13 +786,13 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
    PANTALLAS PÚBLICAS
    ============================================================ */
 /* cabecera de página interior */
-.pagehead{background:var(--berry-dark);color:var(--on-dark);padding:52px 0 46px;}
-.pagehead .eyebrow{color:var(--mist);}
+.pagehead{background:var(--berry);color:var(--on-dark);padding:52px 0 46px;}
+.pagehead .eyebrow{color:#fff;}
 .pagehead h1{
   font-family:var(--font-display);font-weight:400;
   font-size:clamp(34px,5.4vw,48px);color:#fff;max-width:18ch;
 }
-.pagehead p{margin-top:16px;max-width:56ch;color:var(--on-dark-soft);font-size:16.5px;line-height:1.75;}
+.pagehead p{margin-top:16px;max-width:56ch;color:#fff;font-size:16.5px;line-height:1.75;}
 
 /* texto largo legible */
 .prose{max-width:68ch;}
@@ -918,6 +933,10 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   .scroll-hint{display:none;}
 }
 @media (min-width:1160px){
+  /* Con el logo más grande, el número y los dos iconos, el rótulo del
+     lugar ya no cabe en una sola fila junto al menú. Se muestra en
+     tablet, donde el menú va en el botón, y se retira aquí. */
+  .brand-place{display:none;}
   .nav{display:block;margin:0 auto;}
   .burger{display:none;}
   .mobile-nav{display:none !important;}
@@ -931,7 +950,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   .demobar-group button{padding:8px 14px;font-size:12px;}
   .hero-controls{left:var(--pad-x);right:auto;bottom:16px;}
   .hero-body{padding-bottom:78px;}          /* deja libre la fila de controles */
-  .hero-logo img{height:44px;}
+  .hero-logo img{height:56px;}
   .infoband-tag{display:none;}
   .closing{flex-direction:column;align-items:flex-start;}
   .closing .btn{width:100%;}
@@ -944,6 +963,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   .account-text{display:none;}
   .account{padding:5px;}
   .header-in{gap:10px;}
+  .brand img{height:48px;}
   .icon-link,.phone-link,.burger{width:42px;height:42px;}
   .btn-sm{padding:11px 16px;font-size:11px;letter-spacing:.1em;}
 }
@@ -983,6 +1003,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.1z"/></svg>
         <span class="phone-num">096 330 0540</span>
       </a>
+      <a class="icon-link icon-wa" id="waLink" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp a Agilité Pilates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.6a9.4 9.4 0 0 0-8 14.3l-1.4 4.5 4.7-1.4A9.4 9.4 0 1 0 12 2.6z"/><path d="M8.9 7.9c.3-.1.6 0 .8.3l.8 1.3c.2.3.1.6-.1.8l-.6.6c.6 1.2 1.5 2.1 2.7 2.7l.6-.6c.2-.2.5-.3.8-.1l1.3.8c.3.2.4.5.3.8-.3.9-1.1 1.4-2 1.3-2.7-.3-5.3-2.9-5.6-5.6-.1-.9.4-1.7 1.2-2z"/></svg></a>
       <a class="icon-link" href="https://www.instagram.com/agilitepilates" target="_blank" rel="noopener" aria-label="Instagram de Agilité Pilates">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
       </a>
@@ -1047,7 +1068,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
             hola@agilitepilates.ec</a></li>
           <li><a href="#/ubicacion">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10.5c0 5.5-8 12-8 12s-8-6.5-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10.3" r="2.8"/></svg>
-            Av. Eloy Alfaro N40-120 y Gaspar de Villarroel, Quito</a></li>
+            Mariano de Echeverría y Av. Brasil, edificio Moen, Quito</a></li>
         </ul>
         <p style="margin-top:10px;">Lunes a viernes · 6h00 a 9h00 y 18h00 a 20h00</p>
       </div>
@@ -1087,9 +1108,13 @@ AG.data = {
     telefono:'096 330 0540',
     telefonoE164:'+593963300540',
     correo:'hola@agilitepilates.ec',
-    direccion:'Av. Eloy Alfaro N40-120 y Gaspar de Villarroel, Quito',
+    direccion:'Mariano de Echeverría y Av. Brasil, edificio Moen, Quito',
     instagram:'@agilitepilates',
     instagramUrl:'https://www.instagram.com/agilitepilates',
+    /* wa.me abre el chat en la app del celular o en WhatsApp Web, con el
+       mensaje ya escrito para que la estudiante sólo tenga que enviarlo. */
+    whatsappUrl:'https://wa.me/593963300540?text=' +
+      encodeURIComponent('Hola, quiero información sobre las clases de pilates.'),
     capacidadPorClase:8,
     estudiantesActivas:27
   },
@@ -1150,7 +1175,7 @@ AG.data = {
     { img:'assets/servicio-reformer.jpg', pos:'center 60%', eyebrow:'Equipo',
       titulo:'Clases con reformer', beneficio:'Fuerza y control con resistencia graduada' },
     { img:'assets/servicio-mat.jpg', pos:'center 55%', eyebrow:'Suelo',
-      titulo:'Clases en mat', beneficio:'Movilidad y trabajo de centro sobre colchoneta' },
+      titulo:'Clases en mat', beneficio:'Movilidad y trabajo de centro sobre mat' },
     { img:'assets/servicio-grupos.jpg', pos:'center 40%', eyebrow:'Grupos',
       titulo:'Máximo 8 personas', beneficio:'Corrección personalizada en cada clase' },
     { img:'assets/servicio-instructoras.jpg', pos:'center 45%', eyebrow:'Equipo docente',
@@ -1221,7 +1246,7 @@ AG.data = {
   ],
 
   /* Estado de la estudiante con sesión. Respeta las reglas del estudio:
-     el horario es el mismo todo el mes y se cancela hasta 4 horas antes. */
+     el horario es el mismo todo el mes y se cancela hasta 24 horas antes. */
   estudiante: {
     planId:'p12',
     horarioFijo:'h0800',
@@ -1308,7 +1333,7 @@ AG.perfiles = {
     etiqueta:'Visitante', inicio:'#/inicio',
     menu:[
       { texto:'Inicio',            destino:'#/inicio' },
-      { texto:'Horarios y planes', destino:'#/inicio?to=horarios' },
+      { texto:'Planes y horarios', destino:'#/inicio?to=planes' },
       { texto:'Contacto',          destino:'#/contacto' }
     ]
   },
@@ -1353,6 +1378,7 @@ var ICONOS = {
   der:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5 16 12l-6.5 7"/></svg>',
   persona:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.6 20a7.4 7.4 0 0 1 14.8 0"/></svg>',
   panel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7.5" height="8.5" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="5" rx="1.6"/><rect x="13.5" y="11" width="7.5" height="10" rx="1.6"/><rect x="3" y="14.5" width="7.5" height="6.5" rx="1.6"/></svg>',
+  whatsapp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.6a9.4 9.4 0 0 0-8 14.3l-1.4 4.5 4.7-1.4A9.4 9.4 0 1 0 12 2.6z"/><path d="M8.9 7.9c.3-.1.6 0 .8.3l.8 1.3c.2.3.1.6-.1.8l-.6.6c.6 1.2 1.5 2.1 2.7 2.7l.6-.6c.2-.2.5-.3.8-.1l1.3.8c.3.2.4.5.3.8-.3.9-1.1 1.4-2 1.3-2.7-.3-5.3-2.9-5.6-5.6-.1-.9.4-1.7 1.2-2z"/></svg>',
   construccion:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20.5h18M5.5 20.5v-9l6.5-4.5 6.5 4.5v9"/><path d="M9.7 20.5v-5h4.6v5"/></svg>'
 };
 
@@ -1442,8 +1468,8 @@ AG.views = {};
 
 AG.views['#/inicio'] = function (contenedor) {
   contenedor.innerHTML =
-    bloqueBanner() + bloqueCifras() + bloqueServicios() + bloqueHorarios() +
-    bloqueMision() + bloqueInstructoras() + bloquePlanes() + bloqueTestimonios() + bloqueCierre();
+    bloqueBanner() + bloqueServicios() + bloquePlanes() + bloqueHorarios() +
+    bloqueMision() + bloqueInstructoras() + bloqueTestimonios() + bloqueCierre();
   iniciarBanner();
 };
 
@@ -1503,22 +1529,6 @@ function bloqueBanner(){
     '</section>';
 }
 
-/* --------------------------------------------------- banda de cifras ---- */
-function bloqueCifras(){
-  var cifras = [
-    { valor:String(AG.data.estudio.estudiantesActivas), etiqueta:'estudiantes activas' },
-    { valor:String(AG.data.estudio.capacidadPorClase),  etiqueta:'cupos por clase' },
-    { valor:String(AG.data.horarios.length),            etiqueta:'horarios diarios' },
-    { valor:String(cuposLibresTotales()),               etiqueta:'cupos libres hoy' }
-  ];
-  return '<section class="figures" aria-label="El estudio en cifras"><div class="figures-grid">' +
-    cifras.map(function (c) {
-      return '<div class="figure"><span class="figure-num">' + esc(c.valor) + '</span>' +
-             '<span class="figure-label">' + esc(c.etiqueta) + '</span></div>';
-    }).join('') + '</div></section>';
-}
-
-/* ------------------------------------------ servicios con fotografía ---- */
 function bloqueServicios(){
   var tarjetas = AG.data.servicios.map(function (s) {
     return '' +
@@ -1781,7 +1791,7 @@ function bloqueCierre(){
 /* ==================================================== vista estudiante == */
 /* Reglas del estudio que la pantalla hace cumplir:
    · el horario contratado es el mismo durante todo el mes;
-   · se cancela hasta 4 horas antes del inicio de la clase;
+   · se cancela hasta 24 horas antes del inicio de la clase;
    · el plan tiene una cuota de clases al mes y no se congela.
    Un cambio a otro horario es puntual, sólo para ese día.            */
 
@@ -1810,18 +1820,20 @@ function fechasSemana(){
   });
 }
 
-/* ¿Se puede cancelar todavía? Hasta 4 horas antes del inicio. */
+/* ¿Se puede cancelar todavía? Hasta 24 horas antes del inicio.
+   En fin de semana el cuadro muestra la semana siguiente, así que
+   cualquier clase de esa semana está a más de un día de distancia. */
 function margenCancelacion(dia, horarioId){
   var h = horarioPorId(horarioId);
+  if (esFinDeSemana()) return { puede:true };
   var hoy = indiceHoy();
   if (dia < hoy) return { puede:false, motivo:'Esta clase ya pasó.' };
-  if (dia > hoy) return { puede:true };
   var ahora = new Date();
   var minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
-  var limite = h.hora * 60 - 240;              /* 4 horas antes */
-  if (minutosAhora <= limite) return { puede:true };
-  if (minutosAhora >= h.hora * 60 + 60) return { puede:false, motivo:'Esta clase ya pasó.' };
-  return { puede:false, motivo:'Ya pasó el plazo: se cancela hasta 4 horas antes.' };
+  var faltan = (dia - hoy) * 1440 + h.hora * 60 - minutosAhora;
+  if (faltan >= 1440) return { puede:true };   /* 24 horas de margen */
+  if (faltan <= -60) return { puede:false, motivo:'Esta clase ya pasó.' };
+  return { puede:false, motivo:'Ya pasó el plazo: se cancela hasta 24 horas antes.' };
 }
 
 AG.views['#/reservar'] = function (contenedor) {
@@ -1957,7 +1969,7 @@ AG.views['#/reservar'] = function (contenedor) {
           '<div class="panel-head"><h2>Cómo funciona tu plan</h2></div>' +
           '<ul style="display:grid;gap:11px;">' +
             '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Tu horario es el mismo durante todo el mes.</span></li>' +
-            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar hasta 4 horas antes de la clase.</span></li>' +
+            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar hasta 24 horas antes de la clase.</span></li>' +
             '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Las clases se toman dentro del mes activo y no se congelan.</span></li>' +
           '</ul>' +
         '</div>' +
@@ -2138,7 +2150,7 @@ AG.views['#/mi-plan'] = function (contenedor) {
               AG.data.condicionesPlanes.map(function (c) {
                 return '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>' + esc(c) + '</span></li>';
               }).join('') +
-              '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar una clase hasta 4 horas antes.</span></li>' +
+              '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar una clase hasta 24 horas antes.</span></li>' +
             '</ul>' +
           '</div>' +
           (promo.activa ? '<div class="panel" style="margin-top:18px;">' +
@@ -2647,9 +2659,12 @@ AG.views['#/contacto'] = function (contenedor) {
               '<option value="">Todavía no lo sé</option>' + opcionesHorario + '</select></label>' +
             '<label class="field full"><span class="field-label">Mensaje</span><textarea id="cMensaje" rows="4" placeholder="Cuéntanos en qué te ayudamos…"></textarea></label>' +
           '</div>' +
-          '<div style="margin-top:18px;">' +
+          '<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">' +
             '<button class="btn btn-primary" type="button" data-accion="pub-enviar-contacto">Enviar mensaje</button>' +
+            '<a class="btn btn-outline" href="' + est.whatsappUrl + '" target="_blank" rel="noopener">' +
+              '<span class="btn-ico" aria-hidden="true">' + ICONOS.whatsapp + '</span>Escribir por WhatsApp</a>' +
           '</div>' +
+          '<p class="form-note">Si prefieres el chat, el botón abre WhatsApp con el mensaje ya escrito.</p>' +
           '<p class="form-note">Al enviar aceptas nuestra <a href="#/privacidad">política de privacidad</a>.</p>' +
         '</div>' +
 
@@ -2742,7 +2757,7 @@ AG.views['#/ubicacion'] = function (contenedor) {
   var mapa = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(est.direccion);
   contenedor.innerHTML =
     cabecera('Cómo llegar', 'Ubicación',
-      'Estamos en el norte de Quito, a pocos minutos de la avenida Eloy Alfaro.') +
+      'Estamos en el norte de Quito, en el edificio Moen, a pocos pasos de la\n       avenida Brasil.') +
 
     '<section class="band band-veil"><div class="wrap">' +
       '<div class="app-grid aside">' +
@@ -2924,7 +2939,7 @@ AG.views['#/terminos'] = function (contenedor) {
       '</ul>' +
       '<h2>Condiciones de los planes</h2>' +
       '<ul>' + AG.data.condicionesPlanes.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('') +
-        '<li>Una clase reservada puede cancelarse hasta 4 horas antes de su inicio; pasado ese plazo se descuenta del plan.</li>' +
+        '<li>Una clase reservada puede cancelarse hasta 24 horas antes de su inicio; pasado ese plazo se descuenta del plan.</li>' +
       '</ul>' +
       '<h2>Vigencia y cambios</h2>' +
       '<p>El estudio puede modificar o dar por terminada una promoción en cualquier momento. Los cambios no afectan a las inscripciones ya confirmadas bajo las condiciones anteriores.</p>' +
@@ -3400,6 +3415,7 @@ AG.precioPromo = precioPromo;
 /* ============================================================== arranque == */
 function iniciar(){
   $('#year').textContent = String(new Date().getFullYear());
+  $('#waLink').href = AG.data.estudio.whatsappUrl;
 
   var perfilGuardado = leer('ag-perfil');
   if (perfilGuardado && AG.perfiles[perfilGuardado]) AG.estado.perfil = perfilGuardado;
