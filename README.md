@@ -185,13 +185,37 @@ oscuro cuando hace de texto sobre las tarjetas.
 columna de horas queda fija, de modo que nunca se pierde la referencia de
 qué franja se está mirando.
 
-**Fotografías.** El banner es a todo el ancho, así que las verticales
-originales se recortaron a 16:9 encuadrando el motivo (la fachada, por
-ejemplo, quedó centrada en el interior iluminado y no en el letrero). Las
-tarjetas de servicios comparten proporción 4:3. El banner reserva la altura
-de la diapositiva más alta, de modo que el bloque no cambia de tamaño al
-rotar. La rotación se detiene con el cursor encima o con el foco dentro, y
-se respeta la preferencia de movimiento reducido del sistema.
+**Fotografías.** Las tarjetas de servicios comparten proporción 4:3. El
+banner reserva la altura de la diapositiva más alta, de modo que el bloque
+no cambia de tamaño al rotar. La rotación se detiene con el cursor encima o
+con el foco dentro, y se respeta la preferencia de movimiento reducido del
+sistema.
+
+**Dos recortes por fotografía del banner.** Un mismo archivo no sirve para
+el monitor y para el celular: en horizontal sobra alto y en vertical sobra
+ancho, y el recorte automático se come el motivo. Cada fotografía del
+banner tiene entonces dos archivos y el navegador elige con `<picture>`:
+
+| Archivo | Medida | Proporción | Se usa desde |
+| --- | --- | --- | --- |
+| `banner-*-h.jpg` | 2400 × 1000 px | 2,4:1 | 768 px de ancho en adelante |
+| `banner-*-v.jpg` | 1200 × 2000 px | 0,6:1 | por debajo de 768 px |
+
+Van en JPG sRGB progresivo, por debajo de 300 KB cada uno. El motivo se
+encuadra dentro del 80 % central en la horizontal y del 83 % central en la
+vertical, porque el navegador recorta los bordes según la pantalla. El
+tercio inferior izquierdo se deja despejado: ahí caen el titular, los
+botones y la parte más cargada del velo. Si una diapositiva no trae
+recorte vertical (`imgV`), el navegador usa el horizontal en todos los
+anchos.
+
+**El velo cambia según la pantalla.** En el celular el bloque de texto
+ocupa casi todo el alto del banner, así que el velo va cargado; desde
+768 px el texto se concentra a la izquierda y el velo se aligera para que
+la fotografía se vea. Cuando el recorte horizontal ya muestra el letrero
+del estudio en la pared, la diapositiva marca `logoEnFoto:true` y el chip
+del logo se oculta en pantallas anchas para no repetir la marca; en el
+celular, donde ese letrero queda debajo del texto, el chip sigue visible.
 
 ## Textos legales
 

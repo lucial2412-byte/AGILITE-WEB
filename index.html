@@ -261,16 +261,29 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility .9s var(--ease);
 }
 .hero-slide.is-active{opacity:1;visibility:visible;}
-.hero-photo{position:absolute;inset:0;background-size:cover;background-position:center 34%;background-color:var(--dusty);}
+.hero-photo{position:absolute;inset:0;display:block;background-color:var(--dusty);}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center center;}
+/* El velo oscurece la fotografía para que el texto blanco se lea. En el
+   celular el bloque de texto ocupa casi todo el alto, así que el velo va
+   más cargado; desde 768 px el texto se concentra a la izquierda y el
+   velo se aligera para que la fotografía se vea. */
 .hero-veil{
   position:absolute;inset:0;
   background:
-    linear-gradient(100deg,rgba(46,26,32,.88) 0%,rgba(46,26,32,.56) 56%,rgba(46,26,32,.24) 100%),
-    linear-gradient(to top,rgba(46,26,32,.80) 0%,rgba(46,26,32,.50) 52%,rgba(110,31,51,.40) 100%);
+    linear-gradient(100deg,rgba(46,26,32,.88) 0%,rgba(46,26,32,.56) 56%,rgba(46,26,32,.30) 100%),
+    linear-gradient(to top,rgba(46,26,32,.74) 0%,rgba(46,26,32,.46) 52%,rgba(110,31,51,.34) 100%);
+}
+@media (min-width:768px){
+  .hero-veil{
+    background:
+      linear-gradient(100deg,rgba(46,26,32,.80) 0%,rgba(46,26,32,.40) 58%,rgba(46,26,32,.12) 100%),
+      linear-gradient(to top,rgba(46,26,32,.56) 0%,rgba(46,26,32,.24) 52%,rgba(110,31,51,.20) 100%);
+  }
 }
 .hero-body{position:relative;padding:52px var(--pad-x) 44px;}
 .hero-logo{display:inline-block;background:var(--mist);padding:11px 16px;border-radius:var(--r-sm);margin-bottom:24px;}
 .hero-logo img{height:54px;width:auto;}
+@media (min-width:768px){ .hero-logo-movil{display:none;} }
 .hero-body h1{
   margin:0 0 20px;max-width:18ch;color:#fff;
   font-size:clamp(31px,6.4vw,54px);
@@ -1098,25 +1111,32 @@ AG.data = {
   /* Banner rotativo del home: tres fotografías del estudio. */
   banner: [
     {
-      img:'assets/banner-fachada.jpg',
-      alt:'Fachada de Agilité Pilates de noche con el letrero iluminado',
-      pos:'center 50%',
+      imgH:'assets/banner-reformers-h.jpg',
+      imgV:'assets/banner-reformers-v.jpg',
+      /* el recorte horizontal ya muestra el letrero del estudio en la
+         pared, así que ahí el chip del logo se oculta para no repetirlo;
+         en el recorte vertical el letrero queda bajo el texto y el chip
+         sí hace falta. */
+      logoEnFoto:true,
+      alt:'Sala de Agilité Pilates con las camas reformer y el letrero iluminado del estudio',
+      pos:'center center',
       titulo:'Donde cada cuerpo<br>encuentra <span class="accent">su ritmo</span>',
       texto:'Clases de ocho personas en el norte de Quito. Mira los cupos reales, reserva en un toque y cancela cuando lo necesites.',
       ctaPrincipal:{ texto:'Reservar clase', destino:'#/inicio?to=horarios' },
       ctaSecundario:{ texto:'Ver planes', destino:'#/inicio?to=planes' }
     },
     {
-      img:'assets/banner-clase.jpg',
-      alt:'Estudiantes durante una clase de pilates sobre camas reformer',
-      pos:'center 50%',
+      imgH:'assets/banner-sala-h.jpg',
+      imgV:'assets/banner-sala-v.jpg',
+      alt:'Vista amplia del estudio con las cinco camas reformer listas para la clase',
+      pos:'center center',
       titulo:'Grupos de ocho,<br>atención <span class="accent">de verdad</span>',
       texto:'Cinco horarios de lunes a viernes y una instructora certificada por jornada, atenta a corregir tu técnica en cada ejercicio.',
       ctaPrincipal:{ texto:'Ver horarios', destino:'#/inicio?to=horarios' },
       ctaSecundario:{ texto:'Conocer el estudio', destino:'#/nosotros' }
     },
     {
-      img:'assets/banner-mat.jpg',
+      imgH:'assets/banner-mat.jpg',
       alt:'Mujer sentada sobre un mat sosteniendo un aro de pilates',
       pos:'center 50%',
       titulo:'Reformer y mat,<br>a <span class="accent">tu medida</span>',
@@ -1446,10 +1466,13 @@ function bloqueBanner(){
       '<div class="hero-slide' + (activo ? ' is-active' : '') + '" data-slide="' + i + '"' +
            ' role="group" aria-roledescription="diapositiva" aria-label="' + (i + 1) + ' de ' + total + '"' +
            ' aria-hidden="' + (!activo) + '">' +
-        '<div class="hero-photo" style="background-image:url(\'' + s.img + '\');background-position:' + s.pos + '" role="img" aria-label="' + esc(s.alt) + '"></div>' +
+        '<picture class="hero-photo">' +
+          (s.imgV ? '<source media="(max-width:767px)" srcset="' + s.imgV + '">' : '') +
+          '<img src="' + s.imgH + '" alt="' + esc(s.alt) + '"' + ' style="object-position:' + s.pos + '"' + (activo ? ' fetchpriority="high"' : ' loading="lazy"') + ' decoding="async">' +
+        '</picture>' +
         '<div class="hero-veil"></div>' +
         '<div class="wrap hero-body">' +
-          '<span class="hero-logo"><img src="assets/logo-agilite.png" alt="Agilité Pilates"></span>' +
+          '<span class="hero-logo' + (s.logoEnFoto ? ' hero-logo-movil' : '') + '">' + '<img src="assets/logo-agilite.png" alt="Agilité Pilates"></span>' +
           '<h1 class="display">' + s.titulo + '</h1>' +
           '<p>' + esc(s.texto) + '</p>' +
           '<div class="hero-actions">' +
