@@ -36,10 +36,14 @@ las pantallas:
   en móvil son dos íconos y en escritorio el teléfono se expande y muestra
   el número. Una prueba comprueba en los tres perfiles que cada uno aparece
   exactamente una vez y que está dentro del header. Al lado va el ícono de
+  WhatsApp, que abre el chat del estudio con el mensaje ya escrito. Al lado va el ícono de
   WhatsApp, que abre el chat del estudio con el mensaje ya escrito.
 - Banda informativa estática con la promoción vigente, sobre fotografía con
   degradado, con enlace a la sección y botón para cerrarla. No rota.
-- Banner principal a todo el ancho, con rotación cada 7 segundos.
+- Banner principal a todo el ancho, con rotación cada 7 segundos. Sin
+  botones: titular, una línea y el dato de cupos libres de hoy. El velo no
+  cubre toda la fotografía sino sólo la esquina donde cae el texto, para
+  que el resto de la sala se vea.
 - Servicios en cuadrícula de cuatro tarjetas.
 - Planes con la Promo Flash aplicada y sus condiciones.
 - Horarios con dos pestañas: la disponibilidad de hoy y un cuadro de toda
@@ -54,15 +58,23 @@ las pantallas:
   las fechas reales de la semana y los cinco horarios con cupos. Reservar,
   cancelar, cambiar de horario puntualmente y entrar a la lista de espera
   cambian los datos de verdad y se redibuja la pantalla.
-- **Mi progreso** · clases del mes, medidor del plan, fichas de dato y las
-  clases por semana.
+- **Mi progreso** · clases del mes, medidor del plan, fichas de dato, las
+  clases por semana, el **seguimiento de medidas** y las **fotos de
+  progreso**. Las medidas las registra la estudiante y el cambio se muestra
+  sin metas ni colores de acierto: el estudio dice «queremos que te sientas
+  bien en el cuerpo que habitas», así que la pantalla informa, no califica.
+  Las fotos son opcionales y privadas; en el prototipo no salen del
+  navegador —se reducen con un canvas y se pierden al recargar—, así que
+  antes de publicar hay que decidir dónde se guardan y con qué
+  consentimiento.
 - **Mi plan** · lo contratado, condiciones, historial de pagos y cambio de
   plan con el precio de la promoción aplicado.
 
-Las reglas del estudio se hacen cumplir: el horario contratado es el mismo
-todo el mes (un cambio de horario es puntual, sólo para ese día, y no altera
-el del mes), se cancela hasta 24 horas antes del inicio, y la cuota de
-clases del plan no se puede exceder. El plazo se evalúa contra el reloj
+Las reglas del estudio se hacen cumplir: cada estudiante tiene un horario
+habitual —el que eligió al inscribirse, que aparece preseleccionado— pero
+**puede reagendar cualquier clase** según la disponibilidad del día, se
+cancela hasta 24 horas antes del inicio, y la cuota de clases del plan no
+se puede exceder. El plazo se evalúa contra el reloj
 real; `cancelacion.js` lo prueba con el reloj fijado en un miércoles a las
 10h15, a las 5h00, un martes a las 23h30 y un sábado, porque si la suite
 corre en fin de semana la rama de día laborable no se ejercitaría nunca.
@@ -189,13 +201,32 @@ celular: el diseño base es de una columna y crece hacia tablet y escritorio.
 
 **Legibilidad.** Cuerpo de texto de 17 px, botones de 52 px de alto y áreas
 de toque de 44 px como mínimo. El contraste se verificó de dos maneras: las
-combinaciones que se pueden calcular del CSS, con el ratio WCAG; y los
-textos que van sobre fotografía —banner, tarjetas de servicio y banda
-informativa— midiendo el píxel más claro del fondo real en escritorio y
-móvil, en las tres diapositivas. El peor caso en uso es 5,14 : 1 para texto
-grande y 5,07 : 1 para texto normal. El dusty rose
-sólo se usa en bordes y elementos decorativos, porque como texto sobre
-fondos claros no alcanza contraste suficiente. El verde salvia aparece
+combinaciones que se pueden calcular del CSS, con el ratio WCAG, en las
+dieciséis pantallas y en los tres perfiles; y los textos que van sobre
+fotografía, midiendo el fondo real en píxeles.
+
+La segunda medición (`fotocontraste.js`) se rehízo porque la anterior
+mentía de tres maneras:
+
+1. calculaba como si todo el texto fuera blanco, cuando varios elementos
+   iban en rosa neblina, que tiene bastante menos luminancia;
+2. medía la caja del elemento, que incluye esquinas sin letras —la esquina
+   vacía de un titular de dos líneas—, así que penalizaba zonas donde no
+   hay texto; ahora mide una caja por línea, con `Range`;
+3. ocultaba el bloque de texto para fotografiar el fondo, y con él se iban
+   los rellenos que protegen el texto, como la píldora del dato de cupos;
+   ahora las letras se vuelven transparentes y los fondos se quedan.
+
+Con la medición corregida, los diez textos sobre fotografía cumplen. El
+peor caso es **3,64 : 1 en el titular** del banner (mínimo 3,0 por ser
+texto grande) y **5,98 : 1 en el párrafo** (mínimo 4,5). El titular es el
+que va más justo a propósito: el estudio pidió que el banner diera luz a
+la página, así que el velo no cubre toda la fotografía sino sólo la
+esquina donde cae el texto.
+
+El dusty rose sólo se usa en bordes y elementos decorativos, porque como
+texto sobre fondos claros no alcanza contraste suficiente. El verde salvia
+aparece
 únicamente en el estado «disponible» de los cupos, en un tono algo más
 oscuro cuando hace de texto sobre las tarjetas.
 
