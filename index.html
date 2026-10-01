@@ -395,8 +395,45 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 }
 .photocard-body{position:absolute;left:24px;right:24px;bottom:22px;}
 .photocard-eyebrow{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#fff;margin-bottom:8px;}
-.photocard h3{font-family:var(--font-display);font-size:26px;line-height:1.18;color:#fff;font-weight:400;}
-.photocard p{margin-top:8px;font-size:13.5px;line-height:1.55;color:#fff;font-weight:300;}
+.photocard-titulo{display:block;font-family:var(--font-display);font-size:26px;line-height:1.18;color:#fff;font-weight:400;}
+/* la tarjeta sólo lleva el título; esto avisa de que se puede abrir */
+.photocard-mas{
+  display:inline-flex;align-items:center;gap:6px;margin-top:12px;
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#fff;
+}
+.photocard-mas svg{width:15px;height:15px;transition:transform .2s var(--ease);}
+.photocard:hover .photocard-mas svg,
+.photocard:focus-visible .photocard-mas svg{transform:translateX(4px);}
+
+/* ---------------- ficha de un servicio ---------------- */
+.ficha{
+  border:0;padding:0;max-width:620px;width:calc(100% - 32px);max-height:88vh;
+  border-radius:var(--r-lg);background:var(--surface);color:var(--ink);
+  box-shadow:var(--sh-lg);overflow:hidden;
+}
+.ficha::backdrop{background:rgba(46,26,32,.62);}
+.ficha-foto{height:190px;background-size:cover;background-position:center;}
+.ficha-cuerpo{padding:26px 28px 30px;overflow-y:auto;max-height:calc(88vh - 190px);}
+.ficha-cuerpo .eyebrow{color:var(--berry-dark);}
+.ficha-cuerpo h2{
+  font-family:var(--font-display);font-weight:400;font-size:clamp(26px,4.6vw,32px);
+  color:var(--berry-dark);margin:8px 0 4px;
+}
+.ficha-resumen{font-size:16.5px;line-height:1.7;color:var(--ink);margin-bottom:18px;}
+.ficha-cuerpo p + p{margin-top:14px;}
+.ficha-cuerpo .ficha-parrafo{font-size:15.5px;line-height:1.78;color:var(--ink-soft);}
+.ficha-cerrar{
+  position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;background:rgba(46,26,32,.72);color:#fff;
+}
+.ficha-cerrar:hover{background:var(--ink);}
+.ficha-cerrar svg{width:17px;height:17px;}
+.ficha-pie{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+@media (max-width:420px){
+  .ficha-foto{height:150px;}
+  .ficha-cuerpo{padding:22px 20px 26px;}
+  .ficha-pie .btn{width:100%;}
+}
 
 /* ---------------- banda de misión ---------------- */
 .mision{display:grid;gap:30px;align-items:center;grid-template-columns:1fr;}
@@ -1109,6 +1146,10 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   </div>
 </footer>
 
+<!-- Ficha de un servicio. <dialog> nativo: trae el foco atrapado, el
+     cierre con Esc y el fondo inerte sin tener que programarlos. -->
+<dialog class="ficha" id="ficha" aria-labelledby="fichaTitulo"></dialog>
+
 <script>
 /* ==========================================================================
    AGILITÉ PILATES · Prototipo funcional
@@ -1198,19 +1239,42 @@ AG.data = {
     }
   ],
 
+  /* Las tarjetas muestran sólo el título; el detalle se abre al hacer clic,
+     en una ficha, porque el estudio pidió información más extensa sin
+     cargar la portada.                                                  */
   servicios: [
     { img:'assets/servicio-reformer.jpg', pos:'center center', eyebrow:'Equipo',
       titulo:'Clases con reformer',
-      beneficio:'La cama de resortes acompaña cada movimiento: trabajas fuerza y control sin cargar las articulaciones.' },
+      resumen:'Fuerza y control con resistencia graduada, sin impacto.',
+      detalle:[
+        'El reformer es una cama con una plataforma deslizante y un juego de resortes que se graduan según el ejercicio. Los resortes acompañan el movimiento: te sostienen donde todavía no tienes fuerza y te oponen resistencia donde ya la tienes.',
+        'Por eso el trabajo es exigente sin ser brusco. No hay impacto, el peso del cuerpo nunca cae de golpe sobre las articulaciones y cada repetición se hace despacio, con la técnica cuidada de principio a fin.',
+        'Se trabaja tumbada, sentada, de pie y de rodillas, así que una sola clase recorre piernas, brazos, espalda y centro. Es el formato con el que la mayoría empieza en el estudio: sirve igual si vienes del deporte o si llevas años sin moverte, porque los resortes se ajustan a tu nivel.'
+      ] },
     { img:'assets/servicio-mat.jpg', pos:'center 55%', eyebrow:'Suelo',
       titulo:'Clases en mat',
-      beneficio:'En el piso, con tu propio peso y accesorios: movilidad, equilibrio y mucho trabajo de centro.' },
+      resumen:'El pilates original, en el piso y con tu propio peso.',
+      detalle:[
+        'El mat es el pilates original: en el piso, sobre colchoneta, con el peso del propio cuerpo como única resistencia. Lo que sostiene cada ejercicio es el centro —abdomen, espalda baja y pelvis—, así que el trabajo se siente ahí desde el primer minuto.',
+        'Usamos pelota, aro, banda elástica y pesas livianas para variar la exigencia y para que la postura se corrija sola: los accesorios obligan a estabilizar, y estabilizar es justamente lo que se entrena.',
+        'Al no depender de la máquina, lo que aprendes en mat te lo llevas puesto: son ejercicios que puedes repetir en casa las semanas que no alcances a venir.'
+      ] },
     { img:'assets/servicio-grupos.jpg', pos:'center center', eyebrow:'Grupos',
-      titulo:'Máximo 8 personas',
-      beneficio:'Nunca más de ocho por clase, así la instructora alcanza a corregirte la postura a ti.' },
+      titulo:'Grupos reducidos',
+      resumen:'Ocho personas por clase, el número que permite corregir a cada una.',
+      detalle:[
+        'Nunca más de ocho personas por clase. No es una cifra de folleto: es el número con el que una instructora alcanza a ver a cada una y corregir una cadera que rota, una costilla que se abre o un cuello que se tensa.',
+        'En la práctica significa que la clase avanza a tu ritmo y no al del grupo. Las variantes se reparten: a quien le falta movilidad se le da una versión, a quien ya tiene fuerza se le pide otra, en el mismo ejercicio y a la misma hora.',
+        'Y significa que te conocen. A la tercera clase la instructora ya sabe qué hombro te molesta y con qué ejercicio conviene ir despacio.'
+      ] },
     { img:'assets/servicio-instructoras.jpg', pos:'center 45%', eyebrow:'Equipo docente',
       titulo:'Instructoras certificadas',
-      beneficio:'Una por jornada, certificada en reformer y mat, que ya conoce tu progreso.' }
+      resumen:'Una por jornada, certificada en reformer y en mat.',
+      detalle:[
+        'Dos instructoras, una por jornada: Andrea en la mañana y Camila en la noche. Las dos certificadas en reformer y en mat.',
+        'Que cada jornada tenga su instructora fija no es un detalle de horario. Significa que quien te recibe es siempre la misma persona: la que vio tu progreso la semana pasada y sabe qué toca hoy.',
+        'Si vienes con una lesión, un embarazo o una indicación médica, cuéntaselo antes de empezar y trae la recomendación de tu médico si la tienes: hay ejercicios que conviene cambiar y la clase se ajusta sin problema.'
+      ] }
   ],
 
   mision: {
@@ -1586,17 +1650,18 @@ function bloqueBanner(){
 }
 
 function bloqueServicios(){
-  var tarjetas = AG.data.servicios.map(function (s) {
+  var tarjetas = AG.data.servicios.map(function (s, i) {
     return '' +
-      '<article class="photocard">' +
-        '<div class="photocard-photo" style="background-image:url(\'' + s.img + '\');background-position:' + s.pos + '" role="img" aria-label="' + esc(s.titulo) + '"></div>' +
-        '<div class="photocard-veil"></div>' +
-        '<div class="photocard-body">' +
+      '<button type="button" class="photocard" data-accion="ver-servicio" data-i="' + i + '" ' +
+              'aria-haspopup="dialog" aria-label="' + esc(s.titulo) + ': ver en qué consiste">' +
+        '<span class="photocard-photo" style="background-image:url(\'' + s.img + '\');background-position:' + s.pos + '"></span>' +
+        '<span class="photocard-veil"></span>' +
+        '<span class="photocard-body">' +
           '<span class="photocard-eyebrow">' + esc(s.eyebrow) + '</span>' +
-          '<h3>' + esc(s.titulo) + '</h3>' +
-          '<p>' + esc(s.beneficio) + '</p>' +
-        '</div>' +
-      '</article>';
+          '<span class="photocard-titulo">' + esc(s.titulo) + '</span>' +
+          '<span class="photocard-mas">Ver en qué consiste' + ICONOS.der + '</span>' +
+        '</span>' +
+      '</button>';
   }).join('');
   return '' +
     '<section class="band band-surface" id="servicios">' +
@@ -3435,6 +3500,34 @@ function recibirFotos(archivos){
   });
 }
 
+/* Ficha de un servicio, en un <dialog> nativo: el navegador se encarga del
+   foco, de Esc y de dejar el resto de la página inerte. */
+/* Un clic en el fondo cierra la ficha; dentro del cuadro no. */
+function prepararFicha(){
+  var dlg = $('#ficha');
+  dlg.addEventListener('click', function (ev) { if (ev.target === dlg) dlg.close(); });
+}
+
+function abrirFicha(i){
+  var s = AG.data.servicios[i];
+  if (!s) return;
+  var dlg = $('#ficha');
+  dlg.innerHTML =
+    '<div class="ficha-foto" style="background-image:url(\'' + s.img + '\');background-position:' + s.pos + '" role="img" aria-label="' + esc(s.titulo) + '"></div>' +
+    '<button class="ficha-cerrar" type="button" data-accion="cerrar-ficha" aria-label="Cerrar">' + ICONOS.cerrar + '</button>' +
+    '<div class="ficha-cuerpo">' +
+      '<span class="eyebrow">' + esc(s.eyebrow) + '</span>' +
+      '<h2 id="fichaTitulo">' + esc(s.titulo) + '</h2>' +
+      '<p class="ficha-resumen">' + esc(s.resumen) + '</p>' +
+      s.detalle.map(function (t) { return '<p class="ficha-parrafo">' + esc(t) + '</p>'; }).join('') +
+      '<div class="ficha-pie">' +
+        '<a class="btn btn-primary btn-sm" href="#/inicio?to=horarios" data-accion="cerrar-ficha">Ver horarios</a>' +
+        '<a class="btn btn-outline btn-sm" href="#/inicio?to=planes" data-accion="cerrar-ficha">Ver planes</a>' +
+      '</div>' +
+    '</div>';
+  dlg.showModal();
+}
+
 var ACCIONES = {
   'iniciar-sesion': function () { location.hash = '#/entrar'; },
   'entrar-sesion':  function (boton) {
@@ -3457,6 +3550,12 @@ var ACCIONES = {
     location.hash = '#/inscripcion';
   },
   'cuenta':         function () { location.hash = '#/cuenta'; },
+  'ver-servicio':   function (boton) { abrirFicha(parseInt(boton.dataset.i, 10)); },
+  'cerrar-ficha':   function (boton) {
+    $('#ficha').close();
+    var destino = boton.tagName === 'A' ? boton.getAttribute('href') : null;
+    if (destino) location.hash = destino;
+  },
   'est-guardar-medidas': function () {
     var e = AG.data.estudiante;
     var fecha = ($('#med-fecha').value || '').trim() || fechaCorta();
@@ -3720,6 +3819,7 @@ AG.precioPromo = precioPromo;
 function iniciar(){
   $('#year').textContent = String(new Date().getFullYear());
   $('#waLink').href = AG.data.estudio.whatsappUrl;
+  prepararFicha();
 
   var perfilGuardado = leer('ag-perfil');
   if (perfilGuardado && AG.perfiles[perfilGuardado]) AG.estado.perfil = perfilGuardado;

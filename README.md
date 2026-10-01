@@ -47,7 +47,11 @@ las pantallas:
   en la acción, y la disponibilidad real sigue en la sección de horarios.
   El velo no cubre toda la fotografía sino sólo la esquina donde cae el
   texto, para que el resto de la sala se vea.
-- Servicios en cuadrícula de cuatro tarjetas.
+- Servicios en cuadrícula de cuatro tarjetas. Cada tarjeta muestra sólo el
+  título y se abre al hacer clic: el detalle —tres párrafos sobre en qué
+  consiste ese formato— va en una ficha, en un `<dialog>` nativo, que trae
+  el foco atrapado, el cierre con Esc y el fondo inerte sin programarlos.
+  El estudio pidió información más extensa sin cargar la portada.
 - Planes con la Promo Flash aplicada y sus condiciones.
 - Horarios con dos pestañas: la disponibilidad de hoy y un cuadro de toda
   la semana (cinco franjas por cinco días) con el cupo de cada clase.
