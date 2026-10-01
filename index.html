@@ -394,7 +394,6 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   background:linear-gradient(to top,rgba(153,53,71,.94) 0%,rgba(153,53,71,.54) 58%,rgba(187,64,85,.36) 100%);
 }
 .photocard-body{position:absolute;left:24px;right:24px;bottom:22px;}
-.photocard-eyebrow{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#fff;margin-bottom:8px;}
 .photocard-titulo{display:block;font-family:var(--font-display);font-size:26px;line-height:1.18;color:#fff;font-weight:400;}
 /* la tarjeta sólo lleva el título; esto avisa de que se puede abrir */
 .photocard-mas{
@@ -1271,7 +1270,7 @@ AG.data = {
       titulo:'Instructoras certificadas',
       resumen:'Una por jornada, certificada en reformer y en mat.',
       detalle:[
-        'Dos instructoras, una por jornada: Andrea en la mañana y Camila en la noche. Las dos certificadas en reformer y en mat.',
+        'Dos instructoras, una por jornada: Pavlova en la mañana e Inoha en la noche. Las dos certificadas en reformer y en mat.',
         'Que cada jornada tenga su instructora fija no es un detalle de horario. Significa que quien te recibe es siempre la misma persona: la que vio tu progreso la semana pasada y sabe qué toca hoy.',
         'Si vienes con una lesión, un embarazo o una indicación médica, cuéntaselo antes de empezar y trae la recomendación de tu médico si la tienes: hay ejercicios que conviene cambiar y la clase se ajusta sin problema.'
       ] }
@@ -1294,18 +1293,18 @@ AG.data = {
   /* Cinco horarios de 8 cupos, de lunes a viernes. `semana` lleva las
      reservas de cada día; el de 8h00 concentra la mitad de la demanda.  */
   horarios: [
-    { id:'h0600', hora:6, inicio:'6h00',  fin:'7h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[5,4,5,4,3] },
-    { id:'h0700', hora:7, inicio:'7h00',  fin:'8h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[6,6,5,6,5] },
-    { id:'h0800', hora:8, inicio:'8h00',  fin:'9h00',  jornada:'Mañana', instructora:'Andrea V.', capacidad:8, semana:[8,8,8,8,7], enEspera:3 },
-    { id:'h1800', hora:18, inicio:'18h00', fin:'19h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, semana:[4,5,4,5,4] },
-    { id:'h1900', hora:19, inicio:'19h00', fin:'20h00', jornada:'Noche',  instructora:'Camila R.', capacidad:8, semana:[4,4,5,4,4] }
+    { id:'h0600', hora:6, inicio:'6h00',  fin:'7h00',  jornada:'Mañana', instructora:'Pavlova Ch.', capacidad:8, semana:[5,4,5,4,3] },
+    { id:'h0700', hora:7, inicio:'7h00',  fin:'8h00',  jornada:'Mañana', instructora:'Pavlova Ch.', capacidad:8, semana:[6,6,5,6,5] },
+    { id:'h0800', hora:8, inicio:'8h00',  fin:'9h00',  jornada:'Mañana', instructora:'Pavlova Ch.', capacidad:8, semana:[8,8,8,8,7], enEspera:3 },
+    { id:'h1800', hora:18, inicio:'18h00', fin:'19h00', jornada:'Noche',  instructora:'Inoha C.', capacidad:8, semana:[4,5,4,5,4] },
+    { id:'h1900', hora:19, inicio:'19h00', fin:'20h00', jornada:'Noche',  instructora:'Inoha C.', capacidad:8, semana:[4,4,5,4,4] }
   ],
 
   instructoras:[
-    { nombre:'Andrea Villacís', iniciales:'AV', jornada:'Jornada de la mañana',
+    { nombre:'Pavlova Charpentier', iniciales:'PC', jornada:'Jornada de la mañana',
       franja:'6h00 a 9h00', formacion:'Certificada en reformer y mat',
       nota:'Acompaña los tres horarios de la mañana y lleva el seguimiento de cada estudiante.' },
-    { nombre:'Camila Rueda', iniciales:'CR', jornada:'Jornada de la noche',
+    { nombre:'Inoha Cuesta', iniciales:'IC', jornada:'Jornada de la noche',
       franja:'18h00 a 20h00', formacion:'Certificada en reformer y mat',
       nota:'Acompaña los dos horarios de la noche, con foco en movilidad y postura.' }
   ],
@@ -1336,11 +1335,11 @@ AG.data = {
      la sección completa.                                                */
   testimonios:[
     { texto:'Antes escribía por WhatsApp y esperaba hasta el día siguiente para saber si había cupo. Ahora entro, veo la disponibilidad y reservo en un minuto.',
-      autora:'Estudiante · plan de 12 clases', ejemplo:true },
+      autora:'Verónica A. · plan de 12 clases', ejemplo:true },
     { texto:'El grupo pequeño hace toda la diferencia: la instructora alcanza a corregirte la postura en cada ejercicio.',
-      autora:'Estudiante · plan de 8 clases', ejemplo:true },
+      autora:'Gabriela P. · plan de 8 clases', ejemplo:true },
     { texto:'Me avisaron en cuanto se liberó un cupo de las 8h00, que es el horario que siempre está lleno.',
-      autora:'Estudiante · plan de 16 clases', ejemplo:true }
+      autora:'Paula J. · plan de 16 clases', ejemplo:true }
   ],
 
   /* Estado de la estudiante con sesión. Respeta las reglas del estudio:
@@ -1660,7 +1659,6 @@ function bloqueServicios(){
         '<span class="photocard-photo" style="background-image:url(\'' + s.img + '\');background-position:' + s.pos + '"></span>' +
         '<span class="photocard-veil"></span>' +
         '<span class="photocard-body">' +
-          '<span class="photocard-eyebrow">' + esc(s.eyebrow) + '</span>' +
           '<span class="photocard-titulo">' + esc(s.titulo) + '</span>' +
           '<span class="photocard-mas">Ver más' + ICONOS.der + '</span>' +
         '</span>' +
@@ -1821,9 +1819,10 @@ function bloqueInstructoras(){
   return '' +
     '<section class="band band-surface" id="instructoras">' +
       '<div class="wrap">' +
+        /* El estudio pidió quitar el titular. El rótulo pasa a ser el
+           encabezado de la sección para no dejar el bloque sin uno. */
         '<div class="band-head">' +
-          '<span class="eyebrow">Quién te acompaña</span>' +
-          '<h2 class="title">Una instructora por jornada</h2>' +
+          '<h2 class="eyebrow">Quién te acompaña</h2>' +
         '</div>' +
         '<div class="teachers">' + tarjetas + '</div>' +
       '</div>' +
