@@ -1653,13 +1653,16 @@ function bloqueServicios(){
   var tarjetas = AG.data.servicios.map(function (s, i) {
     return '' +
       '<button type="button" class="photocard" data-accion="ver-servicio" data-i="' + i + '" ' +
-              'aria-haspopup="dialog" aria-label="' + esc(s.titulo) + ': ver en qué consiste">' +
+              /* el nombre accesible contiene el rótulo visible, que es lo
+                 que pide el criterio 2.5.3 de la WCAG, y además dice de
+                 qué tarjeta se trata */
+              'aria-haspopup="dialog" aria-label="' + esc(s.titulo) + ': ver más">' +
         '<span class="photocard-photo" style="background-image:url(\'' + s.img + '\');background-position:' + s.pos + '"></span>' +
         '<span class="photocard-veil"></span>' +
         '<span class="photocard-body">' +
           '<span class="photocard-eyebrow">' + esc(s.eyebrow) + '</span>' +
           '<span class="photocard-titulo">' + esc(s.titulo) + '</span>' +
-          '<span class="photocard-mas">Ver en qué consiste' + ICONOS.der + '</span>' +
+          '<span class="photocard-mas">Ver más' + ICONOS.der + '</span>' +
         '</span>' +
       '</button>';
   }).join('');

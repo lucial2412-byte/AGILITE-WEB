@@ -48,7 +48,7 @@ las pantallas:
   El velo no cubre toda la fotografía sino sólo la esquina donde cae el
   texto, para que el resto de la sala se vea.
 - Servicios en cuadrícula de cuatro tarjetas. Cada tarjeta muestra sólo el
-  título y se abre al hacer clic: el detalle —tres párrafos sobre en qué
+  título y un «Ver más» que se abre al hacer clic: el detalle —tres párrafos sobre en qué
   consiste ese formato— va en una ficha, en un `<dialog>` nativo, que trae
   el foco atrapado, el cierre con Esc y el fondo inerte sin programarlos.
   El estudio pidió información más extensa sin cargar la portada.
