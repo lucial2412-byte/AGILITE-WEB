@@ -42,7 +42,7 @@ las pantallas:
   degradado, con enlace a la sección y botón para cerrarla. No rota.
 - Banner principal a todo el ancho, con rotación cada 7 segundos. Cada
   diapositiva lleva titular, una línea y **un solo llamado a la acción**
-  —«Quiero empezar», «Más información», «Agendar clase de prueba»—; el
+  —«Iniciar mi experiencia», «Más información», «Contáctanos»—; el
   dato de cupos libres salió de ahí porque el estudio lo quería enfocado
   en la acción, y la disponibilidad real sigue en la sección de horarios.
   El velo no cubre toda la fotografía sino sólo la esquina donde cae el
