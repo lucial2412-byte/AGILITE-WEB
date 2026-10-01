@@ -313,9 +313,9 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
      resto queda claro: es lo que deja entrar luz sin perder el texto. */
   .hero-veil{
     background:
-      radial-gradient(108% 122% at 7% 104%,
-        rgba(46,26,32,.74) 0%, rgba(46,26,32,.54) 40%,
-        rgba(46,26,32,.20) 72%, rgba(46,26,32,0) 100%),
+      radial-gradient(112% 138% at 7% 104%,
+        rgba(46,26,32,.78) 0%, rgba(46,26,32,.58) 40%,
+        rgba(46,26,32,.22) 72%, rgba(46,26,32,0) 100%),
       linear-gradient(to top,
         rgba(46,26,32,.16) 0%, rgba(46,26,32,.05) 50%, rgba(153,53,71,.05) 100%);
   }
@@ -331,20 +331,6 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .hero-body h1 .accent{color:#fff;font-size:1.16em;line-height:.95;}
 .hero-body p{margin:0 0 28px;max-width:44ch;font-size:16px;line-height:1.75;color:#fff;font-weight:300;}
 .hero-actions{display:flex;gap:11px;align-items:center;flex-wrap:wrap;}
-.hero-chip{
-  display:flex;align-items:center;gap:13px;
-  /* relleno oscuro y no claro: el chip cae sobre la fotografía y con un
-     velo ligero su texto se perdía en las zonas luminosas. */
-  background:rgba(46,26,32,.74);border:1px solid rgba(255,255,255,.28);
-  border-radius:var(--r-pill);padding:10px 22px 10px 12px;
-}
-.hero-chip-ico{
-  width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;
-  background:var(--mist);color:var(--berry-dark);
-}
-.hero-chip-ico svg{width:17px;height:17px;}
-.hero-chip-label{display:block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#fff;}
-.hero-chip-val{display:block;font-size:14.5px;color:#fff;font-weight:300;}
 
 .hero-controls{
   position:absolute;right:var(--pad-x);bottom:22px;z-index:4;
@@ -1185,7 +1171,8 @@ AG.data = {
       alt:'Sala de Agilité Pilates con las camas reformer y el letrero iluminado del estudio',
       pos:'center center',
       titulo:'Donde cada cuerpo<br>encuentra <span class="accent">su ritmo</span>',
-      texto:'Pilates reformer y mat en el norte de Quito, en grupos de ocho.'
+      texto:'Pilates reformer y mat en el norte de Quito. Tu primera clase puede ser esta semana.',
+      cta:{ texto:'Quiero empezar', destino:'#/inscripcion' }
     },
     {
       imgH:'assets/banner-sala-h.jpg',
@@ -1193,7 +1180,8 @@ AG.data = {
       alt:'Vista amplia del estudio con las cinco camas reformer listas para la clase',
       pos:'center center',
       titulo:'Ocho personas,<br><span class="accent">una instructora</span>',
-      texto:'Cinco horarios de lunes a viernes, con la técnica cuidada de principio a fin.'
+      texto:'Cinco horarios de lunes a viernes y una instructora que te corrige en cada ejercicio.',
+      cta:{ texto:'Más información', destino:'#/inicio?to=planes' }
     },
     {
       imgH:'assets/banner-clase-h.jpg',
@@ -1201,7 +1189,8 @@ AG.data = {
       alt:'Estudiante en plena clase sobre la cama reformer, con otra estudiante al fondo',
       pos:'center center',
       titulo:'Reformer y mat,<br><span class="accent">a tu medida</span>',
-      texto:'Empieza con una clase de prueba y encuentra tu plan.'
+      texto:'Prueba una clase y elige el plan que se ajusta a tu semana.',
+      cta:{ texto:'Agendar clase de prueba', destino:'#/inscripcion' }
     }
   ],
 
@@ -1534,10 +1523,6 @@ AG.views['#/inicio'] = function (contenedor) {
 /* El estudio abre de lunes a viernes: el fin de semana se muestra el lunes. */
 function indiceHoy(){ var d = new Date().getDay(); return (d === 0 || d === 6) ? 0 : d - 1; }
 function esFinDeSemana(){ var d = new Date().getDay(); return d === 0 || d === 6; }
-function cuposLibresTotales(){
-  var hoy = indiceHoy();
-  return AG.data.horarios.reduce(function (t, h) { return t + (h.capacidad - h.semana[hoy]); }, 0);
-}
 
 /* --------------------------------------------- banner rotativo ---------- */
 function bloqueBanner(){
@@ -1558,11 +1543,8 @@ function bloqueBanner(){
           '<h1 class="display">' + s.titulo + '</h1>' +
           '<p>' + esc(s.texto) + '</p>' +
           '<div class="hero-actions">' +
-            '<span class="hero-chip">' +
-              '<span class="hero-chip-ico" aria-hidden="true">' + ICONOS.check + '</span>' +
-              '<span><span class="hero-chip-label">Disponibilidad de hoy</span>' +
-                '<span class="hero-chip-val">' + cuposLibresTotales() + ' cupos libres</span></span>' +
-            '</span>' +
+            '<a class="btn btn-primary" href="' + s.cta.destino + '"' +
+              (activo ? '' : ' tabindex="-1"') + '>' + esc(s.cta.texto) + '</a>' +
           '</div>' +
         '</div>' +
       '</div>';

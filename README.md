@@ -40,10 +40,13 @@ las pantallas:
   WhatsApp, que abre el chat del estudio con el mensaje ya escrito.
 - Banda informativa estática con la promoción vigente, sobre fotografía con
   degradado, con enlace a la sección y botón para cerrarla. No rota.
-- Banner principal a todo el ancho, con rotación cada 7 segundos. Sin
-  botones: titular, una línea y el dato de cupos libres de hoy. El velo no
-  cubre toda la fotografía sino sólo la esquina donde cae el texto, para
-  que el resto de la sala se vea.
+- Banner principal a todo el ancho, con rotación cada 7 segundos. Cada
+  diapositiva lleva titular, una línea y **un solo llamado a la acción**
+  —«Quiero empezar», «Más información», «Agendar clase de prueba»—; el
+  dato de cupos libres salió de ahí porque el estudio lo quería enfocado
+  en la acción, y la disponibilidad real sigue en la sección de horarios.
+  El velo no cubre toda la fotografía sino sólo la esquina donde cae el
+  texto, para que el resto de la sala se vea.
 - Servicios en cuadrícula de cuatro tarjetas.
 - Planes con la Promo Flash aplicada y sus condiciones.
 - Horarios con dos pestañas: la disponibilidad de hoy y un cuadro de toda
@@ -218,8 +221,8 @@ mentía de tres maneras:
    ahora las letras se vuelven transparentes y los fondos se quedan.
 
 Con la medición corregida, los diez textos sobre fotografía cumplen. El
-peor caso es **3,64 : 1 en el titular** del banner (mínimo 3,0 por ser
-texto grande) y **5,98 : 1 en el párrafo** (mínimo 4,5). El titular es el
+peor caso es **3,47 : 1 en el titular** del banner (mínimo 3,0 por ser
+texto grande) y **5,77 : 1 en el párrafo** (mínimo 4,5). El titular es el
 que va más justo a propósito: el estudio pidió que el banner diera luz a
 la página, así que el velo no cubre toda la fotografía sino sólo la
 esquina donde cae el texto.
