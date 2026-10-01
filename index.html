@@ -480,7 +480,6 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .cell.is-full .cell-num{color:var(--berry-dark);}
 .cell.is-today .cell-btn{box-shadow:inset 0 0 0 2px var(--dusty);}
 .cell-num{font-family:var(--font-display);font-size:24px;line-height:1;}
-.cell-tag{font-size:11px;letter-spacing:.04em;color:var(--ink-soft);}
 .timetable-key{display:flex;flex-wrap:wrap;gap:20px;margin-top:16px;font-size:14px;color:var(--ink-soft);}
 .timetable-key span{display:inline-flex;align-items:center;gap:9px;}
 .key-dot{width:12px;height:12px;border-radius:50%;flex:none;}
@@ -568,7 +567,6 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 /* ---------------- banda de cierre ---------------- */
 .closing{display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap;}
 .closing-left{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
-.closing-left img{height:56px;width:auto;}
 .closing .title-up{font-size:clamp(21px,3vw,26px);letter-spacing:.07em;}
 
 /* ---------------- footer ---------------- */
@@ -637,6 +635,9 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 }
 .app-head .lede{margin-top:12px;max-width:60ch;}
 .app-grid{display:grid;gap:18px;grid-template-columns:1fr;}
+/* pantalla de entrada: formulario y cuentas de prueba */
+.login-grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:860px;margin:0 auto;}
+.login-grid > *{min-width:0;}
 /* sin esto, un <select> con opciones largas fuerza el ancho del elemento
    de la cuadrícula y el panel se sale del contenedor */
 .app-grid > *{min-width:0;}
@@ -653,9 +654,11 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 .panel li svg{width:17px;height:17px;flex:none;margin-top:4px;color:var(--sage-text);}
 .panel .alert svg{width:19px;height:19px;margin-top:3px;}
 .dl{display:grid;gap:12px;}
-.dl-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:15.5px;}
+.dl-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:15.5px;flex-wrap:wrap;}
 .dl-row dt{color:var(--ink-soft);}
-.dl-row dd{margin:0;color:var(--ink);font-weight:500;text-align:right;}
+/* un correo largo no cabe junto a su rótulo en 360 px: se parte antes de
+   empujar la fila fuera del panel */
+.dl-row dd{margin:0;color:var(--ink);font-weight:500;text-align:right;min-width:0;overflow-wrap:anywhere;}
 
 /* cifra protagonista y fichas de dato */
 .hero-figure{font-family:var(--font-display);font-size:clamp(52px,9vw,68px);line-height:1.04;color:var(--berry-dark);}
@@ -803,6 +806,7 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
   .app-grid.cols-2{grid-template-columns:1fr 1fr;}
   .app-grid.cols-3{grid-template-columns:1.1fr 1fr 1fr;}
   .app-grid.aside{grid-template-columns:1.6fr 1fr;}
+  .login-grid{grid-template-columns:1.1fr 1fr;align-items:start;}
   .kpis{grid-template-columns:repeat(4,1fr);}
   .panel{padding:28px;}
 }
@@ -1196,13 +1200,17 @@ AG.data = {
 
   servicios: [
     { img:'assets/servicio-reformer.jpg', pos:'center center', eyebrow:'Equipo',
-      titulo:'Clases con reformer', beneficio:'Fuerza y control con resistencia graduada' },
+      titulo:'Clases con reformer',
+      beneficio:'La cama de resortes acompaña cada movimiento: trabajas fuerza y control sin cargar las articulaciones.' },
     { img:'assets/servicio-mat.jpg', pos:'center 55%', eyebrow:'Suelo',
-      titulo:'Clases en mat', beneficio:'Movilidad y trabajo de centro sobre mat' },
+      titulo:'Clases en mat',
+      beneficio:'En el piso, con tu propio peso y accesorios: movilidad, equilibrio y mucho trabajo de centro.' },
     { img:'assets/servicio-grupos.jpg', pos:'center center', eyebrow:'Grupos',
-      titulo:'Máximo 8 personas', beneficio:'Corrección personalizada en cada clase' },
+      titulo:'Máximo 8 personas',
+      beneficio:'Nunca más de ocho por clase, así la instructora alcanza a corregirte la postura a ti.' },
     { img:'assets/servicio-instructoras.jpg', pos:'center 45%', eyebrow:'Equipo docente',
-      titulo:'Instructoras certificadas', beneficio:'Una por jornada, siguiendo tu progreso' }
+      titulo:'Instructoras certificadas',
+      beneficio:'Una por jornada, certificada en reformer y mat, que ya conoce tu progreso.' }
   ],
 
   mision: {
@@ -1211,6 +1219,9 @@ AG.data = {
     italica:'Queremos que',
     titulo:'Te sientas bien en el cuerpo que habitas',
     texto:'Enseñamos movimiento consciente en grupos pequeños, con instructoras certificadas que te acompañan de cerca. Fuerza sin prisa, constancia sin presión.',
+    /* El estudio pidió que este párrafo explique qué es el pilates, en
+       lugar de repetir los datos del horario que ya están en su sección. */
+    queEs:'El pilates entrena los músculos profundos que sostienen la columna: el abdomen, la espalda baja y la pelvis. Son los que casi nunca se trabajan en el gimnasio y los que más se notan después: en la postura, en la espalda al final del día y en la facilidad para cargar, agacharse o subir escaleras. Se trabaja despacio y con precisión, sin impacto, así que sirve igual si vienes del deporte o si llevas años sin moverte.',
     cta:{ texto:'¿Nueva en pilates? Empieza aquí', destino:'#/inscripcion' }
   },
 
@@ -1370,7 +1381,17 @@ AG.data = {
     visitante:  null,
     estudiante: { nombre:'María Fernanda C.', iniciales:'MF', rol:'Estudiante' },
     admin:      { nombre:'Daniela S.',        iniciales:'DS', rol:'Administración' }
-  }
+  },
+
+  /* CUENTAS DE DEMOSTRACIÓN. Esto NO es autenticación: las claves están
+     escritas en el archivo y cualquiera puede leerlas con ver el código
+     fuente. Sirve para que el prototipo tenga la puerta de entrada que
+     tendrá el sitio real; el día que se publique, la verificación tiene
+     que hacerse en un servidor, con las claves guardadas cifradas.    */
+  cuentas: [
+    { correo:'maria@ejemplo.com',          clave:'estudiante', perfil:'estudiante' },
+    { correo:'admin@agilitepilates.ec',    clave:'agilite2026', perfil:'admin' }
+  ]
 };
 
 /* --------------------------------------------------------------- perfiles -- */
@@ -1404,6 +1425,7 @@ AG.perfiles = {
 };
 
 AG.estado = { perfil:'visitante', ruta:'#/inicio', rutaDibujada:null, promoCerrada:false,
+               rutaPedida:null,
                bannerIndice:0, diaElegido:null,
                filtroEstudiantes:{ texto:'', horario:'', pago:'' },
                inscripcion:{ paso:1, planId:null, horarioId:null, hecho:false } };
@@ -1657,8 +1679,10 @@ function tablaSemana(){
                  'data-accion="' + (lleno ? 'lista-espera' : 'reservar') + '" data-horario="' + h.id + '" ' +
                  'aria-label="' + esc(h.inicio) + ' a ' + esc(h.fin) + ', ' + esc(dia) + ': ' +
                    (lleno ? 'lleno, avisarme si se libera' : libres + ' cupos disponibles, reservar') + '">' +
+                 /* sólo la cifra: el color y la leyenda de abajo ya dicen
+                    si hay cupo, y el aria-label lo deja explícito para
+                    quien usa lector de pantalla */
                  '<span class="cell-num">' + (lleno ? '—' : libres) + '</span>' +
-                 '<span class="cell-tag">' + (lleno ? 'Lleno' : (libres === 1 ? 'libre' : 'libres')) + '</span>' +
                '</button>' +
              '</td>';
     }).join('');
@@ -1815,8 +1839,9 @@ function bloqueCierre(){
   return '' +
     '<section class="band band-veil" style="padding-top:48px;padding-bottom:48px;">' +
       '<div class="wrap closing">' +
+        /* sin logo: ya está en el header y en el pie, y repetirlo aquí
+           era la tercera vez en la misma pantalla */
         '<div class="closing-left">' +
-          '<img src="assets/logo-agilite.png" alt="Agilité Pilates">' +
           '<div class="title-up">Tu próxima clase<br>te está esperando</div>' +
         '</div>' +
         '<a class="btn btn-dark" href="#/inicio?to=horarios">Reservar ahora</a>' +
@@ -2860,7 +2885,7 @@ AG.views['#/nosotros'] = function (contenedor) {
         '<h2 style="font-family:var(--font-display);font-style:italic;font-weight:400;font-size:clamp(26px,3.6vw,34px);color:var(--berry-dark);margin-bottom:6px;">' + esc(m.italica) + '</h2>' +
         '<div class="title-up" style="margin-bottom:20px;">' + esc(m.titulo) + '</div>' +
         '<p style="margin-bottom:16px;font-size:16px;line-height:1.78;">' + esc(m.texto) + '</p>' +
-        '<p style="font-size:16px;line-height:1.78;color:var(--ink-soft);">Trabajamos con reformer y con mat, en clases de máximo ocho personas, de lunes a viernes en cinco horarios. Cada jornada tiene su instructora, así que siempre entrenas con quien ya conoce tu progreso.</p>' +
+        '<p style="font-size:16px;line-height:1.78;color:var(--ink-soft);">' + esc(m.queEs) + '</p>' +
       '</div>' +
     '</div></section>' +
 
@@ -3163,6 +3188,51 @@ AG.views['#/trabaja-con-nosotros'] = function (contenedor) {
     '</div></section>';
 };
 
+/* ------------------------------------------------------------- entrar --- */
+/* La puerta de entrada a las dos vistas con sesión. En el prototipo la
+   comprobación se hace aquí, en el navegador, contra las cuentas de
+   AG.data.cuentas: no es seguridad, es la pantalla. Lo dice en pantalla. */
+AG.views['#/entrar'] = function (contenedor) {
+  var pedido = AG.estado.rutaPedida;
+  contenedor.innerHTML =
+    cabecera('Tu cuenta', 'Iniciar sesión',
+      'Entra para reservar tus clases, ver tu progreso y manejar tu plan.') +
+
+    '<section class="band band-veil"><div class="wrap">' +
+      '<div class="login-grid">' +
+        '<div class="panel">' +
+          '<div class="panel-head"><h2>Entrar</h2></div>' +
+          (pedido ? '<p class="alert alert-info">' + ICONOS.info +
+            '<span>Para entrar a <b>' + esc(pedido) + '</b> necesitas iniciar sesión.</span></p>' : '') +
+          '<div class="form-grid" style="margin-top:4px;">' +
+            '<label class="field full"><span class="field-label">Correo</span>' +
+              '<input type="email" id="loginCorreo" autocomplete="username" placeholder="tucorreo@ejemplo.com"></label>' +
+            '<label class="field full"><span class="field-label">Contraseña</span>' +
+              '<input type="password" id="loginClave" autocomplete="current-password" placeholder="Tu contraseña"></label>' +
+          '</div>' +
+          '<p id="loginError" class="form-note" style="color:var(--berry-dark);font-weight:500;min-height:21px;" role="alert"></p>' +
+          '<button class="btn btn-primary btn-block" type="button" data-accion="entrar-sesion">Entrar</button>' +
+          '<p class="form-note" style="margin-top:14px;">¿Todavía no tienes cuenta? ' +
+            '<a href="#/inscripcion">Inscríbete en tres pasos</a>.</p>' +
+          '<p class="form-note">¿Olvidaste tu contraseña? ' +
+            '<a href="#/contacto">Escríbenos</a> y la restablecemos.</p>' +
+        '</div>' +
+
+        '<div class="panel panel-tinted">' +
+          '<div class="panel-head"><h2>Cuentas de prueba</h2></div>' +
+          '<p style="font-size:15px;line-height:1.7;">Este es un prototipo, así que las dos cuentas están abiertas para que recorras las pantallas:</p>' +
+          '<dl class="dl" style="margin-top:14px;">' +
+            AG.data.cuentas.map(function (c) {
+              return '<div class="dl-row"><dt>' + esc(AG.perfiles[c.perfil].etiqueta) + '</dt>' +
+                     '<dd>' + esc(c.correo) + '<br><span class="row-meta">clave: ' + esc(c.clave) + '</span></dd></div>';
+            }).join('') +
+          '</dl>' +
+          '<p class="form-note" style="margin-top:14px;">En el sitio real la verificación se hace en el servidor y las contraseñas se guardan cifradas. Aquí se comprueban en el navegador, sólo para que la demostración funcione.</p>' +
+        '</div>' +
+      '</div>' +
+    '</div></section>';
+};
+
 /* --------------------------------- pantallas por construir -------------- */
 var PENDIENTES = { '#/cuenta':'Mi cuenta' };
 Object.keys(PENDIENTES).forEach(function (ruta) {
@@ -3240,6 +3310,18 @@ function activarPestana(nombre){
 }
 
 /* =============================================================== router == */
+/* El rótulo del menú que corresponde a una ruta, para poder decir a
+   qué pantalla se quería entrar. */
+function nombreDeRuta(ruta){
+  var nombre = null;
+  Object.keys(AG.perfiles).forEach(function (clave) {
+    AG.perfiles[clave].menu.forEach(function (m) {
+      if (!nombre && partesRuta(m.destino).ruta === ruta) nombre = m.texto;
+    });
+  });
+  return nombre;
+}
+
 function navegar(){
   var hash = location.hash || AG.perfiles[AG.estado.perfil].inicio;
   var partes = partesRuta(hash);
@@ -3248,9 +3330,21 @@ function navegar(){
   /* Una ruta que no pertenece al perfil activo devuelve a su inicio. */
   var permitidas = perfil.menu.map(function (m) { return partesRuta(m.destino).ruta; });
   var publicas = ['#/inicio','#/contacto','#/inscripcion','#/nosotros','#/ubicacion',
-                  '#/terminos','#/privacidad','#/trabaja-con-nosotros','#/cuenta'];
+                  '#/terminos','#/privacidad','#/trabaja-con-nosotros','#/cuenta','#/entrar'];
   var vista = AG.views[partes.ruta];
   if (!vista || (permitidas.indexOf(partes.ruta) === -1 && publicas.indexOf(partes.ruta) === -1)) {
+    /* Si la ruta pertenece a otro perfil, el camino es el login: así la
+       pantalla de entrada es la puerta y no un adorno. */
+    var deOtroPerfil = Object.keys(AG.perfiles).filter(function (clave) {
+      return clave !== AG.estado.perfil && AG.perfiles[clave].menu.some(function (m) {
+        return partesRuta(m.destino).ruta === partes.ruta;
+      });
+    })[0];
+    if (vista && deOtroPerfil && AG.estado.perfil === 'visitante') {
+      AG.estado.rutaPedida = nombreDeRuta(partes.ruta);
+      location.hash = '#/entrar';
+      return;
+    }
     location.hash = perfil.inicio;
     return;
   }
@@ -3341,7 +3435,22 @@ function recibirFotos(archivos){
 }
 
 var ACCIONES = {
-  'iniciar-sesion': function () { cambiarPerfil('estudiante'); },
+  'iniciar-sesion': function () { location.hash = '#/entrar'; },
+  'entrar-sesion':  function () {
+    var correo = ($('#loginCorreo').value || '').trim().toLowerCase();
+    var clave  = $('#loginClave').value || '';
+    var cuenta = AG.data.cuentas.filter(function (c) {
+      return c.correo === correo && c.clave === clave;
+    })[0];
+    if (!cuenta) {
+      $('#loginError').textContent = correo || clave
+        ? 'El correo o la contraseña no coinciden. Revisa las cuentas de prueba de al lado.'
+        : 'Escribe tu correo y tu contraseña.';
+      return;
+    }
+    AG.estado.rutaPedida = null;
+    cambiarPerfil(cuenta.perfil);
+  },
   'inscribirse':    function () {
     AG.estado.inscripcion = { paso:1, planId:null, horarioId:null, hecho:false };
     location.hash = '#/inscripcion';
@@ -3365,7 +3474,7 @@ var ACCIONES = {
     AG.data.estudiante.fotos.splice(parseInt(boton.dataset.i, 10), 1);
     redibujar();
   },
-  'salir':          function () { cambiarPerfil('visitante'); },
+  'salir':          function () { AG.estado.rutaPedida = null; cambiarPerfil('visitante'); },
   'cerrar-promo':   function () {
     AG.estado.promoCerrada = true;
     guardar('ag-promo-cerrada', AG.data.promo.id);

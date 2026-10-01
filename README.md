@@ -55,6 +55,20 @@ las pantallas:
 - Testimonios de estudiantes.
 - Footer en tres columnas más la línea de derechos reservados.
 
+### Entrar (construida)
+
+`#/entrar` es la puerta a las dos vistas con sesión. Comprueba el correo y
+la contraseña contra `AG.data.cuentas` y, si coinciden, entra al perfil que
+corresponde; si no, lo dice sin recargar. Una ruta de estudiante o de
+administración pedida sin sesión lleva aquí, con el nombre de la pantalla
+que se quería abrir.
+
+**No es autenticación y la pantalla lo declara.** Las claves están escritas
+en el archivo y cualquiera las lee con ver el código fuente; el panel de
+al lado las muestra a propósito, para que la demostración se pueda
+recorrer. Cuando el sitio se publique, la verificación tiene que hacerse en
+un servidor y las contraseñas guardarse cifradas.
+
 ### Vista de estudiante (construida)
 
 - **Reservar** · su plan del mes, el horario contratado, la tira de días con
@@ -233,8 +247,13 @@ aparece
 únicamente en el estado «disponible» de los cupos, en un tono algo más
 oscuro cuando hace de texto sobre las tarjetas.
 
-**Cuadro semanal usable en el celular.** Al desplazarlo horizontalmente la
-columna de horas queda fija, de modo que nunca se pierde la referencia de
+**Cuadro semanal usable en el celular.** Cada celda lleva sólo la cifra de
+cupos libres —o un guión si está llena—: el color y la leyenda de abajo ya
+dicen qué significa, así que repetir «libres» en cada casilla era
+redundante. El dato sigue completo para quien usa lector de pantalla,
+porque el `aria-label` del botón lo dice con palabras. Al desplazarlo
+horizontalmente la columna de horas queda fija, de modo que nunca se
+pierde la referencia de
 qué franja se está mirando.
 
 **Fotografías.** Las tarjetas de servicios comparten proporción 4:3. El
