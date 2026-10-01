@@ -3316,7 +3316,7 @@ Object.keys(PENDIENTES).forEach(function (ruta) {
 });
 
 /* ====================================================== banner rotativo == */
-/* Rota cada siete segundos, se detiene con el cursor encima o con el foco
+/* Rota cada tres segundos, se detiene con el cursor encima o con el foco
    dentro, y respeta la preferencia de movimiento reducido.                */
 var bannerTimer = null, bannerRetenido = false, bannerReducido = false;
 
@@ -3341,7 +3341,7 @@ function pausarBanner(){ clearInterval(bannerTimer); bannerTimer = null; }
 function reanudarBanner(){
   pausarBanner();
   if (bannerRetenido || bannerReducido) return;   /* usar los controles con el cursor encima no reanuda */
-  bannerTimer = setInterval(function () { mostrarSlide(AG.estado.bannerIndice + 1); }, 7000);
+  bannerTimer = setInterval(function () { mostrarSlide(AG.estado.bannerIndice + 1); }, 3000);
 }
 function mostrarSlide(indice){
   var slides = document.querySelectorAll('.hero-slide');
@@ -3816,6 +3816,9 @@ AG.libresEn = libresEn;
 AG.margenCancelacion = margenCancelacion;
 AG.redibujar = redibujar;
 AG.precioPromo = precioPromo;
+/* para medir el banner sin que rote a media medición */
+AG.pausarBanner = pausarBanner;
+AG.mostrarSlide = mostrarSlide;
 
 /* ============================================================== arranque == */
 function iniciar(){

@@ -40,7 +40,7 @@ las pantallas:
   WhatsApp, que abre el chat del estudio con el mensaje ya escrito.
 - Banda informativa estática con la promoción vigente, sobre fotografía con
   degradado, con enlace a la sección y botón para cerrarla. No rota.
-- Banner principal a todo el ancho, con rotación cada 7 segundos. Cada
+- Banner principal a todo el ancho, con rotación cada 3 segundos. Cada
   diapositiva lleva titular, una línea y **un solo llamado a la acción**
   —«Iniciar mi experiencia», «Más información», «Contáctanos»—; el
   dato de cupos libres salió de ahí porque el estudio lo quería enfocado
