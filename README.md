@@ -57,17 +57,19 @@ las pantallas:
 
 ### Entrar (construida)
 
-`#/entrar` es la puerta a las dos vistas con sesión. Comprueba el correo y
-la contraseña contra `AG.data.cuentas` y, si coinciden, entra al perfil que
-corresponde; si no, lo dice sin recargar. Una ruta de estudiante o de
-administración pedida sin sesión lleva aquí, con el nombre de la pantalla
-que se quería abrir.
+`#/entrar` es la puerta a las dos vistas con sesión. El usuario y la
+contraseña de demostración —`cliente` / `0000`, en `AG.data.acceso`— vienen
+ya escritos en el formulario, y dos botones deciden con qué vista entrar:
+estudiante o administración. Si las credenciales no coinciden lo dice sin
+recargar. Una ruta de estudiante o de administración pedida sin sesión
+lleva aquí, con el nombre de la pantalla que se quería abrir.
 
-**No es autenticación y la pantalla lo declara.** Las claves están escritas
-en el archivo y cualquiera las lee con ver el código fuente; el panel de
-al lado las muestra a propósito, para que la demostración se pueda
-recorrer. Cuando el sitio se publique, la verificación tiene que hacerse en
-un servidor y las contraseñas guardarse cifradas.
+**No es autenticación y la pantalla lo declara.** El usuario y la clave
+están escritos en el archivo y en el propio formulario; el panel de al
+lado los muestra a propósito, para que la demostración se pueda recorrer
+sin instrucciones. Cuando el sitio se publique, cada persona tendrá su
+cuenta, la verificación tiene que hacerse en un servidor y las contraseñas
+guardarse cifradas.
 
 ### Vista de estudiante (construida)
 

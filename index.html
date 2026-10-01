@@ -1383,15 +1383,13 @@ AG.data = {
     admin:      { nombre:'Daniela S.',        iniciales:'DS', rol:'Administración' }
   },
 
-  /* CUENTAS DE DEMOSTRACIÓN. Esto NO es autenticación: las claves están
-     escritas en el archivo y cualquiera puede leerlas con ver el código
-     fuente. Sirve para que el prototipo tenga la puerta de entrada que
-     tendrá el sitio real; el día que se publique, la verificación tiene
-     que hacerse en un servidor, con las claves guardadas cifradas.    */
-  cuentas: [
-    { correo:'maria@ejemplo.com',          clave:'estudiante', perfil:'estudiante' },
-    { correo:'admin@agilitepilates.ec',    clave:'agilite2026', perfil:'admin' }
-  ]
+  /* ACCESO DE DEMOSTRACIÓN. Esto NO es autenticación: el usuario y la
+     clave están escritos en el archivo y cualquiera puede leerlos con ver
+     el código fuente, y además vienen escritos en el formulario. Sirve
+     para que el prototipo tenga la puerta que tendrá el sitio real; el día
+     que se publique, la verificación tiene que hacerse en un servidor,
+     con las claves guardadas cifradas y una cuenta por persona.       */
+  acceso: { usuario:'cliente', clave:'0000' }
 };
 
 /* --------------------------------------------------------------- perfiles -- */
@@ -3194,6 +3192,7 @@ AG.views['#/trabaja-con-nosotros'] = function (contenedor) {
    AG.data.cuentas: no es seguridad, es la pantalla. Lo dice en pantalla. */
 AG.views['#/entrar'] = function (contenedor) {
   var pedido = AG.estado.rutaPedida;
+  var acc = AG.data.acceso;
   contenedor.innerHTML =
     cabecera('Tu cuenta', 'Iniciar sesión',
       'Entra para reservar tus clases, ver tu progreso y manejar tu plan.') +
@@ -3205,29 +3204,31 @@ AG.views['#/entrar'] = function (contenedor) {
           (pedido ? '<p class="alert alert-info">' + ICONOS.info +
             '<span>Para entrar a <b>' + esc(pedido) + '</b> necesitas iniciar sesión.</span></p>' : '') +
           '<div class="form-grid" style="margin-top:4px;">' +
-            '<label class="field full"><span class="field-label">Correo</span>' +
-              '<input type="email" id="loginCorreo" autocomplete="username" placeholder="tucorreo@ejemplo.com"></label>' +
+            '<label class="field full"><span class="field-label">Usuario</span>' +
+              '<input type="text" id="loginUsuario" autocomplete="username" value="' + esc(acc.usuario) + '"></label>' +
             '<label class="field full"><span class="field-label">Contraseña</span>' +
-              '<input type="password" id="loginClave" autocomplete="current-password" placeholder="Tu contraseña"></label>' +
+              '<input type="password" id="loginClave" autocomplete="current-password" value="' + esc(acc.clave) + '"></label>' +
           '</div>' +
           '<p id="loginError" class="form-note" style="color:var(--berry-dark);font-weight:500;min-height:21px;" role="alert"></p>' +
-          '<button class="btn btn-primary btn-block" type="button" data-accion="entrar-sesion">Entrar</button>' +
-          '<p class="form-note" style="margin-top:14px;">¿Todavía no tienes cuenta? ' +
+          '<p class="form-note" style="margin-bottom:10px;">Elige con qué vista quieres entrar:</p>' +
+          '<div style="display:grid;gap:10px;">' +
+            '<button class="btn btn-primary btn-block" type="button" data-accion="entrar-sesion" data-perfil-destino="estudiante">Entrar como estudiante</button>' +
+            '<button class="btn btn-outline btn-block" type="button" data-accion="entrar-sesion" data-perfil-destino="admin">Entrar como administración</button>' +
+          '</div>' +
+          '<p class="form-note" style="margin-top:16px;">¿Todavía no tienes cuenta? ' +
             '<a href="#/inscripcion">Inscríbete en tres pasos</a>.</p>' +
           '<p class="form-note">¿Olvidaste tu contraseña? ' +
             '<a href="#/contacto">Escríbenos</a> y la restablecemos.</p>' +
         '</div>' +
 
         '<div class="panel panel-tinted">' +
-          '<div class="panel-head"><h2>Cuentas de prueba</h2></div>' +
-          '<p style="font-size:15px;line-height:1.7;">Este es un prototipo, así que las dos cuentas están abiertas para que recorras las pantallas:</p>' +
+          '<div class="panel-head"><h2>Acceso de prueba</h2></div>' +
+          '<p style="font-size:15px;line-height:1.7;">Es un prototipo: el usuario y la contraseña ya vienen escritos, así que basta con elegir la vista y entrar.</p>' +
           '<dl class="dl" style="margin-top:14px;">' +
-            AG.data.cuentas.map(function (c) {
-              return '<div class="dl-row"><dt>' + esc(AG.perfiles[c.perfil].etiqueta) + '</dt>' +
-                     '<dd>' + esc(c.correo) + '<br><span class="row-meta">clave: ' + esc(c.clave) + '</span></dd></div>';
-            }).join('') +
+            '<div class="dl-row"><dt>Usuario</dt><dd>' + esc(acc.usuario) + '</dd></div>' +
+            '<div class="dl-row"><dt>Contraseña</dt><dd>' + esc(acc.clave) + '</dd></div>' +
           '</dl>' +
-          '<p class="form-note" style="margin-top:14px;">En el sitio real la verificación se hace en el servidor y las contraseñas se guardan cifradas. Aquí se comprueban en el navegador, sólo para que la demostración funcione.</p>' +
+          '<p class="form-note" style="margin-top:14px;">El mismo acceso abre las dos vistas, la de estudiante y la de administración, para que puedas recorrer todas las pantallas. En el sitio real cada persona tendrá su cuenta, la verificación se hará en el servidor y las contraseñas se guardarán cifradas.</p>' +
         '</div>' +
       '</div>' +
     '</div></section>';
@@ -3436,20 +3437,20 @@ function recibirFotos(archivos){
 
 var ACCIONES = {
   'iniciar-sesion': function () { location.hash = '#/entrar'; },
-  'entrar-sesion':  function () {
-    var correo = ($('#loginCorreo').value || '').trim().toLowerCase();
-    var clave  = $('#loginClave').value || '';
-    var cuenta = AG.data.cuentas.filter(function (c) {
-      return c.correo === correo && c.clave === clave;
-    })[0];
-    if (!cuenta) {
-      $('#loginError').textContent = correo || clave
-        ? 'El correo o la contraseña no coinciden. Revisa las cuentas de prueba de al lado.'
-        : 'Escribe tu correo y tu contraseña.';
+  'entrar-sesion':  function (boton) {
+    var usuario = ($('#loginUsuario').value || '').trim().toLowerCase();
+    var clave   = $('#loginClave').value || '';
+    var acc     = AG.data.acceso;
+    if (!usuario || !clave) {
+      $('#loginError').textContent = 'Escribe tu usuario y tu contraseña.';
+      return;
+    }
+    if (usuario !== acc.usuario || clave !== acc.clave) {
+      $('#loginError').textContent = 'El usuario o la contraseña no coinciden. El acceso de prueba está al lado.';
       return;
     }
     AG.estado.rutaPedida = null;
-    cambiarPerfil(cuenta.perfil);
+    cambiarPerfil(boton.dataset.perfilDestino === 'admin' ? 'admin' : 'estudiante');
   },
   'inscribirse':    function () {
     AG.estado.inscripcion = { paso:1, planId:null, horarioId:null, hecho:false };
