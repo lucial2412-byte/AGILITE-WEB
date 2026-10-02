@@ -102,6 +102,18 @@ guardarse cifradas.
      marcada. Cuando el plazo de 24 horas ya pasó, la misma frase lo dice
      y ofrece escribir al estudio por WhatsApp.
 
+  4. **El formato no cambia al entrar.** La visitante ve los horarios del
+     día en tarjetas («Hoy en el estudio») y la estudiante los veía en
+     filas, así que al pulsar «Reservar» y pasar por el acceso la pantalla
+     se transformaba. Ahora las dos vistas usan la misma tarjeta:
+     `tarjetaClase(horario, reservados, extra)` dibuja hora, asientos y
+     etiqueta siempre igual, y sólo cambia el pie —la acción—. En la clase
+     ya reservada ese pie dice **Cancelar** donde la visitante lee
+     «Reservar». `tarjetaHoy()` es la misma función sin extras.
+
+     La tira de días se recentra tras cada cambio: se redibuja entera y en
+     el móvil el día elegido se quedaba fuera de pantalla.
+
   De paso: una clase que **ya empezó** no se puede reservar. Sin la
   ventana rodante el problema no existía porque el día de hoy se comparaba
   por índice; con ella, a las nueve de la noche se podía reservar la clase

@@ -462,6 +462,10 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 }
 .today-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:var(--dusty);}
 .today-card.is-full{border-color:var(--dusty);}
+/* la clase que la estudiante tiene reservada, marcada como en la
+   lista de la pantalla de reservar */
+.today-card.is-mine{background:var(--mist);border-color:var(--berry-dark);}
+.today-nota{font-size:13.5px;color:var(--ink-soft);text-align:center;padding:10px 0;margin:auto 0 0;}
 .today-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
 /* el rango completo («6h00 a 7h00») es más largo que la hora sola y
    comparte la fila con la píldora de estado */
@@ -1696,24 +1700,36 @@ function bloqueMision(){
 }
 
 /* ------------------------------------------- horarios: hoy y la semana -- */
-function tarjetaHoy(h, reservados){
+/* Una sola tarjeta de clase para las dos vistas, la pública y la de la
+   estudiante: cambia el pie —la acción— pero no el formato, que es lo que
+   pidió el estudio para que la pantalla no se transforme al entrar. */
+function tarjetaClase(h, reservados, extra){
+  extra = extra || {};
   var libres = h.capacidad - reservados;
   var lleno  = libres <= 0;
-  var clase  = lleno ? 'pill-full' : (libres <= 2 ? 'pill-last' : 'pill-free');
-  var rotulo = lleno ? 'Completa' : (libres <= 2 ? 'Últimos' : 'Libre');
+
+  var clase, rotulo;
+  if (extra.mia)          { clase = 'pill-free'; rotulo = 'Tu clase'; }
+  else if (extra.pasado)  { clase = 'pill-full'; rotulo = 'Ya pasó'; }
+  else if (lleno)         { clase = 'pill-full'; rotulo = 'Completa'; }
+  else if (libres <= 2)   { clase = 'pill-last'; rotulo = 'Últimos'; }
+  else                    { clase = 'pill-free'; rotulo = 'Libre'; }
+
   var asientos = '';
   for (var i = 0; i < h.capacidad; i++) {
     asientos += '<span class="seat' + (i >= reservados ? ' free' : '') + '"></span>';
   }
-  var texto = lleno
+
+  var texto = extra.texto || (lleno
     ? 'Lista de espera abierta' + (h.enEspera ? ' · ' + h.enEspera + ' en cola' : '')
-    : libres + ' de ' + h.capacidad + ' libres · ' + esc(h.instructora);
-  var accion = lleno
+    : libres + ' de ' + h.capacidad + ' libres · ' + esc(h.instructora));
+
+  var accion = extra.accion || (lleno
     ? '<button class="btn btn-outline btn-sm btn-block" type="button" data-accion="lista-espera" data-horario="' + h.id + '">Lista de espera</button>'
-    : '<button class="btn btn-primary btn-sm btn-block" type="button" data-accion="reservar" data-horario="' + h.id + '">Reservar</button>';
+    : '<button class="btn btn-primary btn-sm btn-block" type="button" data-accion="reservar" data-horario="' + h.id + '">Reservar</button>');
 
   return '' +
-    '<article class="today-card' + (lleno ? ' is-full' : '') + '">' +
+    '<article class="today-card' + (extra.mia ? ' is-mine' : (lleno || extra.pasado ? ' is-full' : '')) + '">' +
       '<div class="today-top">' +
         '<span class="today-time">' + esc(h.inicio) + ' a ' + esc(h.fin) + '</span>' +
         '<span class="pill ' + clase + '">' + rotulo + '</span>' +
@@ -1722,6 +1738,11 @@ function tarjetaHoy(h, reservados){
       '<p class="today-text">' + texto + '</p>' +
       accion +
     '</article>';
+}
+
+/* La vista pública: la tarjeta tal cual, con el botón que lleva a inscribirse. */
+function tarjetaHoy(h, reservados){
+  return tarjetaClase(h, reservados, {});
 }
 
 /* Cuadro semanal: cinco franjas por los cinco días que vienen, empezando
@@ -2045,53 +2066,47 @@ AG.views['#/reservar'] = function (contenedor) {
         restantes + (restantes === 1 ? ' clase' : ' clases') + '</b> del plan.</span></p>';
   }
 
-  /* Los cinco horarios del día, en orden, con el reservado marcado. Antes
-     el horario habitual iba aparte y los demás en otra lista: al reservar
-     otra hora, la reservada aparecía abajo como «cambiar aquí» y arriba
-     seguía el habitual, que es justo lo que confundía. */
+  /* Los cinco horarios del día, con la misma tarjeta que ve la visitante en
+     la portada: el estudio pidió que la pantalla no cambie de formato al
+     entrar con la cuenta. Sólo cambia el pie de la tarjeta —la acción—, y
+     la clase reservada muestra «Cancelar» donde antes decía «Reservar». */
   var filas = AG.data.horarios.map(function (h) {
+    var reservados = h.semana[dia];
     var libres = libresEn(h, dia);
     var lleno = libres <= 0;
     var esMio = miReserva === h.id;
     var esHabitual = h.id === e.horarioFijo;
-    var meta = (esHabitual ? 'Tu horario habitual' : esc(h.jornada)) + ' · ' + esc(h.instructora);
-
     var pasado = yaEmpezo(dia, h.id);
-    var estado, accion;
+
+    var texto, accion;
     if (esMio) {
-      estado = '<span class="pill pill-free">Tu clase</span>';
+      texto = 'Reservada · ' + esc(h.instructora);
       accion = margen.puede
-        ? '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar</button>'
-        : '<span class="slotrow-meta">' + esc(margen.motivo) + '</span>';
+        ? '<button class="btn btn-outline btn-sm btn-block" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar</button>'
+        /* el motivo entero ya está en el resumen de arriba; aquí basta el
+           hecho, para que la tarjeta no crezca de más */
+        : '<p class="today-nota">Ya no se puede cancelar</p>';
+    } else if (pasado) {
+      texto = esc(h.jornada) + ' · ' + esc(h.instructora);
+      accion = '<p class="today-nota">Esta clase ya empezó</p>';
+    } else if (lleno) {
+      texto = 'Sin lugares · ' + esc(h.instructora);
+      accion = e.espera[dia] === h.id
+        ? '<p class="today-nota">Estás en la lista de espera</p>'
+        : '<button class="btn btn-outline btn-sm btn-block" type="button" data-accion="est-espera" data-dia="' + dia + '" data-horario="' + h.id + '">Lista de espera</button>';
     } else {
-      estado = pasado
-        ? '<span class="pill pill-full">Ya pasó</span>'
-        : (lleno
-            ? '<span class="pill pill-full">Lleno</span>'
-            : '<span class="pill pill-free">' + libres + ' de ' + h.capacidad + ' libres</span>');
-      if (pasado) {
-        accion = '<span class="slotrow-meta">Esta clase ya empezó</span>';
-      } else if (lleno) {
-        accion = e.espera[dia] === h.id
-          ? '<span class="pill pill-last">En lista de espera</span>'
-          : '<button class="btn btn-outline btn-sm" type="button" data-accion="est-espera" data-dia="' + dia + '" data-horario="' + h.id + '">Lista de espera</button>';
-      } else if (miReserva) {
-        accion = '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cambiar" data-dia="' + dia + '" data-horario="' + h.id + '">Cambiar aquí</button>';
+      texto = libres + ' de ' + h.capacidad + ' libres · ' + esc(h.instructora) +
+              (esHabitual ? ' · tu horario habitual' : '');
+      if (miReserva) {
+        accion = '<button class="btn btn-outline btn-sm btn-block" type="button" data-accion="est-cambiar" data-dia="' + dia + '" data-horario="' + h.id + '">Cambiar aquí</button>';
       } else if (restantes <= 0) {
-        accion = '<span class="slotrow-meta">Sin clases este mes</span>';
+        accion = '<p class="today-nota">Sin clases este mes</p>';
       } else {
-        accion = '<button class="btn btn-primary btn-sm" type="button" data-accion="est-reservar" data-dia="' + dia + '" data-horario="' + h.id + '">Reservar</button>';
+        accion = '<button class="btn btn-primary btn-sm btn-block" type="button" data-accion="est-reservar" data-dia="' + dia + '" data-horario="' + h.id + '">Reservar</button>';
       }
     }
 
-    return '' +
-      '<div class="slotrow' + (esMio ? ' is-mine' : (lleno ? ' is-full' : '')) + '">' +
-        '<div class="slotrow-main">' +
-          '<p class="slotrow-time">' + esc(h.inicio) + ' a ' + esc(h.fin) + '</p>' +
-          '<p class="slotrow-meta">' + meta + '</p>' +
-        '</div>' +
-        '<div class="slotrow-side">' + estado + accion + '</div>' +
-      '</div>';
+    return tarjetaClase(h, reservados, { mia:esMio, pasado:pasado, texto:texto, accion:accion });
   }).join('');
 
   /* tira de días: desde hoy, sin días pasados */
@@ -2145,10 +2160,18 @@ AG.views['#/reservar'] = function (contenedor) {
           '<h2>Horarios de ese día</h2>' +
           '<span class="muted">' + esc(elegido.nombre) + ' ' + elegido.fecha + '</span>' +
         '</div>' +
-        filas +
+        '<div class="today">' + filas + '</div>' +
       '</div>' +
 
     '</div></section>';
+
+  /* La tira de días se redibuja entera en cada cambio, y con ella se perdía
+     el desplazamiento: en el móvil, al elegir el jueves, la tira volvía al
+     lunes y el día elegido quedaba fuera de pantalla. Lo centramos sin
+     mover la página. */
+  var tira = contenedor.querySelector('.daystrip');
+  var activo = tira && tira.querySelector('[aria-pressed="true"]');
+  if (activo) tira.scrollLeft = activo.offsetLeft - (tira.clientWidth - activo.offsetWidth) / 2;
 };
 
 /* Medidor reutilizable: relleno berry sobre pista de la misma tinta. */
