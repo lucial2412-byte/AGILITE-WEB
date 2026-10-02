@@ -77,10 +77,35 @@ guardarse cifradas.
 
 ### Vista de estudiante (construida)
 
-- **Reservar** · su plan del mes, el horario contratado, la tira de días con
-  las fechas reales de la semana y los cinco horarios con cupos. Reservar,
-  cancelar, cambiar de horario puntualmente y entrar a la lista de espera
+- **Reservar** · su plan del mes, la tira de días y los cinco horarios con
+  sus cupos. Reservar, cancelar, reagendar y entrar a la lista de espera
   cambian los datos de verdad y se redibuja la pantalla.
+
+  La pantalla se rehízo con tres arreglos que pidió el estudio:
+
+  1. **La clase reservada es la que se eligió.** Antes el horario habitual
+     iba en una tarjeta aparte y los demás en otra lista, así que al
+     reservar las 7h00 la tarjeta de arriba seguía mostrando el horario
+     habitual y la fila de las 7h00 quedaba abajo ofreciendo «cambiar
+     aquí». Ahora los cinco horarios van en una sola lista en orden y el
+     reservado queda marcado, sea cual sea.
+  2. **La ventana de días empieza hoy** y recorre los cinco días que el
+     estudio abre, saltando el fin de semana: un viernes muestra viernes y
+     luego lunes a jueves. No hay días pasados en pantalla. Como la ventana
+     cruza la semana, la regla de las 24 horas ya no puede restar índices
+     de día —el lunes que se ve un viernes está a tres días, no cuatro
+     días atrás—: `diasVisibles()` lleva los días reales y la regla usa
+     esos.
+  3. **Cancelar se encuentra.** El estado del día aparece arriba en una
+     frase («Tienes clase hoy de 7h00 a 8h00 con Pavlova Ch.») con el
+     botón de cancelar al lado, y además la fila de la clase queda
+     marcada. Cuando el plazo de 24 horas ya pasó, la misma frase lo dice
+     y ofrece escribir al estudio por WhatsApp.
+
+  De paso: una clase que **ya empezó** no se puede reservar. Sin la
+  ventana rodante el problema no existía porque el día de hoy se comparaba
+  por índice; con ella, a las nueve de la noche se podía reservar la clase
+  de las 7h00 de esa misma mañana.
 - **Mi progreso** · clases del mes, medidor del plan, fichas de dato, las
   clases por semana, el **seguimiento de medidas** y las **fotos de
   progreso**. Las medidas las registra la estudiante y el cambio se muestra

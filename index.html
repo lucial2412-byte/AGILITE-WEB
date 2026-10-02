@@ -462,8 +462,10 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 }
 .today-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:var(--dusty);}
 .today-card.is-full{border-color:var(--dusty);}
-.today-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.today-time{font-family:var(--font-display);font-size:25px;color:var(--berry-dark);line-height:1;}
+.today-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+/* el rango completo («6h00 a 7h00») es más largo que la hora sola y
+   comparte la fila con la píldora de estado */
+.today-time{font-family:var(--font-display);font-size:22px;color:var(--berry-dark);line-height:1.1;}
 .pill{
   flex:none;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   padding:6px 12px;border-radius:var(--r-pill);font-weight:600;
@@ -1713,7 +1715,7 @@ function tarjetaHoy(h, reservados){
   return '' +
     '<article class="today-card' + (lleno ? ' is-full' : '') + '">' +
       '<div class="today-top">' +
-        '<span class="today-time">' + esc(h.inicio) + '</span>' +
+        '<span class="today-time">' + esc(h.inicio) + ' a ' + esc(h.fin) + '</span>' +
         '<span class="pill ' + clase + '">' + rotulo + '</span>' +
       '</div>' +
       '<div class="seats" role="img" aria-label="' + reservados + ' de ' + h.capacidad + ' lugares ocupados">' + asientos + '</div>' +
@@ -1722,26 +1724,26 @@ function tarjetaHoy(h, reservados){
     '</article>';
 }
 
-/* Cuadro semanal: cinco franjas por cinco días. Resuelve de un vistazo la
-   pregunta que más tiempo costaba responder a la administración.         */
+/* Cuadro semanal: cinco franjas por los cinco días que vienen, empezando
+   hoy. Resuelve de un vistazo la pregunta que más tiempo costaba responder
+   a la administración, y no muestra días que ya pasaron.                 */
 function tablaSemana(){
-  var hoy = indiceHoy();
-  var encabezados = AG.data.dias.map(function (d, i) {
-    var marca = (i === hoy && !esFinDeSemana());
-    return '<th scope="col"' + (i === hoy ? ' class="is-today"' : '') + '>' +
-             '<span class="th-dia">' + esc(d) + '</span>' +
-             '<span class="th-hoy"' + (marca ? '' : ' aria-hidden="true"') + '>' + (marca ? 'hoy' : '') + '</span>' +
+  var ventana = diasVisibles();
+  var encabezados = ventana.map(function (d) {
+    return '<th scope="col"' + (d.esHoy ? ' class="is-today"' : '') + '>' +
+             '<span class="th-dia">' + esc(d.nombre) + ' ' + d.fecha + '</span>' +
+             '<span class="th-hoy"' + (d.esHoy ? '' : ' aria-hidden="true"') + '>' + (d.esHoy ? 'hoy' : '') + '</span>' +
            '</th>';
   }).join('');
 
   var filas = AG.data.horarios.map(function (h) {
-    var celdas = AG.data.dias.map(function (dia, i) {
-      var libres = h.capacidad - h.semana[i];
+    var celdas = ventana.map(function (d) {
+      var libres = h.capacidad - h.semana[d.idx];
       var lleno = libres <= 0;
-      return '<td class="cell ' + (lleno ? 'is-full' : 'is-free') + (i === hoy ? ' is-today' : '') + '">' +
+      return '<td class="cell ' + (lleno ? 'is-full' : 'is-free') + (d.esHoy ? ' is-today' : '') + '">' +
                '<button type="button" class="cell-btn" ' +
                  'data-accion="' + (lleno ? 'lista-espera' : 'reservar') + '" data-horario="' + h.id + '" ' +
-                 'aria-label="' + esc(h.inicio) + ' a ' + esc(h.fin) + ', ' + esc(dia) + ': ' +
+                 'aria-label="' + esc(h.inicio) + ' a ' + esc(h.fin) + ', ' + esc(d.nombre) + ' ' + d.fecha + ': ' +
                    (lleno ? 'lleno, avisarme si se libera' : libres + ' cupos disponibles, reservar') + '">' +
                  /* sólo la cifra: el color y la leyenda de abajo ya dicen
                     si hay cupo, y el aria-label lo deja explícito para
@@ -1933,6 +1935,34 @@ function libresEn(horario, dia){ return horario.capacidad - horario.semana[dia];
 
 /* Días del mes de la semana en curso, de lunes a viernes. En fin de semana
    se muestra la semana siguiente, porque el estudio abre de lunes a viernes. */
+/* Los cinco días abiertos que vienen, empezando hoy. El estudio abre de
+   lunes a viernes, así que la ventana salta el fin de semana: un viernes
+   muestra viernes y luego lunes a jueves. Nunca muestra días pasados.
+     idx    → índice del día en los datos (0 lunes … 4 viernes)
+     enDias → cuántos días reales faltan, que es lo que necesita la regla
+              de las 24 horas (el lunes que se ve un viernes está a tres
+              días, no cuatro días atrás).                            */
+function diasVisibles(){
+  var hoy = new Date();
+  var cursor = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+  var base = new Date(cursor);
+  var lista = [];
+  while (lista.length < AG.data.dias.length) {
+    var wd = cursor.getDay();
+    if (wd >= 1 && wd <= 5) {
+      lista.push({
+        idx: wd - 1,
+        nombre: AG.data.dias[wd - 1],
+        fecha: cursor.getDate(),
+        enDias: Math.round((cursor - base) / 86400000),
+        esHoy: cursor.getTime() === base.getTime()
+      });
+    }
+    cursor.setDate(cursor.getDate() + 1);
+  }
+  return lista;
+}
+
 function fechasSemana(){
   var hoy = new Date();
   var d = hoy.getDay();
@@ -1947,17 +1977,28 @@ function fechasSemana(){
   });
 }
 
-/* ¿Se puede cancelar todavía? Hasta 24 horas antes del inicio.
-   En fin de semana el cuadro muestra la semana siguiente, así que
-   cualquier clase de esa semana está a más de un día de distancia. */
+/* ¿La clase ya empezó? Hoy, los horarios que ya pasaron no se pueden
+   reservar: la ventana de días empieza hoy, así que sin esto se podía
+   reservar la clase de las 7h00 a las nueve de la noche. */
+function yaEmpezo(dia, horarioId){
+  var h = horarioPorId(horarioId);
+  var visible = diasVisibles().filter(function (d) { return d.idx === dia; })[0];
+  if (!visible) return true;
+  if (visible.enDias > 0) return false;
+  var ahora = new Date();
+  return (ahora.getHours() * 60 + ahora.getMinutes()) >= h.hora * 60;
+}
+
+/* ¿Se puede cancelar todavía? Hasta 24 horas antes del inicio. El día
+   llega como índice de la semana y se traduce a días reales con la
+   ventana visible, que empieza hoy y puede cruzar el fin de semana. */
 function margenCancelacion(dia, horarioId){
   var h = horarioPorId(horarioId);
-  if (esFinDeSemana()) return { puede:true };
-  var hoy = indiceHoy();
-  if (dia < hoy) return { puede:false, motivo:'Esta clase ya pasó.' };
+  var visible = diasVisibles().filter(function (d) { return d.idx === dia; })[0];
+  if (!visible) return { puede:false, motivo:'Esta clase ya pasó.' };
   var ahora = new Date();
   var minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
-  var faltan = (dia - hoy) * 1440 + h.hora * 60 - minutosAhora;
+  var faltan = visible.enDias * 1440 + h.hora * 60 - minutosAhora;
   if (faltan >= 1440) return { puede:true };   /* 24 horas de margen */
   if (faltan <= -60) return { puede:false, motivo:'Esta clase ya pasó.' };
   return { puede:false, motivo:'Ya pasó el plazo: se cancela hasta 24 horas antes.' };
@@ -1967,109 +2008,100 @@ AG.views['#/reservar'] = function (contenedor) {
   var e = AG.data.estudiante;
   var plan = planEstudiante();
   var fijo = horarioPorId(e.horarioFijo);
-  var dia = AG.estado.diaElegido == null ? indiceHoy() : AG.estado.diaElegido;
+  var ventana = diasVisibles();
+  var dia = AG.estado.diaElegido;
+  if (dia == null || !ventana.some(function (d) { return d.idx === dia; })) dia = ventana[0].idx;
+  var elegido = ventana.filter(function (d) { return d.idx === dia; })[0];
   var restantes = Math.max(e.cuotaMes - e.usadas, 0);
 
-  /* tarjeta del horario habitual */
   var miReserva = e.reservas[dia];
-  var enMiHorario = miReserva === e.horarioFijo;
-  var libresFijo = libresEn(fijo, dia) + (enMiHorario ? 0 : 0);
-  var margen = enMiHorario ? margenCancelacion(dia, e.horarioFijo) : null;
+  var mio = miReserva ? horarioPorId(miReserva) : null;
+  var margen = miReserva ? margenCancelacion(dia, miReserva) : null;
+  var cuandoDia = elegido.esHoy ? 'hoy' : 'el ' + esc(elegido.nombre.toLowerCase()) + ' ' + elegido.fecha;
 
-  var tarjetaFijo;
-  if (enMiHorario) {
-    tarjetaFijo =
-      '<div class="slotrow is-mine">' +
-        '<div class="slotrow-main">' +
-          '<p class="slotrow-time">' + esc(fijo.inicio) + ' – ' + esc(fijo.fin) + '</p>' +
-          '<p class="slotrow-meta">Tu horario habitual · ' + esc(fijo.instructora) + '</p>' +
-        '</div>' +
-        '<div class="slotrow-side">' +
-          '<span class="pill pill-free">Tu lugar está confirmado</span>' +
-          (margen.puede
-            ? '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar</button>'
-            : '<span class="slotrow-meta">' + esc(margen.motivo) + '</span>') +
-        '</div>' +
-      '</div>';
-  } else if (miReserva) {
-    var otro = horarioPorId(miReserva);
-    var margenOtro = margenCancelacion(dia, miReserva);
-    tarjetaFijo =
-      '<div class="slotrow is-mine">' +
-        '<div class="slotrow-main">' +
-          '<p class="slotrow-time">' + esc(otro.inicio) + ' – ' + esc(otro.fin) + '</p>' +
-          '<p class="slotrow-meta">Reagendada para este día · ' + esc(otro.instructora) + '</p>' +
-        '</div>' +
-        '<div class="slotrow-side">' +
-          '<span class="pill pill-free">Confirmada</span>' +
-          (margenOtro.puede
-            ? '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar</button>'
-            : '<span class="slotrow-meta">' + esc(margenOtro.motivo) + '</span>') +
-        '</div>' +
-      '</div>';
+  /* Estado del día elegido, arriba y en una sola frase: es lo primero que
+     se busca, y de aquí sale el botón de cancelar para que no haya que
+     ir a buscarlo entre los horarios. */
+  var resumen;
+  if (miReserva) {
+    resumen =
+      '<p class="alert alert-ok">' + ICONOS.check +
+        /* el nombre de la instructora ya termina en punto («Pavlova Ch.»),
+           así que la frase no añade otro */
+        '<span>Tienes clase <b>' + cuandoDia + ' de ' + esc(mio.inicio) + ' a ' + esc(mio.fin) + '</b>' +
+        ' con ' + esc(mio.instructora) + ' ' +
+        (margen.puede
+          ? '<button class="btn btn-plain" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar esta clase</button>'
+          : esc(margen.motivo) + ' Si necesitas moverla, <a href="' + AG.data.estudio.whatsappUrl + '" target="_blank" rel="noopener">escríbele al estudio</a>.') +
+        '</span></p>';
+  } else if (restantes <= 0) {
+    resumen =
+      '<p class="alert alert-info">' + ICONOS.info +
+        '<span>Ya usaste tus <b>' + e.cuotaMes + ' clases</b> de ' + esc(e.mes) + '. El plan se renueva el ' + esc(e.renovacion) + '.</span></p>';
   } else {
-    var lleno = libresFijo <= 0;
-    var sinCuota = restantes <= 0;
-    tarjetaFijo =
-      '<div class="slotrow' + (lleno ? ' is-full' : '') + '">' +
-        '<div class="slotrow-main">' +
-          '<p class="slotrow-time">' + esc(fijo.inicio) + ' – ' + esc(fijo.fin) + '</p>' +
-          '<p class="slotrow-meta">Tu horario habitual · ' + esc(fijo.instructora) + '</p>' +
-        '</div>' +
-        '<div class="slotrow-side">' +
-          (lleno ? '<span class="pill pill-full">Sin cupo</span>'
-                 : '<span class="pill pill-free">' + libresFijo + ' de ' + fijo.capacidad + ' libres</span>') +
-          (sinCuota
-            ? '<span class="slotrow-meta">Ya usaste tus ' + e.cuotaMes + ' clases del mes.</span>'
-            : (lleno
-                ? (e.espera[dia]
-                    ? '<span class="pill pill-last">En lista de espera</span>'
-                    : '<button class="btn btn-outline btn-sm" type="button" data-accion="est-espera" data-dia="' + dia + '" data-horario="' + fijo.id + '">Lista de espera</button>')
-                : '<button class="btn btn-primary btn-sm" type="button" data-accion="est-reservar" data-dia="' + dia + '" data-horario="' + fijo.id + '">Reservar</button>')) +
-        '</div>' +
-      '</div>';
+    resumen =
+      '<p class="alert alert-info">' + ICONOS.info +
+        '<span>No tienes clase reservada ' + cuandoDia + '. Elige la hora que te sirva: te quedan <b>' +
+        restantes + (restantes === 1 ? ' clase' : ' clases') + '</b> del plan.</span></p>';
   }
 
-  /* los demás horarios: reagendar esta clase a otra hora */
-  var otros = AG.data.horarios.filter(function (h) { return h.id !== e.horarioFijo; }).map(function (h) {
+  /* Los cinco horarios del día, en orden, con el reservado marcado. Antes
+     el horario habitual iba aparte y los demás en otra lista: al reservar
+     otra hora, la reservada aparecía abajo como «cambiar aquí» y arriba
+     seguía el habitual, que es justo lo que confundía. */
+  var filas = AG.data.horarios.map(function (h) {
     var libres = libresEn(h, dia);
     var lleno = libres <= 0;
-    var yaTengo = !!e.reservas[dia];
-    var accion;
-    if (yaTengo) {
-      accion = '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cambiar" data-dia="' + dia + '" data-horario="' + h.id + '"' + (lleno ? ' disabled' : '') + '>' + (lleno ? 'Sin cupo' : 'Cambiar aquí') + '</button>';
-    } else if (restantes <= 0) {
-      accion = '<span class="slotrow-meta">Sin clases disponibles este mes</span>';
-    } else if (lleno) {
-      accion = e.espera[dia] === h.id
-        ? '<span class="pill pill-last">En lista de espera</span>'
-        : '<button class="btn btn-outline btn-sm" type="button" data-accion="est-espera" data-dia="' + dia + '" data-horario="' + h.id + '">Lista de espera</button>';
+    var esMio = miReserva === h.id;
+    var esHabitual = h.id === e.horarioFijo;
+    var meta = (esHabitual ? 'Tu horario habitual' : esc(h.jornada)) + ' · ' + esc(h.instructora);
+
+    var pasado = yaEmpezo(dia, h.id);
+    var estado, accion;
+    if (esMio) {
+      estado = '<span class="pill pill-free">Tu clase</span>';
+      accion = margen.puede
+        ? '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar</button>'
+        : '<span class="slotrow-meta">' + esc(margen.motivo) + '</span>';
     } else {
-      accion = '<button class="btn btn-outline btn-sm" type="button" data-accion="est-reservar" data-dia="' + dia + '" data-horario="' + h.id + '">Reservar aquí</button>';
+      estado = pasado
+        ? '<span class="pill pill-full">Ya pasó</span>'
+        : (lleno
+            ? '<span class="pill pill-full">Lleno</span>'
+            : '<span class="pill pill-free">' + libres + ' de ' + h.capacidad + ' libres</span>');
+      if (pasado) {
+        accion = '<span class="slotrow-meta">Esta clase ya empezó</span>';
+      } else if (lleno) {
+        accion = e.espera[dia] === h.id
+          ? '<span class="pill pill-last">En lista de espera</span>'
+          : '<button class="btn btn-outline btn-sm" type="button" data-accion="est-espera" data-dia="' + dia + '" data-horario="' + h.id + '">Lista de espera</button>';
+      } else if (miReserva) {
+        accion = '<button class="btn btn-outline btn-sm" type="button" data-accion="est-cambiar" data-dia="' + dia + '" data-horario="' + h.id + '">Cambiar aquí</button>';
+      } else if (restantes <= 0) {
+        accion = '<span class="slotrow-meta">Sin clases este mes</span>';
+      } else {
+        accion = '<button class="btn btn-primary btn-sm" type="button" data-accion="est-reservar" data-dia="' + dia + '" data-horario="' + h.id + '">Reservar</button>';
+      }
     }
+
     return '' +
-      '<div class="slotrow' + (lleno ? ' is-full' : '') + '">' +
+      '<div class="slotrow' + (esMio ? ' is-mine' : (lleno ? ' is-full' : '')) + '">' +
         '<div class="slotrow-main">' +
-          '<p class="slotrow-time">' + esc(h.inicio) + ' – ' + esc(h.fin) + '</p>' +
-          '<p class="slotrow-meta">' + esc(h.jornada) + ' · ' + esc(h.instructora) + '</p>' +
+          '<p class="slotrow-time">' + esc(h.inicio) + ' a ' + esc(h.fin) + '</p>' +
+          '<p class="slotrow-meta">' + meta + '</p>' +
         '</div>' +
-        '<div class="slotrow-side">' +
-          (lleno ? '<span class="pill pill-full">Lleno</span>'
-                 : '<span class="pill pill-free">' + libres + ' libres</span>') +
-          accion +
-        '</div>' +
+        '<div class="slotrow-side">' + estado + accion + '</div>' +
       '</div>';
   }).join('');
 
-  /* tira de días */
-  var fechas = fechasSemana();
-  var dias = AG.data.dias.map(function (d, i) {
-    var reservado = !!e.reservas[i];
-    return '<button class="day" type="button" data-accion="est-dia" data-dia="' + i + '" aria-pressed="' + (i === dia) + '">' +
-             '<span class="day-name">' + esc(d.slice(0,3)) + '</span>' +
-             '<span class="day-num">' + fechas[i] + '</span>' +
+  /* tira de días: desde hoy, sin días pasados */
+  var dias = ventana.map(function (d) {
+    var reservado = !!e.reservas[d.idx];
+    return '<button class="day" type="button" data-accion="est-dia" data-dia="' + d.idx + '" aria-pressed="' + (d.idx === dia) + '">' +
+             '<span class="day-name">' + esc(d.esHoy ? 'Hoy' : d.nombre.slice(0,3)) + '</span>' +
+             '<span class="day-num">' + d.fecha + '</span>' +
              '<span class="day-dot' + (reservado ? '' : ' is-empty') + '" aria-hidden="true"></span>' +
-             '<span class="sr-only">' + esc(d) + ' ' + fechas[i] + ', ' + (reservado ? 'con clase reservada' : 'sin reserva') + '</span>' +
+             '<span class="sr-only">' + esc(d.nombre) + ' ' + d.fecha + ', ' + (reservado ? 'con clase reservada' : 'sin reserva') + '</span>' +
            '</button>';
   }).join('');
 
@@ -2086,7 +2118,7 @@ AG.views['#/reservar'] = function (contenedor) {
           '<div class="panel-head"><h2>Tu plan de ' + esc(e.mes) + '</h2></div>' +
           '<dl class="dl">' +
             '<div class="dl-row"><dt>Plan</dt><dd>' + esc(plan.nombre) + '</dd></div>' +
-            '<div class="dl-row"><dt>Horario contratado</dt><dd>' + esc(fijo.inicio) + ' – ' + esc(fijo.fin) + '</dd></div>' +
+            '<div class="dl-row"><dt>Horario habitual</dt><dd>' + esc(fijo.inicio) + ' a ' + esc(fijo.fin) + '</dd></div>' +
             '<div class="dl-row"><dt>Clases usadas</dt><dd>' + e.usadas + ' de ' + e.cuotaMes + '</dd></div>' +
             '<div class="dl-row"><dt>Renovación</dt><dd>' + esc(e.renovacion) + '</dd></div>' +
           '</dl>' +
@@ -2105,15 +2137,15 @@ AG.views['#/reservar'] = function (contenedor) {
       '<div class="panel">' +
         '<div class="panel-head">' +
           '<h2>Elige el día</h2>' +
-          '<span class="muted">Lunes a viernes</span>' +
+          '<span class="muted">Desde hoy, los próximos cinco días que abre el estudio</span>' +
         '</div>' +
         '<div class="daystrip">' + dias + '</div>' +
-        '<div style="margin-top:18px;">' + tarjetaFijo + '</div>' +
-        '<div class="panel-head" style="margin:26px 0 12px;">' +
-          '<h2>Otros horarios de ese día</h2>' +
-          '<span class="muted">Reagenda esta clase según la disponibilidad del día</span>' +
+        '<div style="margin-top:18px;">' + resumen + '</div>' +
+        '<div class="panel-head" style="margin:22px 0 12px;">' +
+          '<h2>Horarios de ese día</h2>' +
+          '<span class="muted">' + esc(elegido.nombre) + ' ' + elegido.fecha + '</span>' +
         '</div>' +
-        otros +
+        filas +
       '</div>' +
 
     '</div></section>';
@@ -3607,6 +3639,7 @@ var ACCIONES = {
     var dia = parseInt(boton.dataset.dia, 10);
     var h = horarioPorId(boton.dataset.horario);
     if (!h || e.reservas[dia]) return;
+    if (yaEmpezo(dia, h.id)) { avisar('La clase de ' + h.inicio + ' a ' + h.fin + ' ya empezó. Elige otro horario u otro día.'); return; }
     if (e.cuotaMes - e.usadas <= 0) { avisar('Ya usaste las ' + e.cuotaMes + ' clases de tu plan este mes.'); return; }
     if (libresEn(h, dia) <= 0) return;
     e.reservas[dia] = h.id;
@@ -3637,6 +3670,7 @@ var ACCIONES = {
     var nuevo = horarioPorId(boton.dataset.horario);
     var actual = e.reservas[dia] ? horarioPorId(e.reservas[dia]) : null;
     if (!nuevo || !actual || libresEn(nuevo, dia) <= 0) return;
+    if (yaEmpezo(dia, nuevo.id)) { avisar('La clase de ' + nuevo.inicio + ' a ' + nuevo.fin + ' ya empezó. Elige otro horario u otro día.'); return; }
     var margen = margenCancelacion(dia, actual.id);
     if (!margen.puede) { avisar(margen.motivo); return; }
     actual.semana[dia] = Math.max(actual.semana[dia] - 1, 0);
@@ -3811,6 +3845,8 @@ var ACCIONES = {
 AG.horarioPorId = horarioPorId;
 AG.padronExpandido = padronExpandido;
 AG.fechasSemana = fechasSemana;
+AG.diasVisibles = diasVisibles;
+AG.yaEmpezo = yaEmpezo;
 AG.planEstudiante = planEstudiante;
 AG.libresEn = libresEn;
 AG.margenCancelacion = margenCancelacion;
