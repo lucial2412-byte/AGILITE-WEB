@@ -1175,6 +1175,38 @@ h2.title{font-family:var(--font-display);font-weight:400;font-size:clamp(29px,4.
 
 var AG = window.AG = {};
 
+/* Las fechas del ejemplo salen del calendario, no de un literal: el
+   prototipo se enseña mes a mes y el plan de la estudiante seguía
+   diciendo «septiembre» en octubre. Todo lo que significa «este mes»,
+   «el mes pasado» o «hace unos días» se calcula al cargar.
+     mesNombre(0)  → «octubre»        mesNombre(-1) → «septiembre»
+     finDeMes(0)   → «31 de octubre»  diaDelMes(1,-2) → «1 de agosto»
+     haceDias(11)  → «21 de septiembre»                               */
+var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio',
+             'agosto','septiembre','octubre','noviembre','diciembre'];
+function primeroDe(desplazamiento){
+  var d = new Date();
+  d.setDate(1);
+  d.setMonth(d.getMonth() + (desplazamiento || 0));
+  return d;
+}
+function mesNombre(desplazamiento){ return MESES[primeroDe(desplazamiento).getMonth()]; }
+function mesConAnio(desplazamiento){
+  var d = primeroDe(desplazamiento);
+  return MESES[d.getMonth()] + ' de ' + d.getFullYear();
+}
+function diaDelMes(dia, desplazamiento){ return dia + ' de ' + mesNombre(desplazamiento); }
+function finDeMes(desplazamiento){
+  var d = primeroDe((desplazamiento || 0) + 1);
+  d.setDate(0);
+  return d.getDate() + ' de ' + MESES[d.getMonth()];
+}
+function haceDias(n){
+  var d = new Date();
+  d.setDate(d.getDate() - n);
+  return d.getDate() + ' de ' + MESES[d.getMonth()];
+}
+
 /* ---------------------------------------------------------------- datos -- */
 AG.data = {
 
@@ -1332,7 +1364,7 @@ AG.data = {
   ],
 
   condicionesPlanes:[
-    'Puedes reagendar tus clases según la disponibilidad de cada día.',
+    'Puedes reagendar una clase el mismo día, mientras no haya empezado y quede cupo en otra hora.',
     'Los planes deben tomarse dentro del mes activo y no se congelan.'
   ],
 
@@ -1349,23 +1381,24 @@ AG.data = {
   ],
 
   /* Estado de la estudiante con sesión. Respeta las reglas del estudio:
-     tiene un horario habitual, reagenda y cancela hasta 24 horas antes. */
+     tiene un horario habitual, reagenda el mismo día y cancela hasta 24
+     horas antes de la clase.                                           */
   estudiante: {
     planId:'p12',
     horarioFijo:'h0800',
-    mes:'septiembre',
-    renovacion:'30 de septiembre',
+    mes:mesNombre(0),
+    renovacion:finDeMes(0),
     cuotaMes:12,
     usadas:7,
-    desde:'marzo de 2026',
+    desde:mesConAnio(-7),
     totalHistorico:78,
     semanas:[3,3,1,0],                  /* asistencia por semana del mes */
     reservas:{ 0:'h0800', 1:'h0800', 3:'h0800' },   /* día → horario */
     espera:{},
     pagos:[
-      { fecha:'1 de septiembre', concepto:'Plan 12 clases · septiembre', monto:85, estado:'Pagado' },
-      { fecha:'1 de agosto',     concepto:'Plan 12 clases · agosto',     monto:85, estado:'Pagado' },
-      { fecha:'1 de julio',      concepto:'Plan 8 clases · julio',       monto:60, estado:'Pagado' }
+      { fecha:diaDelMes(1, 0),  concepto:'Plan 12 clases · ' + mesNombre(0),  monto:85, estado:'Pagado' },
+      { fecha:diaDelMes(1, -1), concepto:'Plan 12 clases · ' + mesNombre(-1), monto:85, estado:'Pagado' },
+      { fecha:diaDelMes(1, -2), concepto:'Plan 8 clases · ' + mesNombre(-2),  monto:60, estado:'Pagado' }
     ],
 
     /* Seguimiento de medidas. Las registra la estudiante, no el estudio,
@@ -1381,9 +1414,9 @@ AG.data = {
         { id:'brazo',   etiqueta:'Brazo',   unidad:'cm' }
       ],
       registros:[
-        { fecha:'2 de marzo',      peso:68.4, cintura:82, abdomen:88, cadera:100, brazo:28   },
-        { fecha:'1 de junio',      peso:66.1, cintura:79, abdomen:85, cadera:98,  brazo:28.5 },
-        { fecha:'1 de septiembre', peso:64.8, cintura:76, abdomen:82, cadera:96,  brazo:29   }
+        { fecha:diaDelMes(2, -6), peso:68.4, cintura:82, abdomen:88, cadera:100, brazo:28   },
+        { fecha:diaDelMes(1, -3), peso:66.1, cintura:79, abdomen:85, cadera:98,  brazo:28.5 },
+        { fecha:diaDelMes(1, 0),  peso:64.8, cintura:76, abdomen:82, cadera:96,  brazo:29   }
       ]
     },
 
@@ -1428,8 +1461,8 @@ AG.data = {
 
   /* Pendientes de la administración. */
   solicitudes: [
-    { estudiante:'Carolina Vega', tipo:'Cambio de horario', detalle:'De 8h00 a 18h00 desde octubre', fecha:'21 de septiembre' },
-    { estudiante:'Rocío Paredes', tipo:'Cambio de plan',    detalle:'De 8 a 12 clases desde octubre', fecha:'22 de septiembre' }
+    { estudiante:'Carolina Vega', tipo:'Cambio de horario', detalle:'De 8h00 a 18h00 desde ' + mesNombre(1), fecha:haceDias(4) },
+    { estudiante:'Rocío Paredes', tipo:'Cambio de plan',    detalle:'De 8 a 12 clases desde ' + mesNombre(1), fecha:haceDias(3) }
   ],
   interesados: [
     { nombre:'Andrea L.',  canal:'WhatsApp',  mensaje:'¿Tienen cupo en la mañana?',        fecha:'hoy, 8h42',   estado:'sin responder' },
@@ -1437,8 +1470,8 @@ AG.data = {
     { nombre:'Marcela P.', canal:'WhatsApp',  mensaje:'Quiero una clase de prueba',        fecha:'ayer, 19h30', estado:'respondido' }
   ],
   avisos: [
-    { titulo:'Promo flash · 30 % de descuento', destinatarias:'Todas las estudiantes', fecha:'20 de septiembre', alcance:27 },
-    { titulo:'Se liberó un cupo de 8h00',       destinatarias:'Lista de espera de 8h00', fecha:'19 de septiembre', alcance:3 }
+    { titulo:'Promo flash · 30 % de descuento', destinatarias:'Todas las estudiantes', fecha:haceDias(6), alcance:27 },
+    { titulo:'Se liberó un cupo de 8h00',       destinatarias:'Lista de espera de 8h00', fecha:haceDias(7), alcance:3 }
   ],
   plantillas: [
     { titulo:'Respuesta a interesadas', texto:'¡Hola! Tenemos cinco horarios de lunes a viernes, con grupos de máximo 8 personas. Puedes ver los cupos en tiempo real y reservar en nuestra web. ¿Te agendo una clase de prueba?' },
@@ -1939,8 +1972,11 @@ function bloqueCierre(){
 
 /* ==================================================== vista estudiante == */
 /* Reglas del estudio que la pantalla hace cumplir:
-   · hay un horario habitual, pero cada clase se puede reagendar;
-   · se cancela hasta 24 horas antes del inicio de la clase;
+   · hay un horario habitual, pero cada clase se puede reagendar, y
+     reagendar no tiene plazo: se mueve el mismo día mientras la clase
+     no haya empezado;
+   · cancelar —devolver la clase al plan— sí tiene plazo: hasta 24 horas
+     antes del inicio;
    · el plan tiene una cuota de clases al mes y no se congela.
    Reagendar cambia sólo la clase de ese día; el horario habitual es
    el punto de partida, no una obligación.                           */
@@ -2010,19 +2046,32 @@ function yaEmpezo(dia, horarioId){
   return (ahora.getHours() * 60 + ahora.getMinutes()) >= h.hora * 60;
 }
 
-/* ¿Se puede cancelar todavía? Hasta 24 horas antes del inicio. El día
-   llega como índice de la semana y se traduce a días reales con la
-   ventana visible, que empieza hoy y puede cruzar el fin de semana. */
+/* ¿Se puede CANCELAR todavía —devolver la clase al plan—? Hasta 24 horas
+   antes del inicio. El día llega como índice de la semana y se traduce a
+   días reales con la ventana visible, que empieza hoy y puede cruzar el
+   fin de semana.
+     codigo 'plazo'  → el plazo de 24 horas ya pasó, pero la clase no ha
+                       empezado: todavía se puede REAGENDAR.
+     codigo 'pasada' → la clase ya pasó y no queda nada que hacer.     */
 function margenCancelacion(dia, horarioId){
   var h = horarioPorId(horarioId);
   var visible = diasVisibles().filter(function (d) { return d.idx === dia; })[0];
-  if (!visible) return { puede:false, motivo:'Esta clase ya pasó.' };
+  if (!visible) return { puede:false, codigo:'pasada', motivo:'Esta clase ya pasó.' };
   var ahora = new Date();
   var minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
   var faltan = visible.enDias * 1440 + h.hora * 60 - minutosAhora;
   if (faltan >= 1440) return { puede:true };   /* 24 horas de margen */
-  if (faltan <= -60) return { puede:false, motivo:'Esta clase ya pasó.' };
-  return { puede:false, motivo:'Ya pasó el plazo: se cancela hasta 24 horas antes.' };
+  if (faltan <= -60) return { puede:false, codigo:'pasada', motivo:'Esta clase ya pasó.' };
+  return { puede:false, codigo:'plazo', motivo:'Ya no puedes cancelarla: el plazo es hasta 24 horas antes de la clase.' };
+}
+
+/* ¿Se puede REAGENDAR? El estudio lo pidió claro: una clase se mueve a
+   otra hora el mismo día, sin plazo de 24 horas. Lo único que lo impide
+   es que la clase reservada ya haya empezado —no se mueve lo que ya
+   ocurrió—; que la hora de destino tenga cupo y no haya empezado lo
+   comprueba aparte quien ofrece el cambio.                            */
+function puedeReagendar(dia, horarioId){
+  return !yaEmpezo(dia, horarioId);
 }
 
 AG.views['#/reservar'] = function (contenedor) {
@@ -2051,9 +2100,14 @@ AG.views['#/reservar'] = function (contenedor) {
            así que la frase no añade otro */
         '<span>Tienes clase <b>' + cuandoDia + ' de ' + esc(mio.inicio) + ' a ' + esc(mio.fin) + '</b>' +
         ' con ' + esc(mio.instructora) + ' ' +
+        /* Pasado el plazo de cancelación la clase todavía se puede mover a
+           otra hora del mismo día: eso es lo que se ofrece aquí, en vez de
+           mandarla a escribir al estudio. */
         (margen.puede
           ? '<button class="btn btn-plain" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar esta clase</button>'
-          : esc(margen.motivo) + ' Si necesitas moverla, <a href="' + AG.data.estudio.whatsappUrl + '" target="_blank" rel="noopener">escríbele al estudio</a>.') +
+          : margen.codigo === 'plazo'
+            ? esc(margen.motivo) + ' Sí puedes reagendarla a otra hora con cupo, abajo.'
+            : esc(margen.motivo)) +
         '</span></p>';
   } else if (restantes <= 0) {
     resumen =
@@ -2083,9 +2137,11 @@ AG.views['#/reservar'] = function (contenedor) {
       texto = 'Reservada · ' + esc(h.instructora);
       accion = margen.puede
         ? '<button class="btn btn-outline btn-sm btn-block" type="button" data-accion="est-cancelar" data-dia="' + dia + '">Cancelar</button>'
-        /* el motivo entero ya está en el resumen de arriba; aquí basta el
-           hecho, para que la tarjeta no crezca de más */
-        : '<p class="today-nota">Ya no se puede cancelar</p>';
+        /* el motivo entero ya está en el resumen de arriba; aquí basta
+           decir qué sí se puede hacer, sin que la tarjeta crezca */
+        : '<p class="today-nota">' +
+            (margen.codigo === 'plazo' ? 'Elige otra hora para reagendar' : 'Esta clase ya pasó') +
+          '</p>';
     } else if (pasado) {
       texto = esc(h.jornada) + ' · ' + esc(h.instructora);
       accion = '<p class="today-nota">Esta clase ya empezó</p>';
@@ -2142,8 +2198,8 @@ AG.views['#/reservar'] = function (contenedor) {
         '<div class="panel">' +
           '<div class="panel-head"><h2>Cómo funciona tu plan</h2></div>' +
           '<ul style="display:grid;gap:11px;">' +
-            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes reagendar cualquier clase según la disponibilidad del día.</span></li>' +
-            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar hasta 24 horas antes de la clase.</span></li>' +
+            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes reagendar una clase el mismo día, mientras no haya empezado y quede cupo.</span></li>' +
+            '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Cancelar —devolver la clase al plan— sí tiene plazo: hasta 24 horas antes.</span></li>' +
             '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Las clases se toman dentro del mes activo y no se congelan.</span></li>' +
           '</ul>' +
         '</div>' +
@@ -2424,7 +2480,7 @@ AG.views['#/mi-plan'] = function (contenedor) {
               AG.data.condicionesPlanes.map(function (c) {
                 return '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>' + esc(c) + '</span></li>';
               }).join('') +
-              '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar una clase hasta 24 horas antes.</span></li>' +
+              '<li style="display:flex;gap:11px;font-size:14.5px;line-height:1.55;">' + ICONOS.check + '<span>Puedes cancelar una clase hasta 24 horas antes. Después ya no se cancela, pero sí se reagenda.</span></li>' +
             '</ul>' +
           '</div>' +
           (promo.activa ? '<div class="panel" style="margin-top:18px;">' +
@@ -2480,14 +2536,12 @@ function resumenPendientes(cambios, pagos, mensajes){
 }
 
 function fechaCorta(){
-  var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   var d = new Date();
-  return d.getDate() + ' de ' + meses[d.getMonth()];
+  return d.getDate() + ' de ' + MESES[d.getMonth()];
 }
 function fechaLarga(){
-  var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   var d = new Date();
-  return AG.data.dias[indiceHoy()].toLowerCase() + ' ' + d.getDate() + ' de ' + meses[d.getMonth()];
+  return AG.data.dias[indiceHoy()].toLowerCase() + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()];
 }
 function ocupacionHoy(){
   var hoy = indiceHoy();
@@ -3138,7 +3192,7 @@ AG.views['#/inscripcion'] = function (contenedor) {
 
   } else if (ins.paso === 2) {
     cuerpo = '<p class="note" style="margin:0 0 18px;">' + ICONOS.info +
-      '<span>El horario que elijas queda como tu horario habitual. Después puedes reagendar cada clase según la disponibilidad del día.</span></p>' +
+      '<span>El horario que elijas queda como tu horario habitual. Después puedes reagendar cada clase —incluso el mismo día— según la disponibilidad.</span></p>' +
       AG.data.horarios.map(function (h) {
         var libres = h.capacidad - h.semana[indiceHoy()];
         var lleno = libres <= 0;
@@ -3230,7 +3284,7 @@ AG.views['#/terminos'] = function (contenedor) {
       '</ul>' +
       '<h2>Condiciones de los planes</h2>' +
       '<ul>' + AG.data.condicionesPlanes.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('') +
-        '<li>Una clase reservada puede cancelarse hasta 24 horas antes de su inicio; pasado ese plazo se descuenta del plan.</li>' +
+        '<li>Una clase reservada puede cancelarse hasta 24 horas antes de su inicio; pasado ese plazo se descuenta del plan, aunque la clase todavía puede reagendarse a otra hora del mismo día si hay cupo.</li>' +
       '</ul>' +
       '<h2>Vigencia y cambios</h2>' +
       '<p>El estudio puede modificar o dar por terminada una promoción en cualquier momento. Los cambios no afectan a las inscripciones ya confirmadas bajo las condiciones anteriores.</p>' +
@@ -3679,7 +3733,12 @@ var ACCIONES = {
     var id = e.reservas[dia];
     if (!id) return;
     var margen = margenCancelacion(dia, id);
-    if (!margen.puede) { avisar(margen.motivo); return; }
+    if (!margen.puede) {
+      /* si sólo venció el plazo, la clase todavía se puede mover */
+      avisar(margen.motivo + (margen.codigo === 'plazo'
+        ? '\n\nSí puedes reagendarla a otra hora del día desde esta misma pantalla.' : ''));
+      return;
+    }
     var h = horarioPorId(id);
     delete e.reservas[dia];
     h.semana[dia] = Math.max(h.semana[dia] - 1, 0);
@@ -3694,8 +3753,9 @@ var ACCIONES = {
     var actual = e.reservas[dia] ? horarioPorId(e.reservas[dia]) : null;
     if (!nuevo || !actual || libresEn(nuevo, dia) <= 0) return;
     if (yaEmpezo(dia, nuevo.id)) { avisar('La clase de ' + nuevo.inicio + ' a ' + nuevo.fin + ' ya empezó. Elige otro horario u otro día.'); return; }
-    var margen = margenCancelacion(dia, actual.id);
-    if (!margen.puede) { avisar(margen.motivo); return; }
+    /* Reagendar no pide las 24 horas: basta que la clase que se mueve no
+       haya empezado. El plazo de 24 horas es sólo para cancelar. */
+    if (!puedeReagendar(dia, actual.id)) { avisar('La clase de ' + actual.inicio + ' a ' + actual.fin + ' ya empezó y no se puede mover.'); return; }
     actual.semana[dia] = Math.max(actual.semana[dia] - 1, 0);
     nuevo.semana[dia] += 1;
     e.reservas[dia] = nuevo.id;
@@ -3873,6 +3933,7 @@ AG.yaEmpezo = yaEmpezo;
 AG.planEstudiante = planEstudiante;
 AG.libresEn = libresEn;
 AG.margenCancelacion = margenCancelacion;
+AG.puedeReagendar = puedeReagendar;
 AG.redibujar = redibujar;
 AG.precioPromo = precioPromo;
 /* para medir el banner sin que rote a media medición */

@@ -100,7 +100,7 @@ guardarse cifradas.
      frase («Tienes clase hoy de 7h00 a 8h00 con Pavlova Ch.») con el
      botón de cancelar al lado, y además la fila de la clase queda
      marcada. Cuando el plazo de 24 horas ya pasó, la misma frase lo dice
-     y ofrece escribir al estudio por WhatsApp.
+     y ofrece lo que sí se puede hacer: reagendarla.
 
   4. **El formato no cambia al entrar.** La visitante ve los horarios del
      día en tarjetas («Hoy en el estudio») y la estudiante los veía en
@@ -130,14 +130,36 @@ guardarse cifradas.
 - **Mi plan** · lo contratado, condiciones, historial de pagos y cambio de
   plan con el precio de la promoción aplicado.
 
-Las reglas del estudio se hacen cumplir: cada estudiante tiene un horario
-habitual —el que eligió al inscribirse, que aparece preseleccionado— pero
-**puede reagendar cualquier clase** según la disponibilidad del día, se
-cancela hasta 24 horas antes del inicio, y la cuota de clases del plan no
-se puede exceder. El plazo se evalúa contra el reloj
-real; `cancelacion.js` lo prueba con el reloj fijado en un miércoles a las
-10h15, a las 5h00, un martes a las 23h30 y un sábado, porque si la suite
-corre en fin de semana la rama de día laborable no se ejercitaría nunca.
+Las reglas del estudio se hacen cumplir, y **reagendar y cancelar no son
+lo mismo**:
+
+- Cada estudiante tiene un horario habitual —el que eligió al inscribirse,
+  que aparece preseleccionado— pero **puede reagendar cualquier clase el
+  mismo día**, mientras la clase no haya empezado y quede cupo en otra
+  hora. Reagendar no tiene plazo de 24 horas: `puedeReagendar()` sólo
+  comprueba que la clase no haya empezado.
+- **Cancelar** —devolver la clase al plan— sí tiene plazo: hasta 24 horas
+  antes del inicio, que es lo que mide `margenCancelacion()`. Pasado el
+  plazo devuelve `codigo:'plazo'`, y la pantalla aprovecha ese código para
+  ofrecer el cambio de hora en vez de dejar a la estudiante sin salida;
+  cuando la clase ya pasó devuelve `codigo:'pasada'` y no ofrece nada.
+- La cuota de clases del plan no se puede exceder, y reagendar no consume
+  una clase extra.
+
+El plazo se evalúa contra el reloj real; `cancelacion.js` lo prueba con el
+reloj fijado en un miércoles a las 10h15, a las 5h00, un martes a las
+23h30 y un sábado, porque si la suite corre en fin de semana la rama de
+día laborable no se ejercitaría nunca. `estudiante.js` prueba el caso que
+distingue las dos reglas: un lunes a las 7h30, la clase de 8h00 de ese
+mismo día ya no se puede cancelar pero sí reagendar.
+
+**Las fechas del ejemplo salen del calendario, no de un literal.** El
+prototipo se enseña mes a mes y el plan de la estudiante seguía diciendo
+«septiembre» en octubre. Ahora el mes del plan, la fecha de renovación, el
+historial de pagos, los registros de medidas y las fechas de las
+solicitudes y los avisos de administración se calculan al cargar con
+`mesNombre()`, `finDeMes()`, `diaDelMes()` y `haceDias()`. En octubre el
+plan dice octubre y renueva el 31; en noviembre, noviembre.
 
 ### Vista de administración (construida)
 
