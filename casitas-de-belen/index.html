@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Casitas de Belén · Accesorios y decoraciones para pesebres</title>
+<meta name="description" content="Casitas, portales, figuras, luces y decoraciones para armar tu pesebre. Envíos a todo el país.">
+<meta name="theme-color" content="#1d3557">
+
+<!-- El logo es lo primero que se ve: se pide antes que nada y en el formato
+     más liviano que acepte el navegador (AVIF ≈ 5 KB en el header). -->
+<link rel="preload" as="image" type="image/avif" fetchpriority="high"
+      imagesrcset="img/logo-96.avif 96w, img/logo-160.avif 160w, img/logo-240.avif 240w, img/logo-320.avif 320w, img/logo-480.avif 480w, img/logo-628.avif 628w"
+      imagesizes="(min-width: 760px) 320px, 220px">
+
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+
+<meta property="og:title" content="Casitas de Belén">
+<meta property="og:description" content="Accesorios y decoraciones para pesebres">
+<meta property="og:image" content="img/logo-628.jpg">
+
+<!-- Todo el CSS va en línea: cero peticiones que bloqueen el pintado.
+     Sin fuentes web: la tipografía del sistema se pinta al instante. -->
+<style>
+:root{
+  --crema:#faf8eb; --crema-2:#f1e9d8; --noche:#1d3557; --noche-2:#14243d;
+  --oro:#c8963e; --oro-claro:#f2c96b; --madera:#8a5a2b; --pino:#3f7d4e;
+  --texto:#2a2a2a; --suave:#6b6257; --borde:#e4d9c3;
+  --radio:14px; --sombra:0 6px 20px rgba(29,53,87,.10);
+  --serif: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--crema);color:var(--texto);font:16px/1.55 var(--sans)}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+.envoltura{max-width:1160px;margin:0 auto;padding:0 16px}
+.oculto{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Franja de anuncio */
+.anuncio{background:var(--noche);color:#fff;text-align:center;font-size:.85rem;padding:7px 16px}
+.anuncio strong{color:var(--oro-claro)}
+
+/* Header */
+.header{position:sticky;top:0;z-index:20;background:var(--crema);border-bottom:1px solid var(--borde)}
+.header .envoltura{display:flex;align-items:center;gap:12px;height:76px}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.marca img{width:64px;height:64px}
+.marca span{font:700 1.15rem/1.1 var(--serif);color:var(--noche)}
+.nav{display:none;gap:22px;margin-left:24px}
+.nav a{text-decoration:none;color:var(--noche);font-weight:600;font-size:.95rem}
+.nav a:hover{color:var(--oro)}
+.acciones{margin-left:auto;display:flex;gap:6px}
+.icono-btn{position:relative;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:var(--noche)}
+.icono-btn:hover{background:var(--crema-2)}
+.icono-btn svg{width:24px;height:24px}
+.contador{position:absolute;top:2px;right:0;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--oro);color:#fff;font-size:.72rem;font-weight:700;display:grid;place-items:center}
+.contador[hidden]{display:none}
+
+/* Hero: el logo grande es el elemento más pesado visible (LCP) */
+.hero{background:var(--crema)}
+.hero .envoltura{display:grid;gap:20px;justify-items:center;text-align:center;padding-top:24px;padding-bottom:40px}
+.hero picture img{width:220px;height:220px}
+.hero h1{margin:0;font:700 clamp(1.7rem,5vw,2.6rem)/1.15 var(--serif);color:var(--noche);max-width:18ch}
+.hero p{margin:0;color:var(--suave);max-width:46ch;font-size:1.05rem}
+.botones{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:2px solid var(--noche);background:var(--noche);color:#fff;font-weight:700;text-decoration:none}
+.btn:hover{background:var(--noche-2)}
+.btn.claro{background:transparent;color:var(--noche)}
+.btn.claro:hover{background:var(--crema-2)}
+
+/* Secciones */
+section{padding:44px 0}
+.titulo{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:20px}
+.titulo h2{margin:0;font:700 clamp(1.4rem,3.6vw,2rem)/1.2 var(--serif);color:var(--noche)}
+.titulo a{color:var(--madera);font-weight:600;font-size:.95rem}
+
+/* Beneficios */
+.beneficios{padding:0}
+.beneficios ul{list-style:none;margin:0;padding:16px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;background:#fff;border:1px solid var(--borde);border-radius:var(--radio)}
+.beneficios li{display:flex;gap:10px;align-items:center;font-size:.88rem;line-height:1.3}
+.beneficios svg{width:28px;height:28px;flex-shrink:0;color:var(--oro)}
+.beneficios b{display:block;color:var(--noche)}
+
+/* Categorías */
+.categorias{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.categoria{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 10px;border-radius:var(--radio);background:#fff;border:1px solid var(--borde);text-decoration:none;color:var(--noche);font-weight:700;text-align:center}
+.categoria:hover{border-color:var(--oro);box-shadow:var(--sombra)}
+.categoria svg{width:56px;height:56px}
+.categoria small{font-weight:400;color:var(--suave)}
+
+/* Productos */
+.filtros{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin:-6px 0 16px;scrollbar-width:none}
+.filtros button{flex-shrink:0;min-height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--borde);background:#fff;color:var(--noche);font-size:.9rem}
+.filtros button[aria-pressed="true"]{background:var(--noche);border-color:var(--noche);color:#fff}
+.productos{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.producto{display:flex;flex-direction:column;background:#fff;border:1px solid var(--borde);border-radius:var(--radio);overflow:hidden}
+.producto .foto{aspect-ratio:1;display:grid;place-items:center;background:linear-gradient(180deg,#24406a 0%,var(--noche) 70%,#3a4f6e 100%)}
+.producto .foto svg{width:62%;height:62%}
+.producto .info{display:flex;flex-direction:column;gap:4px;padding:12px;flex:1}
+.producto h3{margin:0;font-size:.95rem;line-height:1.3;color:var(--noche)}
+.producto .precio{font-weight:800;color:var(--madera)}
+.producto .antes{font-weight:400;color:var(--suave);text-decoration:line-through;font-size:.82rem;margin-left:6px}
+.producto .etiqueta{align-self:flex-start;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--oro-claro);color:var(--noche-2)}
+.producto button{margin-top:auto;min-height:42px;border-radius:10px;border:0;background:var(--oro);color:#fff;font-weight:700}
+.producto button:hover{background:#b07f2f}
+
+/* Banda */
+.banda{background:var(--noche);color:#fff;text-align:center}
+.banda h2{margin:0 0 8px;font:700 clamp(1.4rem,3.6vw,2rem)/1.2 var(--serif);color:var(--oro-claro)}
+.banda p{margin:0 auto 18px;max-width:52ch;opacity:.9}
+.banda .btn{background:var(--oro);border-color:var(--oro)}
+
+/* Footer */
+footer{background:var(--noche-2);color:#d8dde6;font-size:.9rem;padding:36px 0 24px}
+footer .envoltura{display:grid;gap:24px}
+footer h3{margin:0 0 8px;color:#fff;font:700 1rem var(--serif)}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+footer a{color:#d8dde6}
+.legal{border-top:1px solid rgba(255,255,255,.12);padding-top:16px;font-size:.8rem;opacity:.75}
+
+/* Carrito */
+.carrito{position:fixed;inset:0;z-index:50;display:none}
+.carrito.abierto{display:block}
+.carrito .velo{position:absolute;inset:0;background:rgba(20,36,61,.5)}
+.carrito aside{position:absolute;top:0;right:0;bottom:0;width:min(400px,100%);background:var(--crema);display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.2)}
+.carrito header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--borde)}
+.carrito h2{margin:0;font:700 1.25rem var(--serif);color:var(--noche)}
+.carrito ol{list-style:none;margin:0;padding:8px 16px;overflow:auto;flex:1}
+.carrito li{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--borde)}
+.carrito li div{flex:1;font-size:.92rem}
+.carrito li b{display:block;color:var(--noche)}
+.cantidad{display:flex;align-items:center;gap:4px}
+.cantidad button{width:30px;height:30px;border-radius:50%;border:1px solid var(--borde);background:#fff}
+.vacio{padding:40px 16px;text-align:center;color:var(--suave)}
+.carrito footer{background:none;color:var(--texto);padding:16px;border-top:1px solid var(--borde);display:grid;gap:12px}
+.total{display:flex;justify-content:space-between;font-size:1.1rem;font-weight:800;color:var(--noche)}
+.aviso{position:fixed;left:50%;bottom:20px;transform:translate(-50%,120px);background:var(--noche);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;transition:transform .25s;z-index:60}
+.aviso.visible{transform:translate(-50%,0)}
+
+@media (min-width:760px){
+  .header .envoltura{height:88px}
+  .marca img{width:76px;height:76px}
+  .nav{display:flex}
+  .hero .envoltura{grid-template-columns:1fr auto;justify-items:start;text-align:left;align-items:center;padding-top:40px;padding-bottom:56px}
+  .hero picture{grid-column:2;grid-row:1/4}
+  .hero picture img{width:320px;height:320px}
+  .botones{justify-content:flex-start}
+  .beneficios ul{grid-template-columns:repeat(4,1fr);padding:18px 22px}
+  .categorias{grid-template-columns:repeat(4,1fr)}
+  .productos{grid-template-columns:repeat(3,1fr);gap:18px}
+  footer .envoltura{grid-template-columns:2fr 1fr 1fr}
+}
+@media (min-width:1024px){.productos{grid-template-columns:repeat(4,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+<!-- Dibujos reutilizables (SVG en línea: 0 peticiones, nítidos a cualquier tamaño) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-casita" viewBox="0 0 64 64"><path d="M6 30 32 8l26 22" fill="#e7c27a" stroke="#8a5a2b" stroke-width="3" stroke-linejoin="round"/><path d="M12 28h40v28H12z" fill="#b07a45" stroke="#6b4320" stroke-width="2.5"/><path d="M24 56V40a8 8 0 0 1 16 0v16z" fill="#f6c453"/><path d="m32 42 1.6 3.4 3.4 1.6-3.4 1.6L32 52l-1.6-3.4L27 47l3.4-1.6z" fill="#fff"/></symbol>
+    <symbol id="i-estrella" viewBox="0 0 64 64"><path d="m32 4 6 20 20 8-20 8-6 20-6-20-20-8 20-8z" fill="#f2c96b" stroke="#c8963e" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pino" viewBox="0 0 64 64"><path d="M32 6 14 32h8L10 48h44L42 32h8z" fill="#3f7d4e" stroke="#2c5a37" stroke-width="2" stroke-linejoin="round"/><path d="M28 48h8v10h-8z" fill="#8a5a2b"/></symbol>
+    <symbol id="i-figura" viewBox="0 0 64 64"><circle cx="32" cy="16" r="8" fill="#f1d3b3" stroke="#8a5a2b" stroke-width="2"/><path d="M18 58c0-20 6-32 14-32s14 12 14 32z" fill="#4f78b0" stroke="#1d3557" stroke-width="2"/><path d="M22 14a10 10 0 0 1 20 0" fill="none" stroke="#f2c96b" stroke-width="3"/></symbol>
+    <symbol id="i-luces" viewBox="0 0 64 64"><path d="M4 18q28 20 56 0" fill="none" stroke="#2c5a37" stroke-width="2"/><g stroke="#1d3557" stroke-width="1.5"><ellipse cx="14" cy="28" rx="4" ry="6" fill="#f2c96b"/><ellipse cx="26" cy="33" rx="4" ry="6" fill="#e86a5a"/><ellipse cx="38" cy="33" rx="4" ry="6" fill="#7fc4e8"/><ellipse cx="50" cy="28" rx="4" ry="6" fill="#9be07a"/></g></symbol>
+    <symbol id="i-musgo" viewBox="0 0 64 64"><path d="M6 46c4-10 12-12 18-8 4-8 14-10 20-2 6-4 14 0 14 10z" fill="#6b9d4a" stroke="#3f6b2e" stroke-width="2"/><path d="M6 46h52v6H6z" fill="#8a5a2b"/></symbol>
+    <symbol id="i-camion" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M2 6h12v10H2zM14 9h4l4 4v3h-8z"/><circle cx="6" cy="18" r="2" fill="#fff" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="18" r="2" fill="#fff" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-escudo" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-mano" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 5h16v11H9l-5 4z"/></symbol>
+    <symbol id="i-bolsa" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+    <symbol id="i-lupa" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-cerrar" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+  </defs>
+</svg>
+
+<div class="anuncio">Envío <strong>gratis</strong> en compras desde $150.000 · Despachamos a todo el país</div>
+
+<header class="header">
+  <div class="envoltura">
+    <a class="marca" href="#" aria-label="Casitas de Belén, inicio">
+      <!-- Header: 64–76 px en pantalla → archivos de 96/160 px (≈2–5 KB) -->
+      <picture>
+        <source type="image/avif" srcset="img/logo-96.avif 96w, img/logo-160.avif 160w, img/logo-240.avif 240w" sizes="(min-width: 760px) 76px, 64px">
+        <source type="image/webp" srcset="img/logo-96.webp 96w, img/logo-160.webp 160w, img/logo-240.webp 240w" sizes="(min-width: 760px) 76px, 64px">
+        <img src="img/logo-160.jpg" width="64" height="64" alt="Casitas de Belén" decoding="async" fetchpriority="high">
+      </picture>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#categorias">Categorías</a>
+      <a href="#productos">Productos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="acciones">
+      <a class="icono-btn" href="#productos" aria-label="Buscar productos"><svg><use href="#i-lupa"/></svg></a>
+      <button class="icono-btn" id="abrir-carrito" aria-label="Abrir carrito" aria-controls="carrito">
+        <svg><use href="#i-bolsa"/></svg>
+        <span class="contador" id="contador" hidden>0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="envoltura">
+      <!-- Hero: el logo grande. Tamaños fijos (width/height) para que la
+           página no "salte" mientras carga. -->
+      <picture>
+        <source type="image/avif" srcset="img/logo-240.avif 240w, img/logo-320.avif 320w, img/logo-480.avif 480w, img/logo-628.avif 628w" sizes="(min-width: 760px) 320px, 220px">
+        <source type="image/webp" srcset="img/logo-240.webp 240w, img/logo-320.webp 320w, img/logo-480.webp 480w, img/logo-628.webp 628w" sizes="(min-width: 760px) 320px, 220px">
+        <img src="img/logo-480.jpg" width="220" height="220" alt="" fetchpriority="high">
+      </picture>
+      <h1>Todo para armar el pesebre de tu familia</h1>
+      <p>Casitas de madera, portales, figuras, luces y decoraciones hechas con cariño para que esta Navidad tu pesebre brille.</p>
+      <div class="botones">
+        <a class="btn" href="#productos">Ver productos</a>
+        <a class="btn claro" href="#categorias">Explorar categorías</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="envoltura beneficios">
+    <ul>
+      <li><svg><use href="#i-camion"/></svg><span><b>Envíos nacionales</b>2 a 5 días hábiles</span></li>
+      <li><svg><use href="#i-escudo"/></svg><span><b>Pago seguro</b>Tarjeta, PSE o contraentrega</span></li>
+      <li><svg><use href="#i-mano"/></svg><span><b>Hecho a mano</b>Piezas artesanales</span></li>
+      <li><svg><use href="#i-chat"/></svg><span><b>Te asesoramos</b>Por WhatsApp</span></li>
+    </ul>
+  </div>
+
+  <section id="categorias">
+    <div class="envoltura">
+      <div class="titulo"><h2>Categorías</h2></div>
+      <div class="categorias">
+        <a class="categoria" href="#productos" data-ir="casitas"><svg><use href="#i-casita"/></svg>Casitas y portales<small>Madera y paja</small></a>
+        <a class="categoria" href="#productos" data-ir="figuras"><svg><use href="#i-figura"/></svg>Figuras<small>Sagrada Familia, reyes</small></a>
+        <a class="categoria" href="#productos" data-ir="luces"><svg><use href="#i-luces"/></svg>Luces<small>Cálidas y de colores</small></a>
+        <a class="categoria" href="#productos" data-ir="paisaje"><svg><use href="#i-pino"/></svg>Paisaje<small>Musgo, pinos, piedras</small></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="productos">
+    <div class="envoltura">
+      <div class="titulo"><h2>Productos destacados</h2></div>
+      <div class="filtros" role="group" aria-label="Filtrar por categoría">
+        <button aria-pressed="true" data-filtro="todos">Todos</button>
+        <button aria-pressed="false" data-filtro="casitas">Casitas y portales</button>
+        <button aria-pressed="false" data-filtro="figuras">Figuras</button>
+        <button aria-pressed="false" data-filtro="luces">Luces</button>
+        <button aria-pressed="false" data-filtro="paisaje">Paisaje</button>
+      </div>
+      <div class="productos" id="lista-productos"></div>
+    </div>
+  </section>
+
+  <section class="banda">
+    <div class="envoltura">
+      <h2>¿Armas un pesebre grande?</h2>
+      <p>Cuéntanos el espacio que tienes y te armamos un kit a la medida, con casitas, figuras y luces que combinan.</p>
+      <a class="btn" id="whatsapp-kit" href="#" target="_blank" rel="noopener">Pedir mi kit por WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<footer id="contacto">
+  <div class="envoltura">
+    <div>
+      <h3>Casitas de Belén</h3>
+      <p>Accesorios y decoraciones para pesebres. Hacemos de cada Navidad un recuerdo en familia.</p>
+    </div>
+    <div>
+      <h3>Ayuda</h3>
+      <ul><li><a href="#">Envíos y entregas</a></li><li><a href="#">Cambios y devoluciones</a></li><li><a href="#">Preguntas frecuentes</a></li></ul>
+    </div>
+    <div>
+      <h3>Contacto</h3>
+      <ul><li><a id="whatsapp-pie" href="#" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="mailto:hola@casitasdebelen.com">hola@casitasdebelen.com</a></li></ul>
+    </div>
+    <p class="legal">© <span id="anio">2026</span> Casitas de Belén. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<div class="carrito" id="carrito" aria-hidden="true">
+  <div class="velo" data-cerrar></div>
+  <aside role="dialog" aria-modal="true" aria-labelledby="titulo-carrito">
+    <header>
+      <h2 id="titulo-carrito">Tu carrito</h2>
+      <button class="icono-btn" data-cerrar aria-label="Cerrar carrito"><svg><use href="#i-cerrar"/></svg></button>
+    </header>
+    <ol id="items-carrito"></ol>
+    <footer>
+      <div class="total"><span>Total</span><span id="total">$0</span></div>
+      <a class="btn" id="finalizar" href="#" target="_blank" rel="noopener">Finalizar pedido por WhatsApp</a>
+    </footer>
+  </aside>
+</div>
+<div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+<!-- JavaScript al final y sin librerías (~3 KB): no retrasa el primer pintado. -->
+<script>
+(function () {
+  // Cambia este número por el WhatsApp real de la tienda (código de país + número, sin espacios).
+  var WHATSAPP = "573000000000";
+
+  var PRODUCTOS = [
+    { id: 1, nombre: "Casita de madera con techo de paja", cat: "casitas", precio: 89000, antes: 109000, icono: "casita", etiqueta: "Más vendido" },
+    { id: 2, nombre: "Portal de Belén con luz interior", cat: "casitas", precio: 135000, icono: "casita", etiqueta: "Nuevo" },
+    { id: 3, nombre: "Sagrada Familia, 3 piezas (12 cm)", cat: "figuras", precio: 72000, icono: "figura" },
+    { id: 4, nombre: "Reyes Magos, 3 piezas (12 cm)", cat: "figuras", precio: 68000, icono: "figura" },
+    { id: 5, nombre: "Estrella de Belén luminosa", cat: "luces", precio: 39000, antes: 45000, icono: "estrella" },
+    { id: 6, nombre: "Instalación de luces cálidas, 100 LED", cat: "luces", precio: 32000, icono: "luces" },
+    { id: 7, nombre: "Musgo natural preservado, 200 g", cat: "paisaje", precio: 18000, icono: "musgo" },
+    { id: 8, nombre: "Pinos miniatura, set de 4", cat: "paisaje", precio: 26000, icono: "pino" }
+  ];
+
+  var $ = function (s) { return document.querySelector(s); };
+  var pesos = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
+  var lista = $("#lista-productos");
+
+  function pintarProductos(filtro) {
+    lista.innerHTML = PRODUCTOS.filter(function (p) { return filtro === "todos" || p.cat === filtro; }).map(function (p) {
+      return '<article class="producto">' +
+        '<div class="foto"><svg role="img" aria-label="' + p.nombre + '"><use href="#i-' + p.icono + '"/></svg></div>' +
+        '<div class="info">' + (p.etiqueta ? '<span class="etiqueta">' + p.etiqueta + '</span>' : '') +
+        '<h3>' + p.nombre + '</h3>' +
+        '<div class="precio">' + pesos.format(p.precio) + (p.antes ? '<span class="antes">' + pesos.format(p.antes) + '</span>' : '') + '</div>' +
+        '<button data-agregar="' + p.id + '">Agregar al carrito</button></div></article>';
+    }).join("");
+  }
+
+  function filtrar(cat) {
+    document.querySelectorAll("[data-filtro]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.filtro === cat)); });
+    pintarProductos(cat);
+  }
+  document.querySelectorAll("[data-filtro]").forEach(function (b) { b.addEventListener("click", function () { filtrar(b.dataset.filtro); }); });
+  document.querySelectorAll("[data-ir]").forEach(function (a) { a.addEventListener("click", function () { filtrar(a.dataset.ir); }); });
+
+  // Carrito, guardado en el navegador para no perderlo al recargar.
+  var carrito = {};
+  try { carrito = JSON.parse(localStorage.getItem("carrito-belen")) || {}; } catch (e) {}
+  function guardar() { try { localStorage.setItem("carrito-belen", JSON.stringify(carrito)); } catch (e) {} }
+  function producto(id) { return PRODUCTOS.filter(function (p) { return p.id === Number(id); })[0]; }
+
+  function pintarCarrito() {
+    var ids = Object.keys(carrito).filter(producto), unidades = 0, total = 0;
+    $("#items-carrito").innerHTML = ids.length ? ids.map(function (id) {
+      var p = producto(id), n = carrito[id];
+      unidades += n; total += n * p.precio;
+      return '<li><div><b>' + p.nombre + '</b>' + pesos.format(p.precio) + '</div>' +
+        '<div class="cantidad"><button data-menos="' + id + '" aria-label="Quitar uno">−</button><span>' + n + '</span>' +
+        '<button data-mas="' + id + '" aria-label="Agregar uno">+</button></div></li>';
+    }).join("") : '<li class="vacio">Tu carrito está vacío.</li>';
+    $("#total").textContent = pesos.format(total);
+    var c = $("#contador"); c.textContent = unidades; c.hidden = unidades === 0;
+    var texto = "Hola, quiero hacer este pedido en Casitas de Belén:\n" + ids.map(function (id) {
+      return "• " + carrito[id] + " × " + producto(id).nombre;
+    }).join("\n") + "\nTotal: " + pesos.format(total);
+    $("#finalizar").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(texto);
+  }
+
+  function avisar(t) {
+    var a = $("#aviso"); a.textContent = t; a.classList.add("visible");
+    clearTimeout(avisar.t); avisar.t = setTimeout(function () { a.classList.remove("visible"); }, 1800);
+  }
+
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-agregar],[data-mas],[data-menos]");
+    if (!b) return;
+    if (b.dataset.agregar) { carrito[b.dataset.agregar] = (carrito[b.dataset.agregar] || 0) + 1; avisar("Agregado al carrito"); }
+    if (b.dataset.mas) carrito[b.dataset.mas]++;
+    if (b.dataset.menos && --carrito[b.dataset.menos] <= 0) delete carrito[b.dataset.menos];
+    guardar(); pintarCarrito();
+  });
+
+  var panel = $("#carrito");
+  function abrir(si) { panel.classList.toggle("abierto", si); panel.setAttribute("aria-hidden", String(!si)); document.body.style.overflow = si ? "hidden" : ""; }
+  $("#abrir-carrito").addEventListener("click", function () { abrir(true); });
+  panel.addEventListener("click", function (e) { if (e.target.closest("[data-cerrar]")) abrir(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") abrir(false); });
+
+  var kit = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola, quiero cotizar un kit para mi pesebre.");
+  $("#whatsapp-kit").href = kit; $("#whatsapp-pie").href = kit;
+  $("#anio").textContent = new Date().getFullYear();
+
+  pintarProductos("todos");
+  pintarCarrito();
+})();
+</script>
+</body>
+</html>

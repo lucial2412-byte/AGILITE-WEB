@@ -1,0 +1,28 @@
+# Apache / hosting compartido (cPanel, Hostinger…)
+
+# Tipos que algunos servidores aún no conocen
+AddType image/avif .avif
+AddType image/webp .webp
+AddType application/manifest+json .webmanifest
+
+# Compresión del HTML, CSS y JS (las imágenes ya vienen comprimidas)
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript application/manifest+json image/svg+xml
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/manifest+json image/svg+xml
+</IfModule>
+
+# Caché: las imágenes un año (si cambias el logo, cambia el nombre del archivo
+# o vuelve a correr optimizar-logo.py con otro sufijo); el HTML siempre fresco.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(avif|webp|jpg|png|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html|webmanifest)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+# La carpeta con el original pesado no se publica
+RedirectMatch 404 ^/fuente/
